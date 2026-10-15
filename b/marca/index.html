@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Brinco · Propuesta de marca 1</title>
+  <link rel="icon" href="icono.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{margin:0;background:var(--brinco-blanco);color:var(--brinco-noche);font-family:var(--brinco-texto);font-size:16px;line-height:1.55}
+    img{max-width:100%}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+    @media (min-width:768px){.wrap{padding:0 32px}}
+    h1,h2,h3,h4{font-family:var(--brinco-titulos);font-weight:600;line-height:1.15;margin:0}
+    p{margin:0}
+    .over{font:800 12.5px/1 var(--brinco-texto);letter-spacing:.09em;text-transform:uppercase;color:var(--brinco-naranja-texto);margin:0 0 10px}
+    section{padding:56px 0;border-top:1px solid var(--brinco-linea)}
+    h2{font-size:clamp(28px,4.2vw,40px);margin-bottom:10px}
+    .lead{color:var(--brinco-gris);max-width:62ch;margin-bottom:28px}
+
+    /* Portada */
+    .hero{background:var(--brinco-crema);padding:36px 0 44px;overflow:hidden}
+    .hero .grid{display:grid;gap:12px;align-items:center}
+    @media (min-width:820px){.hero .grid{grid-template-columns:1.3fr .7fr;gap:24px}}
+    .tags{display:flex;flex-wrap:wrap;gap:8px}
+    .tag{display:inline-flex;align-items:center;background:#fff;border:1px solid var(--brinco-linea);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;color:var(--brinco-gris)}
+    .tag b{color:var(--brinco-noche);margin-right:4px}
+    .hero .logo{width:min(440px,100%);height:auto;display:block;margin:26px 0 22px}
+    .lema{font-family:var(--brinco-titulos);font-size:clamp(23px,3.2vw,32px);font-weight:500;line-height:1.2}
+    .lema-es{color:var(--brinco-gris);font-size:18px;margin-top:6px}
+    .hero .mascota{width:min(300px,72%);justify-self:center;display:block}
+
+    /* Tarjetas */
+    .cards3{display:grid;gap:16px}
+    @media (min-width:820px){.cards3{grid-template-columns:repeat(3,1fr)}}
+    .card{border:1px solid var(--brinco-linea);border-radius:var(--brinco-radio);padding:22px;background:#fff}
+    .card h3{font-size:22px;margin-bottom:8px}
+    .card p{color:#3a4560}
+
+    /* Logo */
+    .logos{display:grid;gap:16px}
+    @media (min-width:820px){.logos{grid-template-columns:repeat(2,1fr)}}
+    .tile{border-radius:var(--brinco-radio);border:1px solid var(--brinco-linea);padding:28px 22px 16px;display:flex;flex-direction:column;gap:18px;justify-content:space-between;min-height:190px}
+    .tile .art{flex:1;display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap}
+    .tile .cap{font-size:13.5px;color:var(--brinco-gris);font-weight:600}
+    .tile.noche{background:var(--brinco-noche);border-color:var(--brinco-noche)}
+    .tile.noche .cap{color:#c9cfdb}
+    .tile.crema{background:var(--brinco-crema);border-color:#f6e2cf}
+    .tile.niebla{background:var(--brinco-niebla)}
+    .notas{display:grid;gap:8px;margin-top:20px;padding:0;list-style:none}
+    .notas li{padding-left:22px;position:relative;color:#3a4560}
+    .notas li::before{content:"";position:absolute;left:4px;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--brinco-naranja)}
+
+    /* Mascota */
+    .masc{display:grid;gap:28px;align-items:center}
+    @media (min-width:820px){.masc{grid-template-columns:.9fr 1.1fr}}
+    .masc-art{background:var(--brinco-crema);border-radius:28px;display:grid;place-items:center;padding:28px}
+    .masc-art img{width:min(320px,80%)}
+    .usos{display:grid;gap:12px;margin-top:18px}
+    .uso{border:1px solid var(--brinco-linea);border-radius:var(--brinco-radio);padding:14px 16px;display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center}
+    .uso img{width:44px}
+    .uso small{display:block;font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--brinco-gris)}
+    .uso .en{font-weight:700}
+    .uso .es{color:var(--brinco-gris);font-size:14.5px}
+
+    /* Colores */
+    .grupo{margin-top:26px}
+    .grupo h3{font-size:19px;margin-bottom:12px}
+    .swatches{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+    .sw{border:1px solid var(--brinco-linea);border-radius:var(--brinco-radio);overflow:hidden;background:#fff}
+    .sw .chip{height:84px;display:flex;align-items:flex-end;padding:8px 10px;font-weight:800;font-size:13px}
+    .sw .info{padding:10px 12px 12px;font-size:13px;line-height:1.4}
+    .sw .info b{display:block;font-size:14.5px}
+    .sw .hex{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--brinco-gris);font-size:12.5px}
+    .sw .rol{color:#3a4560;margin-top:4px}
+    .aa{display:inline-block;margin-top:6px;font-size:11.5px;font-weight:800;border-radius:6px;padding:2px 6px;background:var(--brinco-menta);color:var(--brinco-stock)}
+    .aa.no{background:#fde8e8;color:var(--brinco-agotado)}
+
+    /* Letra */
+    .tipos{display:grid;gap:16px}
+    @media (min-width:820px){.tipos{grid-template-columns:1fr 1fr}}
+    .tipo{border:1px solid var(--brinco-linea);border-radius:var(--brinco-radio);padding:22px}
+    .tipo .aa-grande{font-size:72px;line-height:1;margin-bottom:8px}
+    .tipo .nombre{font-weight:800}
+    .tipo .para{color:var(--brinco-gris);font-size:14px;margin-bottom:16px}
+    .f-titulos{font-family:var(--brinco-titulos)}
+    .muestra-t1{font-family:var(--brinco-titulos);font-weight:600;font-size:30px;line-height:1.15}
+    .muestra-t2{font-family:var(--brinco-titulos);font-weight:500;font-size:20px;color:var(--brinco-gris);margin-top:6px}
+    .muestra-p{font-size:16px;color:#3a4560}
+    .muestra-p + .muestra-p{margin-top:8px}
+
+    /* Teléfonos */
+    .phones{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+    .ph-wrap{display:flex;flex-direction:column;gap:12px;align-items:center;width:min(360px,100%)}
+    .ph-wrap > p{font-weight:700;color:var(--brinco-gris);font-size:14px}
+    .phone{width:100%;border:10px solid var(--brinco-noche);border-radius:44px;overflow:hidden;background:#fff;box-shadow:0 18px 50px rgb(31 42 68 / .18)}
+    .screen{height:760px;overflow:hidden;position:relative;font-size:14px;line-height:1.4}
+    .demo{background:var(--brinco-noche);color:#fff;font-size:11px;font-weight:700;text-align:center;padding:6px 8px 5px;letter-spacing:.02em}
+    .ph-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 6px}
+    .ph-head img{height:30px;width:auto}
+    .ph-icons{display:flex;gap:14px;align-items:center}
+    .lang{font-weight:800;font-size:12px;border:1.5px solid var(--brinco-noche);border-radius:6px;padding:1px 5px}
+    .ico{width:22px;height:22px;stroke:var(--brinco-noche);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
+    .cart{position:relative}
+    .badge{position:absolute;top:-7px;right:-9px;background:var(--brinco-naranja);color:var(--brinco-noche);font:800 11px/18px var(--brinco-texto);min-width:18px;height:18px;border-radius:9px;text-align:center;padding:0 4px}
+    .search{margin:6px 14px 8px;display:flex;align-items:center;border:2px solid var(--brinco-noche);border-radius:999px;overflow:hidden;height:44px}
+    .search span{flex:1;padding:0 14px;color:var(--brinco-gris);font-size:14px;white-space:nowrap;overflow:hidden}
+    .search i{width:54px;height:100%;background:var(--brinco-naranja);display:grid;place-items:center}
+    .deliver{display:flex;gap:6px;align-items:center;padding:0 16px 10px;font-size:12.5px;color:var(--brinco-gris)}
+    .deliver .ico{width:16px;height:16px;stroke:var(--brinco-gris)}
+    .deliver b{color:var(--brinco-noche)}
+    .chips{display:flex;gap:8px;overflow:hidden;padding:0 14px 14px}
+    .chipe{flex:none;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:800}
+    .promo{margin:0 14px;border-radius:18px;background:var(--brinco-crema);display:flex;align-items:flex-end;justify-content:space-between;gap:4px;padding:16px 8px 0 16px;overflow:hidden}
+    .promo h4{font:600 21px/1.12 var(--brinco-titulos);margin:0 0 12px}
+    .promo .txt{padding-bottom:16px}
+    .promo img{width:108px;margin-bottom:-4px;flex:none}
+    .btn{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;font:800 14px/1 var(--brinco-texto);padding:12px 18px;border:0;color:var(--brinco-noche);white-space:nowrap}
+    .btn-sol{background:var(--brinco-sol)}
+    .btn-naranja{background:var(--brinco-naranja)}
+    .row-title{display:flex;justify-content:space-between;align-items:baseline;padding:18px 14px 8px}
+    .row-title h4{font:600 18px var(--brinco-titulos);margin:0}
+    .row-title a,.link{font-size:13px;color:var(--brinco-enlace);font-weight:700;text-decoration:none}
+    .pcards{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px}
+    .pcard{border:1px solid var(--brinco-linea);border-radius:14px;overflow:hidden}
+    .pimg{position:relative;aspect-ratio:1/1;display:grid;place-items:center}
+    .pimg svg{width:80%;height:auto}
+    .illus{position:absolute;left:6px;bottom:6px;background:rgb(255 255 255 / .9);font-size:9.5px;font-weight:800;color:var(--brinco-gris);padding:2px 6px;border-radius:6px}
+    .pbody{padding:8px 10px 10px}
+    .ptitle{font-size:13px;font-weight:600;line-height:1.3;margin:0 0 4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .stars{display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--brinco-gris);flex-wrap:wrap}
+    .stars i{color:var(--brinco-naranja);font-style:normal;letter-spacing:-1px;font-size:12.5px}
+    .price{font:800 19px/1.1 var(--brinco-texto);margin:6px 0 8px}
+    .price sup{font-size:11px;vertical-align:top;position:relative;top:2px}
+    .btn-sm{padding:9px 10px;font-size:12.5px;width:100%}
+    .crumbs{font-size:12px;color:var(--brinco-gris);padding:2px 16px 8px}
+    .gallery{position:relative;margin:0 14px;border-radius:16px;aspect-ratio:1/0.7;display:grid;place-items:center}
+    .gallery svg{width:72%}
+    .dots{position:absolute;bottom:10px;left:0;right:0;display:flex;gap:6px;justify-content:center}
+    .dots span{width:7px;height:7px;border-radius:50%;background:rgb(31 42 68 / .25)}
+    .dots span:first-child{background:var(--brinco-noche)}
+    .pd{padding:12px 16px}
+    .pd h3{font:600 19px/1.22 var(--brinco-titulos);margin:0 0 6px}
+    .pd .price{font-size:26px;margin:8px 0 2px}
+    .pd .price sup{font-size:13px;top:4px}
+    .tax{font-size:12px;color:var(--brinco-gris)}
+    .stock{color:var(--brinco-stock);font-weight:800;margin-top:8px}
+    .ship{font-size:13px;margin-top:2px}
+    .ctas{display:grid;gap:8px;margin-top:12px}
+    .ctas .btn{width:100%;padding:13px}
+    .store{margin-top:14px;border:1px solid var(--brinco-linea);border-radius:14px;padding:10px 12px;display:grid;gap:7px;font-size:13px}
+    .store .t{font-weight:800}
+    .srow{display:flex;align-items:center;gap:8px}
+    .dot{width:9px;height:9px;border-radius:50%;flex:none}
+    .dot.r{background:var(--brinco-agotado)} .dot.g{background:var(--brinco-stock)}
+    .demo-tag{font-size:9.5px;font-weight:800;background:var(--brinco-niebla);border:1px solid var(--brinco-linea);border-radius:4px;padding:0 4px;color:var(--brinco-gris)}
+    .srow .estado{margin-left:auto;font-weight:700}
+    .estado.r{color:var(--brinco-agotado)} .estado.g{color:var(--brinco-stock)}
+
+    /* Voz */
+    .voz{display:grid;gap:16px}
+    @media (min-width:820px){.voz{grid-template-columns:repeat(3,1fr)}}
+    .voz .card .ej{margin-top:12px;border-left:3px solid var(--brinco-naranja);padding-left:12px;font-size:14.5px}
+    .voz .card .ej b{display:block}
+    .voz .card .ej span{color:var(--brinco-gris)}
+
+    footer{border-top:1px solid var(--brinco-linea);padding:28px 0 40px;color:var(--brinco-gris);font-size:13.5px}
+    footer .wrap{display:grid;grid-template-columns:40px 1fr;gap:16px;align-items:center}
+    footer img{width:40px}
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap grid">
+    <div>
+      <div class="tags">
+        <span class="tag"><b>Propuesta de marca 1</b> · tienda de juguetes en EE. UU.</span>
+        <span class="tag">Nombre provisional · sin registro</span>
+      </div>
+      <img class="logo" src="logo.svg" alt="Logo de Brinco">
+      <p class="lema">Toys that make them jump for joy.</p>
+      <p class="lema-es">Juguetes para dar brincos de alegría.</p>
+    </div>
+    <img class="mascota" src="mascota.svg" alt="Brinco, una mamá canguro con su cría en la bolsa">
+  </div>
+</header>
+
+<main>
+  <section id="idea">
+    <div class="wrap">
+      <p class="over">La idea</p>
+      <h2>Un salto de alegría, en dos idiomas</h2>
+      <p class="lead">Una marca cálida para mamás y papás, en una tienda tan clara como Amazon o Walmart.</p>
+      <div class="cards3">
+        <article class="card">
+          <h3>El nombre</h3>
+          <p><b>Brinco</b> es un salto de alegría, como en «dar brincos de alegría». Son dos sílabas que se dicen igual de fácil en inglés que en español: sirve hoy en EE. UU. y mañana en Latinoamérica.</p>
+        </article>
+        <article class="card">
+          <h3>La mascota</h3>
+          <p>Brinco es una <b>mamá canguro</b> que lleva a su cría en la bolsa. Cuida y carga, como una mamá, y como la tienda con cada pedido.</p>
+        </article>
+        <article class="card">
+          <h3>El estilo</h3>
+          <p><b>Blanco y limpio</b>, con la estructura de Amazon y Walmart en la búsqueda, el carrito y el pago. El naranja y la mascota ponen la personalidad sin estorbar la compra.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="logo">
+    <div class="wrap">
+      <p class="over">Logo</p>
+      <h2>La pelota sobre la «i» es el brinco</h2>
+      <p class="lead">Un símbolo (la cara de Brinco) y una palabra redonda y gruesa que se lee bien a cualquier tamaño.</p>
+      <div class="logos">
+        <div class="tile">
+          <div class="art"><img src="logo.svg" alt="Logo principal" style="width:min(340px,100%)"></div>
+          <p class="cap">Principal, sobre blanco</p>
+        </div>
+        <div class="tile noche">
+          <div class="art"><img src="logo-negativo.svg" alt="Logo sobre fondo oscuro" style="width:min(340px,100%)"></div>
+          <p class="cap">Sobre fondo oscuro</p>
+        </div>
+        <div class="tile crema">
+          <div class="art"><img src="palabra.svg" alt="Solo la palabra" style="width:min(250px,80%)"></div>
+          <p class="cap">Solo la palabra, para espacios estrechos</p>
+        </div>
+        <div class="tile niebla">
+          <div class="art">
+            <img src="icono.svg" alt="Ícono a 96 px" style="width:96px">
+            <img src="icono.svg" alt="Ícono a 48 px" style="width:48px">
+            <img src="icono.svg" alt="Ícono a 32 px" style="width:32px">
+            <img src="icono.svg" alt="Ícono a 16 px" style="width:16px">
+          </div>
+          <p class="cap">Ícono: app, pestaña del navegador y redes</p>
+        </div>
+      </div>
+      <ul class="notas">
+        <li>La letra del logo es Fredoka SemiBold, convertida a trazos: se ve igual en cualquier sitio.</li>
+        <li>Tamaño mínimo: 96 px de ancho el logo y 16 px el ícono. Alrededor se deja libre al menos el alto de la pelota.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="mascota">
+    <div class="wrap masc">
+      <div class="masc-art"><img src="mascota.svg" alt="Brinco, mamá canguro"></div>
+      <div>
+        <p class="over">Mascota</p>
+        <h2>Brinco, la mamá canguro</h2>
+        <p class="lead" style="margin-bottom:0">Es alegre, cuidadosa y nunca apura. Sale en los momentos en que la tienda habla contigo, no en medio de la compra.</p>
+        <div class="usos">
+          <div class="uso"><img src="simbolo.svg" alt=""><div><small>Carrito vacío</small><p class="en">Your cart is empty. Let’s find something fun!</p><p class="es">Tu carrito está vacío. ¡Busquemos algo divertido!</p></div></div>
+          <div class="uso"><img src="simbolo.svg" alt=""><div><small>Pedido confirmado</small><p class="en">Hop, hop! Your order is on its way.</p><p class="es">¡Brinco a brinco, tu pedido ya va en camino!</p></div></div>
+          <div class="uso"><img src="simbolo.svg" alt=""><div><small>Página no encontrada</small><p class="en">This page hopped away.</p><p class="es">Esta página se fue de un brinco.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="colores">
+    <div class="wrap">
+      <p class="over">Colores</p>
+      <h2>Blanco de base, naranja de firma</h2>
+      <p class="lead">El blanco manda, como pidió ella. El naranja da la identidad, el amarillo marca la compra y el azul noche se usa para leer. Cada par de texto y fondo cumple el contraste AA de accesibilidad (WCAG 2.1).</p>
+
+      <div class="grupo">
+        <h3>Marca</h3>
+        <div class="swatches">
+          <div class="sw"><div class="chip" style="background:#f2753a;color:#1f2a44">Aa</div><div class="info"><b>Naranja Brinco</b><span class="hex">#F2753A</span><p class="rol">Identidad, mascota y «Buy now» (con texto noche)</p><span class="aa">AA · 5,0:1</span></div></div>
+          <div class="sw"><div class="chip" style="background:#1f2a44;color:#fff">Aa</div><div class="info"><b>Azul Noche</b><span class="hex">#1F2A44</span><p class="rol">Texto, logotipo y franja de demo</p><span class="aa">AAA · 14,3:1</span></div></div>
+          <div class="sw"><div class="chip" style="background:#ffc940;color:#1f2a44">Aa</div><div class="info"><b>Amarillo Sol</b><span class="hex">#FFC940</span><p class="rol">«Add to cart»: el botón que más se repite</p><span class="aa">AAA · 9,3:1</span></div></div>
+          <div class="sw"><div class="chip" style="background:#fff4ea;color:#1f2a44">Aa</div><div class="info"><b>Crema</b><span class="hex">#FFF4EA</span><p class="rol">Fondos cálidos de sección</p><span class="aa">AAA · 13,2:1</span></div></div>
+          <div class="sw"><div class="chip" style="background:#fff;color:#b9480f;border-bottom:1px solid #e3e6eb">Aa</div><div class="info"><b>Naranja texto</b><span class="hex">#B9480F</span><p class="rol">Cuando el naranja es letra</p><span class="aa">AA · 5,3:1</span></div></div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <h3>Edades: fondos suaves para categorías y fotos</h3>
+        <div class="swatches">
+          <div class="sw"><div class="chip" style="background:#dceeff">0–12 m</div><div class="info"><b>Cielo</b><span class="hex">#DCEEFF</span></div></div>
+          <div class="sw"><div class="chip" style="background:#ddf5ea">1–2 años</div><div class="info"><b>Menta</b><span class="hex">#DDF5EA</span></div></div>
+          <div class="sw"><div class="chip" style="background:#ece6ff">3–4 años</div><div class="info"><b>Lila</b><span class="hex">#ECE6FF</span></div></div>
+          <div class="sw"><div class="chip" style="background:#ffe6d6">5–7 años</div><div class="info"><b>Durazno</b><span class="hex">#FFE6D6</span></div></div>
+          <div class="sw"><div class="chip" style="background:#fff5cc">8+ años</div><div class="info"><b>Limón</b><span class="hex">#FFF5CC</span></div></div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <h3>Neutros y estados</h3>
+        <div class="swatches">
+          <div class="sw"><div class="chip" style="background:#f5f6f8">Niebla</div><div class="info"><b>Niebla</b><span class="hex">#F5F6F8</span><p class="rol">Superficies y fondos de panel</p></div></div>
+          <div class="sw"><div class="chip" style="background:#e3e6eb">Línea</div><div class="info"><b>Línea</b><span class="hex">#E3E6EB</span><p class="rol">Bordes y separadores</p></div></div>
+          <div class="sw"><div class="chip" style="background:#5a6478;color:#fff">Aa</div><div class="info"><b>Gris</b><span class="hex">#5A6478</span><p class="rol">Texto secundario</p><span class="aa">AA · 6,0:1</span></div></div>
+          <div class="sw"><div class="chip" style="background:#12805c;color:#fff">In stock</div><div class="info"><b>En stock</b><span class="hex">#12805C</span><span class="aa">AA · 4,9:1</span></div></div>
+          <div class="sw"><div class="chip" style="background:#9a5800;color:#fff">Few left</div><div class="info"><b>Quedan pocos</b><span class="hex">#9A5800</span><span class="aa">AA · 5,6:1</span></div></div>
+          <div class="sw"><div class="chip" style="background:#c62f2f;color:#fff">Out of stock</div><div class="info"><b>Agotado</b><span class="hex">#C62F2F</span><span class="aa">AA · 5,5:1</span></div></div>
+          <div class="sw"><div class="chip" style="background:#1d5fbf;color:#fff">Link</div><div class="info"><b>Enlace</b><span class="hex">#1D5FBF</span><span class="aa">AA · 6,1:1</span></div></div>
+        </div>
+      </div>
+      <ul class="notas">
+        <li>Nunca va texto blanco sobre naranja, porque da 2,9 y no cumple. Sobre el naranja se escribe en azul noche.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="letra">
+    <div class="wrap">
+      <p class="over">Letra</p>
+      <h2>Redonda para saludar, clara para comprar</h2>
+      <p class="lead">Son dos familias gratuitas de Google Fonts, con licencia abierta OFL. No cuestan nada, ni hoy ni en el desarrollo real.</p>
+      <div class="tipos">
+        <div class="tipo">
+          <div class="aa-grande f-titulos" style="font-weight:600">Aa</div>
+          <p class="nombre">Fredoka</p>
+          <p class="para">Títulos, secciones y logo</p>
+          <p class="muestra-t1">Gifts for 5-year-olds</p>
+          <p class="muestra-t2">Regalos para niños de 5 años</p>
+        </div>
+        <div class="tipo">
+          <div class="aa-grande" style="font-weight:800">Aa</div>
+          <p class="nombre">Nunito Sans</p>
+          <p class="para">Texto, precios, botones, formularios y el panel de la dueña</p>
+          <p class="muestra-p"><b>About this item:</b> seven wooden arches to stack, sort and build. Water-based paint, smooth edges, ages 1+.</p>
+          <p class="muestra-p" style="color:var(--brinco-gris)">Siete arcos de madera para apilar, ordenar y construir. Pintura al agua y bordes suaves.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="asi-se-ve">
+    <div class="wrap">
+      <p class="over">Así se ve</p>
+      <h2>La marca en el celular</h2>
+      <p class="lead">Es un adelanto de la maqueta: inicio y producto. La estructura es la de Amazon y Walmart, con la cara de Brinco.</p>
+      <div class="phones">
+
+        <div class="ph-wrap">
+          <div class="phone"><div class="screen">
+            <div class="demo">Demo mockup · sample data</div>
+            <div class="ph-head">
+              <img src="logo.svg" alt="Brinco">
+              <div class="ph-icons">
+                <span class="lang">EN</span>
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+                <span class="cart"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h2.6l2.5 11.3a2 2 0 0 0 2 1.6h8.1a2 2 0 0 0 1.9-1.5L21 7H5.4"/><circle cx="9.5" cy="20" r="1.4"/><circle cx="17.5" cy="20" r="1.4"/></svg><span class="badge">2</span></span>
+              </div>
+            </div>
+            <div class="search"><span>Search toys, gifts and ages</span><i><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></i></div>
+            <div class="deliver"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Deliver to <b>Seattle 98101</b></div>
+            <div class="chips">
+              <span class="chipe" style="background:var(--brinco-cielo)">0–12 m</span>
+              <span class="chipe" style="background:var(--brinco-menta)">1–2 yrs</span>
+              <span class="chipe" style="background:var(--brinco-lila)">3–4 yrs</span>
+              <span class="chipe" style="background:var(--brinco-durazno)">5–7 yrs</span>
+              <span class="chipe" style="background:var(--brinco-limon)">8+ yrs</span>
+            </div>
+            <div class="promo">
+              <div class="txt"><h4>Gifts that make them jump for joy</h4><span class="btn btn-sol">Shop by age</span></div>
+              <img src="mascota.svg" alt="">
+            </div>
+            <div class="row-title"><h4>Best sellers</h4><a href="#asi-se-ve">See all</a></div>
+            <div class="pcards">
+              <div class="pcard">
+                <div class="pimg" style="background:var(--brinco-menta)">
+                  <svg viewBox="0 0 200 150" aria-hidden="true"><ellipse cx="100" cy="134" rx="88" ry="7" fill="#1f2a44" opacity=".08"/><path d="M8 130A92 92 0 0 1 192 130L182.5 130A82.5 82.5 0 0 0 17.5 130Z" fill="#e8505b"/><path d="M19 130A81 81 0 0 1 181 130L171.5 130A71.5 71.5 0 0 0 28.5 130Z" fill="#f2753a"/><path d="M30 130A70 70 0 0 1 170 130L160.5 130A60.5 60.5 0 0 0 39.5 130Z" fill="#ffc940"/><path d="M41 130A59 59 0 0 1 159 130L149.5 130A49.5 49.5 0 0 0 50.5 130Z" fill="#3fbf7f"/><path d="M52 130A48 48 0 0 1 148 130L138.5 130A38.5 38.5 0 0 0 61.5 130Z" fill="#3d8bfd"/><path d="M63 130A37 37 0 0 1 137 130L127.5 130A27.5 27.5 0 0 0 72.5 130Z" fill="#7b61ff"/><path d="M74 130A26 26 0 0 1 126 130L116.5 130A16.5 16.5 0 0 0 83.5 130Z" fill="#f48fb1"/></svg>
+                  <span class="illus">Illustrative image</span>
+                </div>
+                <div class="pbody">
+                  <p class="ptitle">Wooden Rainbow Stacker, 7 Arches</p>
+                  <div class="stars"><i>★★★★★</i>4.7 (1,284) · sample</div>
+                  <p class="price">$24<sup>99</sup></p>
+                  <span class="btn btn-sol btn-sm">Add to cart</span>
+                </div>
+              </div>
+              <div class="pcard">
+                <div class="pimg" style="background:var(--brinco-lila)">
+                  <svg viewBox="0 0 200 160" aria-hidden="true"><ellipse cx="100" cy="150" rx="80" ry="7" fill="#1f2a44" opacity=".08"/>
+                    <g><polygon points="26,86 40,72 100,72 86,86" fill="#ff8a8f"/><polygon points="86,86 100,72 100,132 86,146" fill="#c43c46"/><rect x="26" y="86" width="60" height="60" rx="6" fill="#e8505b"/><text x="56" y="118" text-anchor="middle" dominant-baseline="central" font-family="Fredoka, sans-serif" font-weight="700" font-size="38" fill="#fff">A</text></g>
+                    <g><polygon points="98,86 112,72 172,72 158,86" fill="#8ab8ff"/><polygon points="158,86 172,72 172,132 158,146" fill="#2a6fd6"/><rect x="98" y="86" width="60" height="60" rx="6" fill="#3d8bfd"/><text x="128" y="118" text-anchor="middle" dominant-baseline="central" font-family="Fredoka, sans-serif" font-weight="700" font-size="38" fill="#fff">B</text></g>
+                    <g><polygon points="62,24 76,10 136,10 122,24" fill="#8fe0b6"/><polygon points="122,24 136,10 136,70 122,84" fill="#2b9a63"/><rect x="62" y="24" width="60" height="60" rx="6" fill="#3fbf7f"/><text x="92" y="56" text-anchor="middle" dominant-baseline="central" font-family="Fredoka, sans-serif" font-weight="700" font-size="38" fill="#fff">C</text></g>
+                  </svg>
+                  <span class="illus">Illustrative image</span>
+                </div>
+                <div class="pbody">
+                  <p class="ptitle">ABC Wooden Blocks, 30 Pieces with Bag</p>
+                  <div class="stars"><i>★★★★★</i>4.8 (642) · sample</div>
+                  <p class="price">$19<sup>99</sup></p>
+                  <span class="btn btn-sol btn-sm">Add to cart</span>
+                </div>
+              </div>
+            </div>
+          </div></div>
+          <p>Inicio</p>
+        </div>
+
+        <div class="ph-wrap">
+          <div class="phone"><div class="screen">
+            <div class="demo">Demo mockup · sample data</div>
+            <div class="ph-head">
+              <img src="logo.svg" alt="Brinco">
+              <div class="ph-icons">
+                <span class="lang">EN</span>
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+                <span class="cart"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h2.6l2.5 11.3a2 2 0 0 0 2 1.6h8.1a2 2 0 0 0 1.9-1.5L21 7H5.4"/><circle cx="9.5" cy="20" r="1.4"/><circle cx="17.5" cy="20" r="1.4"/></svg><span class="badge">2</span></span>
+              </div>
+            </div>
+            <p class="crumbs">Toys › Ages 1–2 › Stacking</p>
+            <div class="gallery" style="background:var(--brinco-menta)">
+              <svg viewBox="0 0 200 150" aria-hidden="true"><ellipse cx="100" cy="134" rx="88" ry="7" fill="#1f2a44" opacity=".08"/><path d="M8 130A92 92 0 0 1 192 130L182.5 130A82.5 82.5 0 0 0 17.5 130Z" fill="#e8505b"/><path d="M19 130A81 81 0 0 1 181 130L171.5 130A71.5 71.5 0 0 0 28.5 130Z" fill="#f2753a"/><path d="M30 130A70 70 0 0 1 170 130L160.5 130A60.5 60.5 0 0 0 39.5 130Z" fill="#ffc940"/><path d="M41 130A59 59 0 0 1 159 130L149.5 130A49.5 49.5 0 0 0 50.5 130Z" fill="#3fbf7f"/><path d="M52 130A48 48 0 0 1 148 130L138.5 130A38.5 38.5 0 0 0 61.5 130Z" fill="#3d8bfd"/><path d="M63 130A37 37 0 0 1 137 130L127.5 130A27.5 27.5 0 0 0 72.5 130Z" fill="#7b61ff"/><path d="M74 130A26 26 0 0 1 126 130L116.5 130A16.5 16.5 0 0 0 83.5 130Z" fill="#f48fb1"/></svg>
+              <span class="illus">Illustrative image</span>
+              <div class="dots"><span></span><span></span><span></span><span></span></div>
+            </div>
+            <div class="pd">
+              <h3>Wooden Rainbow Stacker, 7 Arches, Ages 1+</h3>
+              <div class="stars"><i>★★★★★</i>4.7 · 1,284 sample reviews</div>
+              <p class="price">$24<sup>99</sup></p>
+              <p class="tax">Sales tax calculated at checkout</p>
+              <p class="stock">In stock</p>
+              <p class="ship"><b>FREE delivery</b> Tue, Oct 20 to Seattle 98101</p>
+              <div class="ctas"><span class="btn btn-sol">Add to cart</span><span class="btn btn-naranja">Buy now</span></div>
+              <div class="store">
+                <p class="t">Check store availability</p>
+                <div class="srow"><span class="dot r"></span>Seattle <span class="demo-tag">DEMO</span><span class="estado r">Out of stock</span></div>
+                <div class="srow"><span class="dot g"></span>San Diego <span class="demo-tag">DEMO</span><span class="estado g">4 in stock</span></div>
+                <a class="link" href="#asi-se-ve">See stores on the map ›</a>
+              </div>
+            </div>
+          </div></div>
+          <p>Producto</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="voz">
+    <div class="wrap">
+      <p class="over">Cómo habla</p>
+      <h2>Clara como Amazon, cálida como una amiga</h2>
+      <p class="lead">Son tres reglas para todos los textos de la tienda, en inglés y en español.</p>
+      <div class="voz">
+        <article class="card"><h3>Clara</h3><p>Va con datos concretos: fecha, precio y dónde está.</p><p class="ej"><b>Arrives Tuesday, Oct 20.</b><span>Llega el martes 20 de octubre.</span></p></article>
+        <article class="card"><h3>Cálida</h3><p>Habla de tú, con frases cortas, como una amiga que sabe de juguetes.</p><p class="ej"><b>Perfect for curious 3-year-olds.</b><span>Ideal para niños curiosos de 3 años.</span></p></article>
+        <article class="card"><h3>Honesta</h3><p>No hay urgencias inventadas, ni precios «antes» falsos, ni reseñas falsas. Así lo pide la ley de EE. UU. (FTC).</p><p class="ej"><b>4 in stock at San Diego.</b><span>Solo si es verdad.</span></p></article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="icono.svg" alt="">
+    <p>Brinco · propuesta de marca 1 para la maqueta de Project Janet. El nombre es provisional: antes de usarlo hay que revisar el registro (USPTO) y el dominio. Ilustraciones propias. Letras Fredoka y Nunito Sans (OFL).</p>
+  </div>
+</footer>
+</body>
+</html>

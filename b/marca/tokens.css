@@ -1,0 +1,39 @@
+/* Marca Brinco · propuesta 1 · tokens de diseño.
+   Toda la interfaz toma los colores, la letra y las formas de aquí.
+   Una versión alternativa de la marca = otro archivo de tokens + otros SVG (herramientas/generar.py). */
+:root {
+  /* Marca */
+  --brinco-naranja: #f2753a; /* identidad, mascota, pelota del logo y fondo de «Buy now» (con texto Noche) */
+  --brinco-naranja-texto: #b9480f; /* el naranja cuando es texto: 5,25:1 sobre blanco */
+  --brinco-noche: #1f2a44; /* texto y logotipo: 14,26:1 sobre blanco */
+  --brinco-sol: #ffc940; /* fondo de «Add to cart» (con texto Noche: 9,29:1) */
+  --brinco-crema: #fff4ea; /* fondos cálidos de sección */
+
+  /* Edades: fondos suaves para categorías y fotos de producto */
+  --brinco-cielo: #dceeff;
+  --brinco-menta: #ddf5ea;
+  --brinco-lila: #ece6ff;
+  --brinco-durazno: #ffe6d6;
+  --brinco-limon: #fff5cc;
+
+  /* Neutros */
+  --brinco-blanco: #ffffff;
+  --brinco-niebla: #f5f6f8;
+  --brinco-linea: #e3e6eb;
+  --brinco-gris: #5a6478; /* texto secundario: 5,95:1 sobre blanco */
+
+  /* Estados (todos con contraste AA sobre blanco) */
+  --brinco-stock: #12805c;
+  --brinco-pocos: #9a5800;
+  --brinco-agotado: #c62f2f;
+  --brinco-enlace: #1d5fbf;
+
+  /* Letra (Google Fonts, licencia OFL) */
+  --brinco-titulos: "Fredoka", ui-rounded, system-ui, sans-serif;
+  --brinco-texto: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Forma */
+  --brinco-radio: 14px;
+  --brinco-radio-boton: 999px;
+  --brinco-sombra: 0 1px 2px rgb(31 42 68 / 0.06), 0 6px 20px rgb(31 42 68 / 0.08);
+}
