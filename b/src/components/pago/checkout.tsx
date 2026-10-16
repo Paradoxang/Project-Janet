@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useHidratado } from "@/hooks/use-hidratado";
 import { Link, useRouter } from "@/i18n/navigation";
+import { srcProducto } from "@/lib/catalogo";
 import { aCentavos, aDolares, fechaLarga, precio, sumarDiasHabiles } from "@/lib/formato";
 import {
   calcularTotales,
@@ -348,7 +349,7 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
                 <li key={l.id} className="flex items-center gap-3 text-sm">
                   <span className={cn("grid size-12 shrink-0 place-items-center rounded-md", FONDO_TINTE[p.tint])}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`/productos/${p.illustration}.svg`} alt="" className="size-10" />
+                    <img src={srcProducto(p)} alt="" className="size-10" />
                   </span>
                   <span className="line-clamp-2 flex-1">{p.title[locale]}</span>
                   <span className="text-muted-ink">×{l.qty}</span>

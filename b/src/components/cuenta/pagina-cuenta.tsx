@@ -9,6 +9,7 @@ import { FONDO_TINTE } from "@/components/producto/imagen-producto";
 import { Button } from "@/components/ui/button";
 import { useHidratado } from "@/hooks/use-hidratado";
 import { Link, useRouter } from "@/i18n/navigation";
+import { srcProducto } from "@/lib/catalogo";
 import { aDolares, fechaLarga, precio } from "@/lib/formato";
 import type { Usuario } from "@/lib/sesion";
 import type { Idioma } from "@/lib/tipos";
@@ -116,7 +117,7 @@ export function PaginaCuenta() {
                       <li key={l.id} className="flex items-center gap-3">
                         <span className={cn("grid size-14 shrink-0 place-items-center rounded-md", FONDO_TINTE[p.tint])}>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={`/productos/${p.illustration}.svg`} alt="" className="size-12" />
+                          <img src={srcProducto(p)} alt="" className="size-12" />
                         </span>
                         <span className="line-clamp-2 flex-1 text-sm">{p.title[locale]}</span>
                         <Button

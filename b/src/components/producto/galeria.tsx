@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Ruler } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
+import { srcProducto } from "@/lib/catalogo";
 import type { Tinte } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
 import { FONDO_TINTE, ImagenProducto } from "./imagen-producto";
@@ -11,18 +12,21 @@ import { FONDO_TINTE, ImagenProducto } from "./imagen-producto";
 /** Galería deslizable: foto principal, detalle ampliado y medidas. */
 export function Galeria({
   illustration,
+  imagen,
   tint,
   alt,
   medidas,
   edades,
 }: {
   illustration: string;
+  imagen?: string;
   tint: Tinte;
   alt: string;
   medidas: string;
   edades: string;
 }) {
   const t = useTranslations("producto");
+  const src = srcProducto({ illustration, imagen });
   const [api, setApi] = useState<CarouselApi>();
   const [actual, setActual] = useState(0);
 
@@ -37,16 +41,18 @@ export function Galeria({
   }, [api]);
 
   const vistas = [
-    <ImagenProducto key="a" illustration={illustration} tint={tint} alt={alt} prioridad className="textura-puntos rounded-card" />,
-    <ImagenProducto key="b" illustration={illustration} tint={tint} alt="" zoom={1.7} className="textura-puntos rounded-card" />,
+    <ImagenProducto key="a" illustration={illustration} imagen={imagen} tint={tint} alt={alt} prioridad className="textura-puntos rounded-card" />,
+    <ImagenProducto key="b" illustration={illustration} imagen={imagen} tint={tint} alt="" zoom={1.7} className="textura-puntos rounded-card" />,
     <div key="c" className={cn("relative grid aspect-square place-items-center rounded-card", FONDO_TINTE[tint])}>
       <div className="grid w-[70%] gap-4 text-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`/productos/${illustration}.svg`} alt="" className="mx-auto w-[62%]" />
-        <div className="flex items-center justify-center gap-2 rounded-md bg-white/90 px-3 py-2 text-sm font-bold text-ink">
-          <Ruler className="size-4" aria-hidden="true" />
-          {medidas}
-        </div>
+        <img src={src} alt="" className="mx-auto w-[62%]" />
+        {medidas ? (
+          <div className="flex items-center justify-center gap-2 rounded-md bg-white/90 px-3 py-2 text-sm font-bold text-ink">
+            <Ruler className="size-4" aria-hidden="true" />
+            {medidas}
+          </div>
+        ) : null}
         <p className="text-sm font-bold text-muted-ink">{edades}</p>
       </div>
     </div>,
@@ -64,9 +70,12 @@ export function Galeria({
             ))}
           </CarouselContent>
         </Carousel>
-        <span className="pointer-events-none absolute bottom-2 left-2 rounded-md bg-white/90 px-1.5 py-0.5 text-[11px] font-bold text-muted-ink">
-          {t("imagenIlustrativa")}
-        </span>
+        {/* El rótulo es para nuestras ilustraciones; la foto que sube la dueña es la del producto. */}
+        {imagen ? null : (
+          <span className="pointer-events-none absolute bottom-2 left-2 rounded-md bg-white/90 px-1.5 py-0.5 text-[11px] font-bold text-muted-ink">
+            {t("imagenIlustrativa")}
+          </span>
+        )}
       </div>
       <div className="flex justify-center gap-2">
         {vistas.map((_, i) => (
@@ -84,7 +93,7 @@ export function Galeria({
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`/productos/${illustration}.svg`}
+              src={src}
               alt=""
               className="size-11"
               style={i === 1 ? { transform: "scale(1.7)" } : undefined}

@@ -52,16 +52,24 @@ const LADO = 512;
 const DIBUJO = Math.round(LADO * 0.82); // como en ImagenProducto: la ilustración ocupa el 82 %
 const artes = new Map<string, Promise<string>>();
 
-/** Pinta la ilustración sobre su fondo, igual que la imagen de la tarjeta, para usarla de textura. */
-function componerArte(ilustracion: string, fondo: string): Promise<string> {
-  const clave = `${ilustracion}|${fondo}`;
+/**
+ * Pinta la imagen del producto sobre su fondo, igual que la imagen de la tarjeta (al 82 %, sin recortar),
+ * para usarla de textura. Sirve para las ilustraciones (SVG) y para las fotos que sube la dueña.
+ */
+function componerArte(src: string, fondo: string): Promise<string> {
+  const clave = `${src}|${fondo}`;
   let arte = artes.get(clave);
   if (!arte) {
     arte = (async () => {
-      // Los SVG solo traen viewBox: se les da tamaño para que se dibujen nítidos en cualquier navegador.
-      const texto = await (await fetch(`/productos/${ilustracion}.svg`)).text();
-      const svg = texto.replace(/<svg\b(?![^>]*\swidth=)/, `<svg width="${DIBUJO}" height="${DIBUJO}"`);
-      const origen = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+      let origen = src;
+      let temporal: string | null = null;
+      if (src.endsWith(".svg")) {
+        // Los SVG solo traen viewBox: se les da tamaño para que se dibujen nítidos en cualquier navegador.
+        const texto = await (await fetch(src)).text();
+        const svg = texto.replace(/<svg\b(?![^>]*\swidth=)/, `<svg width="${DIBUJO}" height="${DIBUJO}"`);
+        temporal = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+        origen = temporal;
+      }
       try {
         const imagen = new Image();
         imagen.src = origen;
@@ -73,13 +81,15 @@ function componerArte(ilustracion: string, fondo: string): Promise<string> {
         if (!ctx) throw new Error("Sin canvas 2D");
         ctx.fillStyle = fondo;
         ctx.fillRect(0, 0, LADO, LADO);
-        const margen = (LADO - DIBUJO) / 2;
-        ctx.drawImage(imagen, margen, margen, DIBUJO, DIBUJO);
+        const proporcion = imagen.naturalWidth / imagen.naturalHeight || 1;
+        const ancho = proporcion >= 1 ? DIBUJO : DIBUJO * proporcion;
+        const alto = proporcion >= 1 ? DIBUJO / proporcion : DIBUJO;
+        ctx.drawImage(imagen, (LADO - ancho) / 2, (LADO - alto) / 2, ancho, alto);
         const png = await new Promise<Blob | null>((listo) => lienzo.toBlob(listo));
         if (!png) throw new Error("Sin PNG");
         return URL.createObjectURL(png);
       } finally {
-        URL.revokeObjectURL(origen);
+        if (temporal) URL.revokeObjectURL(temporal);
       }
     })();
     artes.set(clave, arte);
@@ -92,7 +102,7 @@ function componerArte(ilustracion: string, fondo: string): Promise<string> {
  * Capa holográfica sobre la foto de una tarjeta de producto (HoloCard de React Bits, adaptado).
  * Debajo sigue la imagen normal: si no hay turno ni GPU, o se pidió menos movimiento, se ve esa.
  */
-export function CapaHolo({ ilustracion, preset = "stars" }: { ilustracion: string; preset?: HoloPreset }) {
+export function CapaHolo({ src, preset = "stars" }: { src: string; preset?: HoloPreset }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [turno, setTurno] = useState(false);
   const [arte, setArte] = useState<string | null>(null);
@@ -138,7 +148,7 @@ export function CapaHolo({ ilustracion, preset = "stars" }: { ilustracion: strin
     if (!turno || !fondo) return;
     let vigente = true;
     const componer = () => {
-      componerArte(ilustracion, getComputedStyle(fondo).backgroundColor).then(
+      componerArte(src, getComputedStyle(fondo).backgroundColor).then(
         (url) => vigente && setArte(url),
         () => {},
       );
@@ -150,7 +160,7 @@ export function CapaHolo({ ilustracion, preset = "stars" }: { ilustracion: strin
       vigente = false;
       marca.disconnect();
     };
-  }, [turno, ilustracion]);
+  }, [turno, src]);
 
   return (
     <span ref={ref} aria-hidden="true" className="absolute inset-0" data-testid="capa-holo">

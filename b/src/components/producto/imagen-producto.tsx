@@ -1,3 +1,4 @@
+import { srcProducto } from "@/lib/catalogo";
 import type { Tinte } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
 
@@ -9,9 +10,10 @@ export const FONDO_TINTE: Record<Tinte, string> = {
   limon: "bg-tint-limon",
 };
 
-/** Imagen de producto: ilustración propia sobre el fondo de su edad, rotulada como ilustrativa. */
+/** Imagen de producto: ilustración propia (o la foto que subió la dueña) sobre el fondo de su edad. */
 export function ImagenProducto({
   illustration,
+  imagen,
   tint,
   alt,
   etiqueta,
@@ -22,6 +24,7 @@ export function ImagenProducto({
   capa,
 }: {
   illustration: string;
+  imagen?: string;
   tint: Tinte;
   alt: string;
   etiqueta?: string;
@@ -36,7 +39,7 @@ export function ImagenProducto({
     <div className={cn("relative grid aspect-square place-items-center overflow-hidden", FONDO_TINTE[tint], className)}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={`/productos/${illustration}.svg`}
+        src={srcProducto({ illustration, imagen })}
         alt={alt}
         width={240}
         height={240}

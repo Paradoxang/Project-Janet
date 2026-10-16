@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Search } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { buscar, crearIndice } from "@/lib/buscar";
+import { rutaProducto, srcProducto } from "@/lib/catalogo";
 import type { Idioma } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
 import { useCatalogo } from "@/components/proveedor-catalogo";
@@ -40,10 +41,10 @@ export function Buscador({ className }: { className?: string }) {
     router.push({ pathname: "/search", query: { q: texto } });
   }
 
-  function irAProducto(slug: string) {
+  function irAProducto(p: { id: string; slug: string }) {
     setAbierto(false);
     setQ("");
-    router.push(`/p/${slug}`);
+    router.push(rutaProducto(p));
   }
 
   return (
@@ -52,7 +53,7 @@ export function Buscador({ className }: { className?: string }) {
       className={cn("relative", className)}
       onSubmit={(e) => {
         e.preventDefault();
-        if (visible && activo >= 0 && sugerencias[activo]) irAProducto(sugerencias[activo].slug);
+        if (visible && activo >= 0 && sugerencias[activo]) irAProducto(sugerencias[activo]);
         else irABusqueda();
       }}
     >
@@ -117,7 +118,7 @@ export function Buscador({ className }: { className?: string }) {
                 aria-selected={i === activo}
                 data-testid="sugerencia"
                 onMouseDown={(e) => e.preventDefault()}
-                onClick={() => irAProducto(p.slug)}
+                onClick={() => irAProducto(p)}
                 className={cn(
                   "flex cursor-pointer items-center gap-3 px-3 py-2",
                   i === activo ? "bg-surface" : "hover:bg-surface",
@@ -125,7 +126,7 @@ export function Buscador({ className }: { className?: string }) {
               >
                 <span className={cn("grid size-11 shrink-0 place-items-center rounded-md", FONDO_TINTE[p.tint])}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`/productos/${p.illustration}.svg`} alt="" className="size-9" />
+                  <img src={srcProducto(p)} alt="" className="size-9" />
                 </span>
                 <span className="line-clamp-2 flex-1 text-sm leading-snug">{p.title[locale]}</span>
                 <Precio usd={p.price} className="text-base" />

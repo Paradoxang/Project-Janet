@@ -44,6 +44,8 @@ export interface Producto {
   stockOnline: number;
   deliveryDays: number;
   illustration: string;
+  /** Foto subida por la dueña (data URL). Si está, se usa en vez de la ilustración. */
+  imagen?: string;
   tint: Tinte;
   related: string[];
   keywords: Lista;
@@ -110,6 +112,7 @@ export interface ProductoLigero {
   title: Texto;
   price: number;
   illustration: string;
+  imagen?: string;
   tint: Tinte;
   ageGroup: GrupoEdad;
   category: Categoria;

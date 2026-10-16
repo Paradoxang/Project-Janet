@@ -1,10 +1,11 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { FilaProductos } from "@/components/producto/fila-productos";
+import { FilaCatalogo } from "@/components/producto/fila-productos";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
 import { BloquesEdad } from "@/components/inicio/bloques-edad";
 import { FranjaConfianza } from "@/components/inicio/franja-confianza";
 import { JugueteSemana } from "@/components/inicio/juguete-semana";
 import { Momentos } from "@/components/inicio/momentos";
+import { Novedades } from "@/components/inicio/novedades";
 import { Portada } from "@/components/inicio/portada";
 import { PromoTiendas } from "@/components/inicio/promo-tiendas";
 import { Link } from "@/i18n/navigation";
@@ -40,8 +41,6 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
   const t = await getTranslations();
   const catalogo = await getCatalogoLigero();
   const destacado = await getProduct("magnetic-tiles");
-  const masVendidos = catalogo.filter((p) => p.bestSeller).sort((a, b) => b.reviewCount - a.reviewCount);
-  const menosDe25 = catalogo.filter((p) => p.price < 25).sort((a, b) => b.reviewCount - a.reviewCount);
   const verTodo = (href: string | { pathname: string; query: Record<string, string> }) => (
     <Link href={href} className="shrink-0 pb-1 text-sm font-bold text-link hover:underline">
       {t("inicio.verTodo")}
@@ -54,6 +53,8 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
         <Portada />
         <FranjaConfianza />
       </div>
+
+      <Novedades />
 
       <section aria-labelledby="por-edad" data-revelar className="scroll-mt-14">
         <Titulo id="por-edad" texto={t("inicio.edadesTexto")}>
@@ -68,7 +69,7 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
         <Titulo id="mas-vendidos" texto={t("inicio.masVendidosTexto")} verTodo={verTodo("/search")}>
           {t("inicio.masVendidos")}
         </Titulo>
-        <FilaProductos productos={masVendidos} ranking />
+        <FilaCatalogo criterio="masVendidos" ranking />
       </section>
 
       <section aria-labelledby="por-ocasion" data-revelar>
@@ -86,7 +87,7 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
         >
           {t("inicio.menosDe25")}
         </Titulo>
-        <FilaProductos productos={menosDe25} />
+        <FilaCatalogo criterio="menosDe25" />
       </section>
 
       <section aria-labelledby="por-categoria" data-revelar>

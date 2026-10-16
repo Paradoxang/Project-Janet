@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useHidratado } from "@/hooks/use-hidratado";
 import { Link } from "@/i18n/navigation";
+import { rutaProducto, srcProducto } from "@/lib/catalogo";
 import { calcularTotales } from "@/lib/totales";
 import type { Idioma, Impuestos } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
@@ -29,12 +30,12 @@ function Linea({ linea }: { linea: LineaCarrito }) {
   const accion = "text-[13px] font-bold text-link hover:underline";
   return (
     <li className="flex gap-3 border-b py-4 last:border-b-0" data-testid="linea-carrito">
-      <Link href={`/p/${p.slug}`} className={cn("grid size-24 shrink-0 place-items-center rounded-card md:size-32", FONDO_TINTE[p.tint])}>
+      <Link href={rutaProducto(p)} className={cn("grid size-24 shrink-0 place-items-center rounded-card md:size-32", FONDO_TINTE[p.tint])}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`/productos/${p.illustration}.svg`} alt="" className="size-[85%]" />
+        <img src={srcProducto(p)} alt="" className="size-[85%]" />
       </Link>
       <div className="grid flex-1 content-start gap-1">
-        <Link href={`/p/${p.slug}`} className="line-clamp-2 text-[15px] leading-snug font-semibold hover:underline">
+        <Link href={rutaProducto(p)} className="line-clamp-2 text-[15px] leading-snug font-semibold hover:underline">
           {p.title[locale]}
         </Link>
         <Precio usd={p.price} className="text-lg" />

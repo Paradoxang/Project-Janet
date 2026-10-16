@@ -5,13 +5,14 @@ import { LockKeyhole, LogOut, Store } from "lucide-react";
 import { FormularioAcceso } from "@/components/cuenta/formulario-acceso";
 import { Button } from "@/components/ui/button";
 import { useHidratado } from "@/hooks/use-hidratado";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { useCuenta } from "@/stores/cuenta";
 
 /** La zona de administración: solo la ve quien entró con el correo de administración. */
 export function SoloAdmin({ children }: { children: React.ReactNode }) {
   const t = useTranslations("acceso");
   const hidratado = useHidratado();
+  const pathname = usePathname().replace(/\/$/, "");
   const usuario = useCuenta((s) => s.usuario);
   const salir = useCuenta((s) => s.salir);
 
@@ -27,6 +28,27 @@ export function SoloAdmin({ children }: { children: React.ReactNode }) {
               {t("barra")}
             </span>
             <span className="text-white/70">{usuario.correo}</span>
+            <nav aria-label={t("pestanas")} className="order-last w-full sm:order-none sm:w-auto">
+              <ul className="flex gap-1">
+                {(
+                  [
+                    ["/panel", t("resumen")],
+                    ["/panel/catalogo", t("productos")],
+                  ] as const
+                ).map(([ruta, texto]) => (
+                  <li key={ruta}>
+                    <Link
+                      href={ruta}
+                      aria-current={pathname === ruta ? "page" : undefined}
+                      className="inline-flex rounded-md px-2.5 py-1 font-bold text-white/80 hover:bg-white/10 aria-[current=page]:bg-white aria-[current=page]:text-ink"
+                      data-testid={`pestana-${ruta === "/panel" ? "resumen" : "productos"}`}
+                    >
+                      {texto}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
             <span className="ml-auto flex items-center gap-1">
               <Link href="/" className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 font-bold hover:bg-white/10">
                 <Store className="size-4" aria-hidden="true" />

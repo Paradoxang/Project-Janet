@@ -7,6 +7,7 @@ import { FONDO_TINTE } from "@/components/producto/imagen-producto";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Link } from "@/i18n/navigation";
+import { srcProducto } from "@/lib/catalogo";
 import { aCentavos, aDolares, precio } from "@/lib/formato";
 import type { Idioma } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
@@ -39,7 +40,7 @@ export function PanelCarrito() {
             <div className="mt-2 flex items-center gap-3">
               <span className={cn("grid size-16 shrink-0 place-items-center rounded-md", FONDO_TINTE[agregado.tint])}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/productos/${agregado.illustration}.svg`} alt="" className="size-14" />
+                <img src={srcProducto(agregado)} alt="" className="size-14" />
               </span>
               <span className="line-clamp-2 text-sm font-semibold">{agregado.title[locale]}</span>
             </div>
@@ -72,7 +73,7 @@ export function PanelCarrito() {
                     <li key={l.id} className="flex items-center gap-3 text-sm">
                       <span className={cn("grid size-11 shrink-0 place-items-center rounded-md", FONDO_TINTE[p.tint])}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={`/productos/${p.illustration}.svg`} alt="" className="size-9" />
+                        <img src={srcProducto(p)} alt="" className="size-9" />
                       </span>
                       <span className="line-clamp-2 flex-1">{p.title[locale]}</span>
                       <span className="text-muted-ink">×{l.qty}</span>
