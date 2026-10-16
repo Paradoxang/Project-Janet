@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 test("dónde comprar: desde el producto, Seattle sin stock y San Diego destacada", async ({ page }) => {
   await page.goto("/en/p/magnetic-tiles/");
@@ -17,6 +17,8 @@ test("dónde comprar: desde el producto, Seattle sin stock y San Diego destacada
 test("dónde comprar: buscar por ZIP reordena por distancia", async ({ page }) => {
   await page.goto("/es/where-to-buy/");
   await page.getByTestId("zip-tiendas").fill("33131");
+  // Esperar a que el campo muestre lo escrito antes de buscar (como haría una persona).
+  await expect(page.getByTestId("zip-tiendas")).toHaveValue("33131");
   await page.getByTestId("buscar-tiendas").click();
   const primera = page.getByTestId("lista-tiendas").locator("li").first();
   await expect(primera).toContainText("Miami");

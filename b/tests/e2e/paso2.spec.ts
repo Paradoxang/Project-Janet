@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 test.describe("marca: neutra o Brinco", () => {
   test("por defecto sale sin marca, con marcadores, y el interruptor la cambia", async ({ page }) => {

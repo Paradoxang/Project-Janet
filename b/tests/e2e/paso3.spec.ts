@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 test("carrito: panel lateral, envío gratis, impuesto por ZIP, guardar para después", async ({ page }) => {
   await page.goto("/en/p/usa-map-floor-puzzle/");
