@@ -69,7 +69,7 @@ export function Mascota({
       />
       <span
         aria-hidden="true"
-        className="solo-neutra absolute inset-1.5 flex flex-col items-center justify-center gap-1 rounded-card border-2 border-dashed border-muted-ink/30 bg-white/60 text-center text-[11px] font-bold tracking-wide text-muted-ink/80 uppercase"
+        className="solo-neutra absolute inset-1.5 flex flex-col items-center justify-center gap-1 rounded-card border-2 border-dashed border-muted-ink/40 bg-white/85 text-center text-[11px] font-bold tracking-wide text-muted-ink uppercase"
       >
         <ImageIcon className="size-5" />
         {variante === "cara" ? null : t("mascota")}
