@@ -77,6 +77,8 @@ test("las fichas por edad filtran el catálogo", async ({ page }) => {
 });
 
 test("en el celular nada se sale de la pantalla", async ({ page }) => {
+  // Recorre 6 páginas: contra la web publicada tarda 22-27 s, al filo de los 30 s por prueba.
+  test.slow();
   for (const ruta of ["/en/", "/es/search/?edad=5-7", "/en/p/magnetic-tiles/", "/en/cart/", "/en/where-to-buy/", "/es/panel/"]) {
     await page.goto(ruta);
     await page.waitForLoadState("networkidle");
