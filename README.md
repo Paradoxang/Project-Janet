@@ -15,7 +15,7 @@ desarrollo real solo empieza si ella firma.
 | **Qué hay** | La maqueta B: tienda estática con datos de ejemplo, carrito y pago simulados, mapa de tiendas, cuentas simuladas y panel de la dueña con estadísticas y gestión de productos |
 | **Quién** | Santiago decide. Dionisio (Claude) construye la versión B. La persona A hace su versión aparte: no está en este repositorio |
 | **Dónde se ve** | Cloudflare, proyecto `maqueta-b-janet`, que publica la rama `demo`. La URL no se escribe aquí porque el repositorio es público |
-| **Ramas** | El código está en `claude/festive-wozniak-rl090e` (trabajo) y en `demo` (lo publicado). **`main` todavía no lo tiene.** Nunca se trabaja en `main`; si tu sesión trae otra rama asignada, pártela de `claude/festive-wozniak-rl090e` |
+| **Ramas** | `main` tiene todo (al 16-10). Se trabaja en `claude/festive-wozniak-rl090e` o en la rama que traiga la sesión, nunca en `main`. `demo` es lo publicado |
 | **Publicar** | Push de avance rápido a `demo`, **solo con un sí de Santiago para esa publicación** |
 | **Cómo está** | Todo lo de la demo está hecho y probado: 82 pruebas e2e y 53 unitarias en verde (16-10) |
 
