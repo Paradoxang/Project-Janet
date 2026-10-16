@@ -5,9 +5,10 @@ Tu trabajo es decidir qué se construye y cómo, y llevarlo hasta que funcione.
 
 **Qué es:** la tienda online de juguetes para EE. UU. de una posible clienta. Santiago lo confirmó el 15-10.
 
-**Estado:** todavía no hay contrato ni código. Lo inmediato es una maqueta funcional para el lunes 19-10.
-- Lee primero `PLAN.md` (la hoja de ruta y el plan de trabajo) y `DECISIONES.md`.
-- Antes de construir, pregúntale a Santiago qué te toca. Las opciones están en los pendientes de `PLAN.md`.
+**Estado:** todavía no hay contrato. La maqueta funcional (la versión B, en `/b`) está hecha y publicada para el lunes 19-10.
+- Lee primero `README.md` (estado, mapa del código y cómo se trabaja) y `DECISIONES.md` (manda sobre todo). `PLAN.md`
+  trae los requisitos de la clienta y el plan del desarrollo real si firma.
+- Antes de construir algo nuevo, confirma con Santiago qué te toca.
 
 ## Cómo trabajas
 
