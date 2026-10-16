@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { preconnect } from "react-dom";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PaginaDonde } from "@/components/donde/pagina-donde";
@@ -14,9 +14,7 @@ export default async function DondeComprar({ params }: { params: Promise<{ local
   const { locale } = await params;
   setRequestLocale(locale);
   const tiendas = await getStores();
-  return (
-    <Suspense fallback={<div className="min-h-[60vh]" />}>
-      <PaginaDonde tiendas={tiendas} />
-    </Suspense>
-  );
+  // Las teselas del mapa vienen de OpenStreetMap: abrir la conexión cuanto antes.
+  preconnect("https://tile.openstreetmap.org");
+  return <PaginaDonde tiendas={tiendas} />;
 }

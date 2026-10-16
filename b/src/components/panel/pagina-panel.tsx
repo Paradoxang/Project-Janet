@@ -51,7 +51,7 @@ function Kpi({
   const sube = cambio >= 0;
   return (
     <article className="grid content-start gap-2 rounded-card border bg-white p-4" data-testid="kpi">
-      <h3 className="font-sans text-sm font-bold text-muted-ink">{titulo}</h3>
+      <h2 className="font-sans text-sm font-bold text-muted-ink">{titulo}</h2>
       <p className="font-sans text-[34px] leading-none font-extrabold">{valor}</p>
       <p className={cn("flex items-center gap-1 text-[13px] font-bold", sube ? "text-stock" : "text-out")}>
         {sube ? <ArrowUpRight className="size-4" aria-hidden="true" /> : <ArrowDownRight className="size-4" aria-hidden="true" />}
@@ -303,7 +303,7 @@ export function PaginaPanel({ panel, tiendas }: { panel: Panel; tiendas: Tienda[
                       key={i}
                       className={cn(
                         "rounded-sm px-2 py-1 text-center font-bold",
-                        n === 0 ? "bg-out/12 text-out" : n <= 2 ? "bg-low/12 text-low" : "bg-stock/10 text-stock",
+                        n === 0 ? "bg-out/15 text-ink" : n <= 2 ? "bg-low/20 text-ink" : "bg-stock/15 text-ink",
                       )}
                     >
                       {n === 0 ? "0 ✕" : n}

@@ -1,8 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Clock, LocateFixed, MapPin, Navigation, Phone, X } from "lucide-react";
 import { useCatalogo } from "@/components/proveedor-catalogo";
@@ -26,7 +25,6 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
   const t = useTranslations("donde");
   const locale = useLocale() as Idioma;
   const hidratado = useHidratado();
-  const params = useSearchParams();
   const { productos } = useCatalogo();
   const zipGuardado = usePreferencias((s) => s.zip);
   const setZip = usePreferencias((s) => s.setZip);
@@ -38,8 +36,11 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
   const [ubicando, setUbicando] = useState(false);
   const [foco, setFoco] = useState<string | null>(null);
   const [sinFiltro, setSinFiltro] = useState(false);
+  // ?producto=… se lee al montar: así la página sale completa en el HTML estático (sin saltos).
+  const [slugUrl, setSlugUrl] = useState<string | null>(null);
+  useEffect(() => setSlugUrl(new URLSearchParams(window.location.search).get("producto")), []);
 
-  const slug = sinFiltro ? null : params.get("producto");
+  const slug = sinFiltro ? null : slugUrl;
   const producto = slug ? productos.find((p) => p.slug === slug) : undefined;
   const origen = gps ?? coordenadasDeZip(zip);
 

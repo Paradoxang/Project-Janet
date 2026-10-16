@@ -72,6 +72,8 @@ export default function MapaTiendas({
             key={p.id}
             position={[p.lat, p.lng]}
             icon={icono(p, p.id === foco)}
+            title={`${p.ciudad} (DEMO) · ${p.detalle}`}
+            alt={`${p.ciudad} (DEMO)`}
             eventHandlers={{ click: () => alElegir(p.id) }}
           >
             <Popup>
