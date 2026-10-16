@@ -6,7 +6,8 @@
   "marca": {
     "nombreNeutro": "Tu Tienda",
     "tuLogo": "Tu logo",
-    "mascota": "Mascota"
+    "mascota": "Mascota",
+    "mascotaAqui": "Aquí va tu mascota"
   },
   "demo": {
     "franja": "Maqueta de demostración · datos de ejemplo",
@@ -88,7 +89,41 @@
     "tiendasBoton": "Buscar una tienda",
     "ideasTitulo": "¿No sabes qué elegir?",
     "ideasTexto": "Dinos la edad y te enseñamos lo que más les gusta a los niños de esa edad.",
-    "productos": "{n, plural, one {# juguete} other {# juguetes}}"
+    "productos": "{n, plural, one {# juguete} other {# juguetes}}",
+    "heroEtiqueta": "Juguetes de 0 a 12 años",
+    "heroBrincoRico": "Regalos para dar <g>brincos</g> de alegría",
+    "heroNeutroRico": "Juguetes con los que <g>de verdad</g> van a jugar",
+    "heroSecundario": "Buscar una tienda",
+    "pegatina": "Envío gratis desde $35",
+    "confianza": [
+      {
+        "t": "Envío gratis desde $35",
+        "d": "Llega en 2 a 5 días hábiles"
+      },
+      {
+        "t": "Míralo en tienda",
+        "d": "Stock al día en 6 tiendas (demo)"
+      },
+      {
+        "t": "Devoluciones en 30 días",
+        "d": "Sin usar y en su caja (política de ejemplo)"
+      }
+    ],
+    "edadesTexto": "Elegidos por edad, para que no tengas que adivinar.",
+    "anios": "años",
+    "meses": "meses",
+    "semana": "Juguete de la semana",
+    "semanaPor": "Por qué les encanta",
+    "semanaCta": "Ver el juguete",
+    "masVendidosTexto": "Lo que más están comprando los papás ahora.",
+    "momentos": {
+      "birthday": "Cumpleaños con éxito",
+      "holidays": "Bajo el árbol",
+      "baby-shower": "Para recién llegados",
+      "just-because": "Sorpresas porque sí",
+      "back-to-school": "Mentes curiosas"
+    },
+    "menosDe25Texto": "Precio pequeño, sonrisas grandes."
   },
   "producto": {
     "migas": "Juguetes",
@@ -135,7 +170,8 @@
     "resenas": "Opiniones de clientes",
     "resenasEjemplo": "Reseñas de ejemplo para esta maqueta; no son de clientes reales.",
     "resenaEjemplo": "Reseña de ejemplo",
-    "de": "de {estado}"
+    "de": "de {estado}",
+    "agregadoCorto": "Agregado"
   },
   "busqueda": {
     "titulo": "Resultados para «{q}»",
@@ -154,7 +190,8 @@
     "privacidad": "Privacidad",
     "panel": "Panel de la dueña",
     "derechos": "Maqueta de demostración con datos de ejemplo. No hay pedidos ni pagos reales.",
-    "arriba": "Volver arriba"
+    "arriba": "Volver arriba",
+    "cierre": "Hecho para manos pequeñas y papás con poco tiempo."
   },
   "catalogo": {
     "ordenar": "Ordenar por",

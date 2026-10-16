@@ -18,6 +18,7 @@ export function ImagenProducto({
   className,
   prioridad = false,
   zoom = 1,
+  claseImagen,
 }: {
   illustration: string;
   tint: Tinte;
@@ -26,6 +27,7 @@ export function ImagenProducto({
   className?: string;
   prioridad?: boolean;
   zoom?: number;
+  claseImagen?: string;
 }) {
   return (
     <div className={cn("relative grid aspect-square place-items-center overflow-hidden", FONDO_TINTE[tint], className)}>
@@ -36,7 +38,7 @@ export function ImagenProducto({
         width={240}
         height={240}
         loading={prioridad ? "eager" : "lazy"}
-        className="h-[82%] w-[82%] object-contain"
+        className={cn("h-[82%] w-[82%] object-contain", claseImagen)}
         style={zoom !== 1 ? { transform: `scale(${zoom})` } : undefined}
       />
       {etiqueta ? (

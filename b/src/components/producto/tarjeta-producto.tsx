@@ -7,12 +7,24 @@ import { Estrellas } from "./estrellas";
 import { ImagenProducto } from "./imagen-producto";
 import { Precio } from "./precio";
 
-export function TarjetaProducto({ p, className }: { p: ProductoLigero; className?: string }) {
+export function TarjetaProducto({
+  p,
+  className,
+  puesto,
+}: {
+  p: ProductoLigero;
+  className?: string;
+  /** Puesto en un ranking (1, 2, 3…): se dibuja grande sobre la foto. */
+  puesto?: number;
+}) {
   const t = useTranslations("producto");
   const locale = useLocale() as Idioma;
   return (
     <article
-      className={cn("relative flex h-full flex-col overflow-hidden rounded-card border bg-white", className)}
+      className={cn(
+        "group relative flex h-full flex-col overflow-hidden rounded-card bg-white shadow-tarjeta transition duration-200 hover:-translate-y-1 hover:shadow-[0_14px_32px_-12px_rgb(42_37_32/0.35)]",
+        className,
+      )}
       data-testid="tarjeta-producto"
     >
       <Link href={`/p/${p.slug}`} className="relative block" tabIndex={-1} aria-hidden="true">
@@ -21,8 +33,16 @@ export function TarjetaProducto({ p, className }: { p: ProductoLigero; className
           tint={p.tint}
           alt=""
           etiqueta={t("imagenIlustrativa")}
+          claseImagen="menear-al-pasar"
         />
-        {p.bestSeller ? (
+        {puesto ? (
+          <span
+            aria-hidden="true"
+            className="absolute top-1 left-2 font-sans text-[52px] leading-none font-black text-white [-webkit-text-stroke:2px_var(--m-ink)] [paint-order:stroke_fill]"
+          >
+            {puesto}
+          </span>
+        ) : p.bestSeller ? (
           <span className="absolute top-2 left-2 rounded-chip bg-ink px-2 py-0.5 text-[10.5px] font-bold text-white">
             {t("masVendido")}
           </span>

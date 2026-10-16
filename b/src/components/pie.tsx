@@ -13,6 +13,7 @@ export function Pie() {
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 md:grid-cols-[1.4fr_1fr_1fr] md:px-6">
         <div className="grid content-start gap-3">
           <Logo negativo className="h-9" />
+          <p className="max-w-xs font-display text-lg leading-snug text-white">{t("cierre")}</p>
           <p className="max-w-xs text-sm text-white/70">{t("derechos")}</p>
         </div>
         <nav className="grid content-start gap-2" aria-label={t("productos")}>

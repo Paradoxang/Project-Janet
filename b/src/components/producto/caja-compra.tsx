@@ -42,7 +42,7 @@ export function CajaCompra({
   const gratis = precio >= ENVIO_GRATIS_DESDE;
 
   return (
-    <div className="grid gap-3 rounded-card border p-4" data-testid="caja-compra">
+    <div className="grid gap-3 rounded-card bg-white p-4 shadow-tarjeta" data-testid="caja-compra">
       <div>
         <Precio usd={precio} className="text-[34px]" />
         <p className="mt-1 text-[13px] text-muted-ink">{t("impuesto")}</p>

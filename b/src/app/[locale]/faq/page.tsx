@@ -17,7 +17,7 @@ export default async function PreguntasFrecuentes({ params }: { params: Promise<
     <div className="mx-auto max-w-3xl px-4 pt-6 md:px-6">
       <h1 className="text-[28px] md:text-4xl">{t("titulo")}</h1>
       <p className="mt-1 text-sm text-muted-ink">{t("nota")}</p>
-      <Accordion type="multiple" className="mt-5 rounded-card border px-4">
+      <Accordion type="multiple" className="mt-5 rounded-card bg-white px-4 shadow-tarjeta">
         {preguntas.map((p) => (
           <AccordionItem key={p.id} value={p.id} id={p.id} className="scroll-mt-12">
             <AccordionTrigger className="text-base font-bold">{p.q}</AccordionTrigger>

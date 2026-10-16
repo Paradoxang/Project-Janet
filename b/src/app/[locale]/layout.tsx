@@ -6,6 +6,7 @@ import "@fontsource-variable/fredoka";
 import "@fontsource-variable/nunito-sans";
 import { Cabecera } from "@/components/cabecera/cabecera";
 import { PanelCarrito } from "@/components/carrito/panel-carrito";
+import { ObservadorRevelar } from "@/components/efectos/observador-revelar";
 import { FranjaDemo } from "@/components/franja-demo";
 import { Pie } from "@/components/pie";
 import { ProveedorCatalogo } from "@/components/proveedor-catalogo";
@@ -54,6 +55,7 @@ export default async function LayoutIdioma({
             <main className="min-h-[60vh]">{children}</main>
             <Pie />
             <PanelCarrito />
+            <ObservadorRevelar />
             <Toaster position="top-center" />
           </ProveedorCatalogo>
         </NextIntlClientProvider>

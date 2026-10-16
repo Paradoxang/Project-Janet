@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCarrito } from "@/stores/carrito";
 import { useCarritoUI } from "@/stores/carrito-ui";
@@ -22,6 +24,12 @@ export function BotonAgregar({
   const t = useTranslations("producto");
   const agregar = useCarrito((s) => s.agregar);
   const abrirPanel = useCarritoUI((s) => s.abrir);
+  const [agregado, setAgregado] = useState(false);
+  useEffect(() => {
+    if (!agregado) return;
+    const reloj = setTimeout(() => setAgregado(false), 1600);
+    return () => clearTimeout(reloj);
+  }, [agregado]);
   return (
     <Button
       type="button"
@@ -32,10 +40,18 @@ export function BotonAgregar({
       className={cn("w-full", className)}
       onClick={() => {
         agregar(id, qty);
+        setAgregado(true);
         abrirPanel(id);
       }}
     >
-      {t("agregar")}
+      {agregado ? (
+        <>
+          <Check aria-hidden="true" className="saltito" />
+          {t("agregadoCorto")}
+        </>
+      ) : (
+        t("agregar")
+      )}
     </Button>
   );
 }

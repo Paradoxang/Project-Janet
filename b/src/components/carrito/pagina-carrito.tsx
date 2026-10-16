@@ -98,7 +98,7 @@ export function PaginaCarrito({ impuestos }: { impuestos: Impuestos }) {
       <h1 className="text-[26px] md:text-3xl">{t("titulo")}</h1>
 
       {activas.length === 0 ? (
-        <div className="mt-6 flex flex-col items-center gap-4 rounded-card bg-warm px-6 py-10 text-center" data-testid="carrito-vacio">
+        <div className="textura-puntos mt-6 flex flex-col items-center gap-4 rounded-card bg-warm px-6 py-10 text-center" data-testid="carrito-vacio">
           <Mascota className="h-40 w-32" />
           <div>
             <p className="font-display text-2xl">{t("vacio")}</p>
@@ -111,16 +111,16 @@ export function PaginaCarrito({ impuestos }: { impuestos: Impuestos }) {
       ) : (
         <div className="mt-4 grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
           <div className="grid gap-4">
-            <div className="rounded-card border p-4">
+            <div className="rounded-card bg-white p-4 shadow-tarjeta">
               <BarraEnvio subtotal={totales.subtotal} />
             </div>
-            <ul className="rounded-card border px-4">
+            <ul className="rounded-card bg-white px-4 shadow-tarjeta">
               {activas.map((l) => (
                 <Linea key={l.id} linea={l} />
               ))}
             </ul>
           </div>
-          <aside className="grid gap-4 rounded-card border p-4 lg:sticky lg:top-12" aria-label={t("total")}>
+          <aside className="grid gap-4 rounded-card bg-white p-4 shadow-tarjeta lg:sticky lg:top-12" aria-label={t("total")}>
             <Resumen totales={totales} nombreEstado={nombreEstado} />
             <div className="flex items-center justify-between gap-2 text-[13px] text-muted-ink">
               <SelectorZip />
@@ -149,7 +149,7 @@ export function PaginaCarrito({ impuestos }: { impuestos: Impuestos }) {
           <h2 id="guardados" className="text-xl">
             {t("guardados", { n: guardadas.length })}
           </h2>
-          <ul className="mt-2 rounded-card border px-4">
+          <ul className="mt-2 rounded-card bg-white px-4 shadow-tarjeta">
             {guardadas.map((l) => (
               <Linea key={l.id} linea={l} />
             ))}

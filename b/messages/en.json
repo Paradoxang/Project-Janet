@@ -6,7 +6,8 @@
   "marca": {
     "nombreNeutro": "Your Store",
     "tuLogo": "Your logo",
-    "mascota": "Mascot"
+    "mascota": "Mascot",
+    "mascotaAqui": "Your mascot here"
   },
   "demo": {
     "franja": "Demo mockup · sample data",
@@ -88,7 +89,41 @@
     "tiendasBoton": "Find a store",
     "ideasTitulo": "Not sure what to pick?",
     "ideasTexto": "Tell us the age and we’ll show you what kids that age love.",
-    "productos": "{n, plural, one {# toy} other {# toys}}"
+    "productos": "{n, plural, one {# toy} other {# toys}}",
+    "heroEtiqueta": "Toys for ages 0 to 12",
+    "heroBrincoRico": "Gifts that make them <g>jump</g> for joy",
+    "heroNeutroRico": "Toys they’ll <g>actually</g> play with",
+    "heroSecundario": "Find a store",
+    "pegatina": "Free delivery over $35",
+    "confianza": [
+      {
+        "t": "Free delivery over $35",
+        "d": "Arrives in 2–5 business days"
+      },
+      {
+        "t": "See it in a store",
+        "d": "Live stock in 6 stores (demo)"
+      },
+      {
+        "t": "30-day returns",
+        "d": "Unused and in its box (sample policy)"
+      }
+    ],
+    "edadesTexto": "Picked by age, so you don’t have to guess.",
+    "anios": "years",
+    "meses": "months",
+    "semana": "Toy of the week",
+    "semanaPor": "Why kids love it",
+    "semanaCta": "See the toy",
+    "masVendidosTexto": "What parents are buying most right now.",
+    "momentos": {
+      "birthday": "Birthday wins",
+      "holidays": "Under the tree",
+      "baby-shower": "For brand-new humans",
+      "just-because": "Little surprises",
+      "back-to-school": "Curious minds"
+    },
+    "menosDe25Texto": "Small price, big smiles."
   },
   "producto": {
     "migas": "Toys",
@@ -135,7 +170,8 @@
     "resenas": "Customer reviews",
     "resenasEjemplo": "Sample reviews for this demo, not from real customers.",
     "resenaEjemplo": "Sample review",
-    "de": "from {estado}"
+    "de": "from {estado}",
+    "agregadoCorto": "Added"
   },
   "busqueda": {
     "titulo": "Results for “{q}”",
@@ -154,7 +190,8 @@
     "privacidad": "Privacy",
     "panel": "Owner dashboard",
     "derechos": "Demo mockup with sample data. No real orders or payments.",
-    "arriba": "Back to top"
+    "arriba": "Back to top",
+    "cierre": "Made for little hands and busy parents."
   },
   "catalogo": {
     "ordenar": "Sort by",

@@ -9,42 +9,51 @@
 */
 :root,
 [data-marca="neutra"] {
-  --m-ink: #1f2328;
-  --m-muted-ink: #5b616e;
-  --m-brand: #3f4652;
+  /* Sin marca, pero con calidez: tonos papel y arena, y un color suave por edad. */
+  --m-page: #fbf8f3;
+  --m-ink: #2a2520;
+  --m-muted-ink: #6b6158;
+  --m-brand: #2a2520;
   --m-brand-ink: #ffffff;
-  --m-brand-text: #3f4652;
-  --m-cta: #1f2328;
+  --m-brand-text: #2a2520;
+  --m-cta: #2a2520;
   --m-cta-ink: #ffffff;
-  --m-cta-hover: #3a3f47;
-  --m-buy: #ffffff;
-  --m-buy-ink: #1f2328;
-  --m-buy-border: #1f2328;
-  --m-surface: #f4f5f7;
-  --m-warm: #f4f5f7;
-  --m-line: #e2e4e9;
-  --m-input: #c9ced6;
+  --m-cta-hover: #463f38;
+  --m-buy: #fbf8f3;
+  --m-buy-ink: #2a2520;
+  --m-buy-border: #2a2520;
+  --m-surface: #f3eee6;
+  --m-warm: #f6efe4;
+  --m-line: #e6dfd3;
+  --m-input: #cfc6b8;
   --m-link: #1d5fbf;
   --m-stock: #12805c;
   --m-low: #9a5800;
   --m-out: #c62f2f;
-  --m-star: #5b616e;
-  --m-demo: #1f2328;
-  --m-tint-cielo: #f1f2f4;
-  --m-tint-menta: #f1f2f4;
-  --m-tint-lila: #f1f2f4;
-  --m-tint-durazno: #f1f2f4;
-  --m-tint-limon: #f1f2f4;
-  --m-radius-card: 8px;
-  --m-radius-btn: 8px;
-  --m-radius-chip: 6px;
+  --m-star: #c08a1e;
+  --m-demo: #2a2520;
+  --m-tint-cielo: #e8eef1;
+  --m-tint-menta: #e6eee4;
+  --m-tint-lila: #ece8f0;
+  --m-tint-durazno: #f4e8dc;
+  --m-tint-limon: #f3eed8;
+  --m-sombra: 0 1px 2px rgb(42 37 32 / 0.06), 0 8px 24px -8px rgb(42 37 32 / 0.18);
+  --m-trazo: #d39a5b; /* el tono madera de los juguetes, para garabatos y pegatinas */
+  --m-radius-card: 14px;
+  --m-radius-btn: 10px;
+  --m-radius-chip: 999px;
   --m-font-display: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --m-font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --m-display-weight: 700;
-  --radius: 0.5rem;
+  --m-display-weight: 800;
+  --m-display-tracking: -0.025em;
+  --radius: 0.625rem;
 }
 
 [data-marca="brinco"] {
+  --m-page: #ffffff;
+  --m-sombra: 0 1px 2px rgb(31 42 68 / 0.06), 0 8px 24px -8px rgb(31 42 68 / 0.18);
+  --m-trazo: #f2753a;
+  --m-display-tracking: -0.01em;
   --m-ink: #1f2a44;
   --m-muted-ink: #5a6478;
   --m-brand: #f2753a;
@@ -85,6 +94,8 @@
 }
 
 @theme inline {
+  --color-page: var(--m-page);
+  --color-trazo: var(--m-trazo);
   --color-ink: var(--m-ink);
   --color-muted-ink: var(--m-muted-ink);
   --color-brand: var(--m-brand);
@@ -110,6 +121,7 @@
   --color-tint-lila: var(--m-tint-lila);
   --color-tint-durazno: var(--m-tint-durazno);
   --color-tint-limon: var(--m-tint-limon);
+  --shadow-tarjeta: var(--m-sombra);
   --radius-card: var(--m-radius-card);
   --radius-btn: var(--m-radius-btn);
   --radius-chip: var(--m-radius-chip);
@@ -149,7 +161,7 @@
     -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply bg-white font-sans text-ink antialiased;
+    @apply bg-page font-sans text-ink antialiased;
   }
   h1,
   h2,
@@ -158,6 +170,7 @@
   .font-display {
     font-family: var(--m-font-display);
     font-weight: var(--m-display-weight);
+    letter-spacing: var(--m-display-tracking);
   }
 }
 
@@ -190,4 +203,129 @@
 }
 .leaflet-container {
   font-family: var(--m-font-body);
+}
+
+/* ——— Detalles con vida: textura, movimiento y celebraciones ——— */
+
+/* Textura de papel punteado para fondos cálidos. */
+.textura-puntos {
+  background-image: radial-gradient(rgb(42 37 32 / 0.07) 1px, transparent 1.2px);
+  background-size: 14px 14px;
+}
+
+@keyframes flotar {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--giro, 0deg));
+  }
+  50% {
+    transform: translateY(-7px) rotate(var(--giro, 0deg));
+  }
+}
+.flotar {
+  animation: flotar 5s ease-in-out infinite;
+  animation-delay: var(--retraso, 0s);
+}
+
+@keyframes menear {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1.04);
+  }
+  30% {
+    transform: rotate(-4deg) scale(1.06);
+  }
+  65% {
+    transform: rotate(3deg) scale(1.06);
+  }
+}
+.group:hover .menear-al-pasar {
+  animation: menear 0.6s ease-in-out;
+}
+
+@keyframes saltito {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.35) translateY(-3px);
+  }
+  70% {
+    transform: scale(0.92);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.saltito {
+  animation: saltito 0.5s ease-out;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Las secciones aparecen al llegar a ellas (solo si hay JavaScript; sin él se ven siempre). */
+.js-revelar [data-revelar]:not([data-visto]) {
+  opacity: 0;
+}
+.js-revelar [data-revelar][data-visto="si"] {
+  animation: aparecer 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes papelito {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x), var(--y)) rotate(var(--r));
+    opacity: 0;
+  }
+}
+.papelito {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 11px;
+  border-radius: 2px;
+  animation: papelito 1.1s cubic-bezier(0.15, 0.6, 0.3, 1) forwards;
+}
+
+@keyframes trazar {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.trazar {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: trazar 0.9s 0.3s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flotar,
+  .saltito,
+  .papelito,
+  .group:hover .menear-al-pasar,
+  .js-revelar [data-revelar][data-visto="si"] {
+    animation: none !important;
+  }
+  .js-revelar [data-revelar]:not([data-visto]) {
+    opacity: 1;
+  }
+  .trazar {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
 }

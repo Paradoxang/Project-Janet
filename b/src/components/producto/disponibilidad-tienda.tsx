@@ -39,7 +39,7 @@ export function DisponibilidadTienda({ tiendas, slug }: { tiendas: TiendaProduct
   const lista = ordenadas.slice(0, 3);
 
   return (
-    <section className="rounded-card border p-4" aria-labelledby="disponibilidad" data-testid="disponibilidad">
+    <section className="rounded-card bg-white p-4 shadow-tarjeta" aria-labelledby="disponibilidad" data-testid="disponibilidad">
       <h2 id="disponibilidad" className="flex items-center gap-2 text-lg">
         <MapPin className="size-5" aria-hidden="true" />
         {t("disponibilidad")}

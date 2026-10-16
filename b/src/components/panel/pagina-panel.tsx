@@ -50,7 +50,7 @@ function Kpi({
   }).format(Math.abs(cambio));
   const sube = cambio >= 0;
   return (
-    <article className="grid content-start gap-2 rounded-card border bg-white p-4" data-testid="kpi">
+    <article className="grid content-start gap-2 rounded-card bg-white p-4 shadow-tarjeta" data-testid="kpi">
       <h2 className="font-sans text-sm font-bold text-muted-ink">{titulo}</h2>
       <p className="font-sans text-[34px] leading-none font-extrabold">{valor}</p>
       <p className={cn("flex items-center gap-1 text-[13px] font-bold", sube ? "text-stock" : "text-out")}>
@@ -190,7 +190,7 @@ export function PaginaPanel({ panel, tiendas }: { panel: Panel; tiendas: Tienda[
         </ul>
       </section>
 
-      <section className="mt-8 rounded-card border p-4 md:p-5" aria-labelledby="grafico">
+      <section className="mt-8 rounded-card bg-white p-4 shadow-tarjeta md:p-5" aria-labelledby="grafico">
         <h2 id="grafico" className="text-xl">
           {t("grafico")}
         </h2>
@@ -204,7 +204,7 @@ export function PaginaPanel({ panel, tiendas }: { panel: Panel; tiendas: Tienda[
       </section>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
-        <section className="rounded-card border p-4 md:p-5" aria-labelledby="embudo" id="embudo">
+        <section className="rounded-card bg-white p-4 shadow-tarjeta md:p-5" aria-labelledby="embudo" id="embudo">
           <h2 id="titulo-embudo" className="text-xl">
             {t("camino")}
           </h2>
@@ -231,7 +231,7 @@ export function PaginaPanel({ panel, tiendas }: { panel: Panel; tiendas: Tienda[
           </div>
         </section>
 
-        <section className="rounded-card border p-4 md:p-5" aria-labelledby="mas-vendidos-panel">
+        <section className="rounded-card bg-white p-4 shadow-tarjeta md:p-5" aria-labelledby="mas-vendidos-panel">
           <h2 id="mas-vendidos-panel" className="text-xl">
             {t("masVendidos")}
           </h2>
@@ -264,7 +264,7 @@ export function PaginaPanel({ panel, tiendas }: { panel: Panel; tiendas: Tienda[
         </section>
       </div>
 
-      <section className="mt-8 rounded-card border p-4 md:p-5" aria-labelledby="stock" id="stock">
+      <section className="mt-8 rounded-card bg-white p-4 shadow-tarjeta md:p-5" aria-labelledby="stock" id="stock">
         <h2 id="titulo-stock" className="text-xl">
           {t("stock")}
         </h2>

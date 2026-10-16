@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { CircleCheck } from "lucide-react";
+import { Confeti } from "@/components/efectos/confeti";
 import { useCatalogo } from "@/components/proveedor-catalogo";
 import { Button } from "@/components/ui/button";
 import { useHidratado } from "@/hooks/use-hidratado";
@@ -32,7 +33,8 @@ export function Confirmacion() {
   }
   return (
     <div className="mx-auto max-w-3xl px-4 pt-6 md:px-6" data-testid="confirmacion">
-      <div className="flex flex-col items-center gap-4 rounded-card bg-warm px-5 py-8 text-center">
+      <div className="textura-puntos relative flex flex-col items-center gap-4 rounded-card bg-warm px-5 py-8 text-center">
+        <Confeti disparo={1} cantidad={36} />
         <Mascota className="h-40 w-32" />
         <h1 className="flex items-center gap-2 text-[26px] text-stock md:text-3xl">
           <CircleCheck className="size-7" aria-hidden="true" />
@@ -47,7 +49,7 @@ export function Confirmacion() {
         </p>
       </div>
 
-      <div className="mt-5 grid gap-4 rounded-card border p-4 md:p-5">
+      <div className="mt-5 grid gap-4 rounded-card bg-white p-4 shadow-tarjeta md:p-5">
         <p className="text-lg font-bold text-stock">{t("pago.llega", { fecha: fechaLarga(new Date(pedido.llega), locale) })}</p>
         <p className="text-sm">
           <b>{t("pago.enviadoA")}:</b> {pedido.nombre} · {pedido.direccion}

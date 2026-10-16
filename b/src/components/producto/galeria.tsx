@@ -37,8 +37,8 @@ export function Galeria({
   }, [api]);
 
   const vistas = [
-    <ImagenProducto key="a" illustration={illustration} tint={tint} alt={alt} prioridad className="rounded-card" />,
-    <ImagenProducto key="b" illustration={illustration} tint={tint} alt="" zoom={1.7} className="rounded-card" />,
+    <ImagenProducto key="a" illustration={illustration} tint={tint} alt={alt} prioridad className="textura-puntos rounded-card" />,
+    <ImagenProducto key="b" illustration={illustration} tint={tint} alt="" zoom={1.7} className="textura-puntos rounded-card" />,
     <div key="c" className={cn("relative grid aspect-square place-items-center rounded-card", FONDO_TINTE[tint])}>
       <div className="grid w-[70%] gap-4 text-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}

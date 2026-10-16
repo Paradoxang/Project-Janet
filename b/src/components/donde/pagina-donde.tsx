@@ -156,7 +156,7 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
       ) : null}
 
       <div className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1fr)_400px]">
-        <div className="h-[340px] overflow-hidden rounded-card border md:h-[520px]" data-testid="mapa">
+        <div className="h-[340px] overflow-hidden rounded-card shadow-tarjeta md:h-[520px]" data-testid="mapa">
           {hidratado ? (
             <MapaTiendas puntos={puntos} foco={foco} etiqueta={t("mapa")} alElegir={setFoco} />
           ) : (
@@ -171,7 +171,7 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
               <li
                 key={ti.id}
                 data-testid={`ficha-${ti.id}`}
-                className={cn("rounded-card border p-4", destacada && "border-2 border-stock", foco === ti.id && "bg-surface")}
+                className={cn("rounded-card bg-white p-4 shadow-tarjeta", destacada && "ring-2 ring-stock", foco === ti.id && "bg-surface")}
               >
                 {destacada ? (
                   <p className="mb-1 text-xs font-extrabold tracking-wide text-stock uppercase">{t("masCercana")}</p>

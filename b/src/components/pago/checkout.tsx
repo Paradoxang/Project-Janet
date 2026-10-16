@@ -131,7 +131,7 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
     router.push({ pathname: "/order", query: { id } });
   }
 
-  const caja = "rounded-card border p-4 md:p-5";
+  const caja = "rounded-card bg-white p-4 shadow-tarjeta md:p-5";
   const titulo = "mb-3 text-lg md:text-xl";
   const campo = (c: Campo, etiqueta: string, props: React.ComponentProps<typeof Input> = {}) => (
     <div className="grid gap-1.5">
@@ -301,7 +301,7 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
           </section>
         </div>
 
-        <aside className="grid gap-4 rounded-card border p-4 md:p-5 lg:sticky lg:top-12" aria-labelledby="paso5">
+        <aside className="grid gap-4 rounded-card bg-white p-4 shadow-tarjeta md:p-5 lg:sticky lg:top-12" aria-labelledby="paso5">
           <h2 id="paso5" className="text-lg">
             {t("pago.paso5")}
           </h2>

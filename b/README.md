@@ -39,7 +39,7 @@ proyecto en el panel (Settings → Build):
 
 | Ajuste | Valor |
 |---|---|
-| Nombre del proyecto | `maqueta-b` (igual que `name` en `wrangler.jsonc`) |
+| Nombre del proyecto | `maqueta-b-janet` (igual que `name` en `wrangler.jsonc`) |
 | Rama de producción | `demo` (solo se publica lo que llega ahí) |
 | Root directory | `b` |
 | Build command | `npm run build` |

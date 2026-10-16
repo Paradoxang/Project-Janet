@@ -43,7 +43,7 @@ export function PaginaCuenta() {
           </Button>
         </div>
       ) : (
-        <div className="mt-4 grid gap-3 rounded-card border p-5 md:max-w-md">
+        <div className="mt-4 grid gap-3 rounded-card bg-white p-5 shadow-tarjeta md:max-w-md">
           <Button type="button" variant="cta" size="lg" onClick={() => entrar("Demo Customer")} data-testid="entrar-demo">
             {t("entrar")}
           </Button>
@@ -63,7 +63,7 @@ export function PaginaCuenta() {
         ) : (
           <ul className="mt-3 grid gap-3">
             {pedidos.map((pedido) => (
-              <li key={pedido.id} className="rounded-card border" data-testid="pedido">
+              <li key={pedido.id} className="overflow-hidden rounded-card bg-white shadow-tarjeta" data-testid="pedido">
                 <div className="flex flex-wrap justify-between gap-2 border-b bg-surface px-4 py-2.5 text-[13px]">
                   <span>{t("pedidoDel", { fecha: fechaLarga(new Date(pedido.fecha), locale) })}</span>
                   <span className="font-bold">{precio(aDolares(pedido.total), locale)}</span>

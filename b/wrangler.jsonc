@@ -2,7 +2,7 @@
 // Sin código de servidor. El nombre debe coincidir con el del proyecto en el panel de Cloudflare.
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "maqueta-b",
+  "name": "maqueta-b-janet",
   "compatibility_date": "2026-10-15",
   "assets": {
     "directory": "./out",
