@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<title>Demo mockup</title>
+<script>
+  // Raíz: manda a /es/ si el navegador está en español, si no a /en/ (conserva ?marca=…)
+  (function () {
+    var l = ((navigator.languages && navigator.languages[0]) || navigator.language || "en").toLowerCase();
+    location.replace((l.indexOf("es") === 0 ? "/es/" : "/en/") + location.search);
+  })();
+</script>
+<noscript><meta http-equiv="refresh" content="0; url=/en/"></noscript>
+</head>
+<body></body>
+</html>

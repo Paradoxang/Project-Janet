@@ -1,0 +1,193 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/*
+  Dos marcas a la par, sobre las mismas pantallas:
+  - data-marca="neutra": sin marca ni mascota, con marcadores (placeholders).
+  - data-marca="brinco": la propuesta de marca 1 (ver /b/marca).
+  Las pantallas solo usan las variables --m-*; cambiar de marca es cambiar un atributo en <html>.
+*/
+:root,
+[data-marca="neutra"] {
+  --m-ink: #1f2328;
+  --m-muted-ink: #5b616e;
+  --m-brand: #3f4652;
+  --m-brand-ink: #ffffff;
+  --m-brand-text: #3f4652;
+  --m-cta: #1f2328;
+  --m-cta-ink: #ffffff;
+  --m-cta-hover: #3a3f47;
+  --m-buy: #ffffff;
+  --m-buy-ink: #1f2328;
+  --m-buy-border: #1f2328;
+  --m-surface: #f4f5f7;
+  --m-warm: #f4f5f7;
+  --m-line: #e2e4e9;
+  --m-input: #c9ced6;
+  --m-link: #1d5fbf;
+  --m-stock: #12805c;
+  --m-low: #9a5800;
+  --m-out: #c62f2f;
+  --m-star: #5b616e;
+  --m-demo: #1f2328;
+  --m-tint-cielo: #f1f2f4;
+  --m-tint-menta: #f1f2f4;
+  --m-tint-lila: #f1f2f4;
+  --m-tint-durazno: #f1f2f4;
+  --m-tint-limon: #f1f2f4;
+  --m-radius-card: 8px;
+  --m-radius-btn: 8px;
+  --m-radius-chip: 6px;
+  --m-font-display: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --m-font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --m-display-weight: 700;
+  --radius: 0.5rem;
+}
+
+[data-marca="brinco"] {
+  --m-ink: #1f2a44;
+  --m-muted-ink: #5a6478;
+  --m-brand: #f2753a;
+  --m-brand-ink: #1f2a44;
+  --m-brand-text: #b9480f;
+  --m-cta: #ffc940;
+  --m-cta-ink: #1f2a44;
+  --m-cta-hover: #ffbd1a;
+  --m-buy: #f2753a;
+  --m-buy-ink: #1f2a44;
+  --m-buy-border: #f2753a;
+  --m-surface: #f5f6f8;
+  --m-warm: #fff4ea;
+  --m-line: #e3e6eb;
+  --m-input: #c9ced6;
+  --m-link: #1d5fbf;
+  --m-star: #f2753a;
+  --m-demo: #1f2a44;
+  --m-tint-cielo: #dceeff;
+  --m-tint-menta: #ddf5ea;
+  --m-tint-lila: #ece6ff;
+  --m-tint-durazno: #ffe6d6;
+  --m-tint-limon: #fff5cc;
+  --m-radius-card: 14px;
+  --m-radius-btn: 999px;
+  --m-radius-chip: 999px;
+  --m-font-display: "Fredoka Variable", ui-rounded, system-ui, sans-serif;
+  --m-font-body: "Nunito Sans Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --m-display-weight: 600;
+  --radius: 0.875rem;
+}
+
+/* Lo que solo existe en una marca: se oculta en la otra (sin parpadeo y sin JS). */
+[data-marca="brinco"] .solo-neutra,
+[data-marca="neutra"] .solo-brinco,
+:root:not([data-marca]) .solo-brinco {
+  display: none !important;
+}
+
+@theme inline {
+  --color-ink: var(--m-ink);
+  --color-muted-ink: var(--m-muted-ink);
+  --color-brand: var(--m-brand);
+  --color-brand-ink: var(--m-brand-ink);
+  --color-brand-text: var(--m-brand-text);
+  --color-cta: var(--m-cta);
+  --color-cta-ink: var(--m-cta-ink);
+  --color-cta-hover: var(--m-cta-hover);
+  --color-buy: var(--m-buy);
+  --color-buy-ink: var(--m-buy-ink);
+  --color-buy-border: var(--m-buy-border);
+  --color-surface: var(--m-surface);
+  --color-warm: var(--m-warm);
+  --color-line: var(--m-line);
+  --color-link: var(--m-link);
+  --color-stock: var(--m-stock);
+  --color-low: var(--m-low);
+  --color-out: var(--m-out);
+  --color-star: var(--m-star);
+  --color-demo: var(--m-demo);
+  --color-tint-cielo: var(--m-tint-cielo);
+  --color-tint-menta: var(--m-tint-menta);
+  --color-tint-lila: var(--m-tint-lila);
+  --color-tint-durazno: var(--m-tint-durazno);
+  --color-tint-limon: var(--m-tint-limon);
+  --radius-card: var(--m-radius-card);
+  --radius-btn: var(--m-radius-btn);
+  --radius-chip: var(--m-radius-chip);
+  --font-display: var(--m-font-display);
+  --font-sans: var(--m-font-body);
+
+  /* Variables que usan los componentes de shadcn/ui */
+  --color-background: #ffffff;
+  --color-foreground: var(--m-ink);
+  --color-card: #ffffff;
+  --color-card-foreground: var(--m-ink);
+  --color-popover: #ffffff;
+  --color-popover-foreground: var(--m-ink);
+  --color-primary: var(--m-ink);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--m-surface);
+  --color-secondary-foreground: var(--m-ink);
+  --color-muted: var(--m-surface);
+  --color-muted-foreground: var(--m-muted-ink);
+  --color-accent: var(--m-surface);
+  --color-accent-foreground: var(--m-ink);
+  --color-destructive: var(--m-out);
+  --color-border: var(--m-line);
+  --color-input: var(--m-input);
+  --color-ring: var(--m-link);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-line outline-ring/50;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-display {
+    font-family: var(--m-font-display);
+    font-weight: var(--m-display-weight);
+  }
+}
+
+/* Pines del mapa de tiendas (Leaflet). El color sale de la marca activa. */
+.pin-tienda {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.3);
+  background: var(--m-brand);
+}
+.pin-tienda > span {
+  transform: rotate(45deg);
+  font: 800 13px/1 var(--m-font-body);
+  color: #fff;
+}
+.pin-si {
+  background: var(--m-stock);
+}
+.pin-no {
+  background: var(--m-out);
+}
+.pin-activo {
+  outline: 3px solid var(--m-ink);
+  outline-offset: 1px;
+}
+.leaflet-container {
+  font-family: var(--m-font-body);
+}
