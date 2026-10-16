@@ -23,6 +23,7 @@ import {
 import type { Idioma, Impuestos } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
 import { zipValido } from "@/lib/zip";
+import { registrarActividad } from "@/stores/actividad";
 import { useCarrito } from "@/stores/carrito";
 import { useCuenta } from "@/stores/cuenta";
 import { usePedidos } from "@/stores/pedidos";
@@ -138,6 +139,7 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
       regalo,
       cuenta: modo === "cuenta" ? usuario?.correo : undefined,
     });
+    registrarActividad({ tipo: "compra", total: totales.total });
     vaciar();
     router.push({ pathname: "/order", query: { id } });
   }

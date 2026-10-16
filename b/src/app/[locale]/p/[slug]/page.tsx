@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { TriangleAlert } from "lucide-react";
+import { RegistroVistaProducto } from "@/components/efectos/registro-actividad";
 import { CajaCompra } from "@/components/producto/caja-compra";
 import { DisponibilidadTienda } from "@/components/producto/disponibilidad-tienda";
 import { Estrellas } from "@/components/producto/estrellas";
@@ -53,6 +54,7 @@ export default async function PaginaProducto({ params }: { params: Promise<{ loc
 
   return (
     <div className="mx-auto max-w-7xl px-4 pt-3 md:px-6 md:pt-5">
+      <RegistroVistaProducto id={p.id} />
       <nav aria-label="breadcrumb" className="mb-3 text-[13px] text-muted-ink">
         <Link href="/search" className="hover:underline">
           {t("producto.migas")}

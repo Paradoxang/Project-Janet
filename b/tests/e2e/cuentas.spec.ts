@@ -36,7 +36,7 @@ test("la dueña entra con el correo de administración y ve el panel; al salir, 
   await page.getByTestId("campo-clave").fill("lo-que-sea");
   await page.getByTestId("boton-acceso").click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("¿Cómo va mi negocio?");
-  await expect(page.getByTestId("kpi")).toHaveCount(3);
+  await expect(page.getByTestId("kpi")).toHaveCount(7);
   await expect(page.getByTestId("enlace-cuenta")).toHaveAttribute("aria-label", "Panel de administración");
 
   await page.getByTestId("salir-admin").click();

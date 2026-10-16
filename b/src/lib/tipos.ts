@@ -84,11 +84,23 @@ export interface AvisoPanel {
   href?: string;
 }
 
+export type Dispositivo = "mobile" | "desktop" | "tablet";
+export type Fuente = "instagram" | "google" | "direct" | "facebook" | "email" | "tiktok";
+
 export interface Panel {
   days: DiaPanel[];
   funnel: { visitors: number; productViews: number; addedToCart: number; checkout: number; purchased: number };
   bestSellers: { productId: string; units: number; revenue: number }[];
   alerts: AvisoPanel[];
+  /** Por producto en los últimos 30 días: clics (vistas de la ficha), agregados al carrito y vendidos. */
+  products: { productId: string; views: number; addedToCart: number; units: number; revenue: number }[];
+  searches: { term: string; count: number; results: boolean }[];
+  devices: { device: Dispositivo; visitors: number; orders: number }[];
+  sources: { source: Fuente; visitors: number; orders: number }[];
+  customers: { newOrders: number; returningOrders: number };
+  states: { state: string; orders: number; revenue: number }[];
+  /** Pedidos por hora del día (0 a 23). */
+  hours: number[];
 }
 
 /** Lo mínimo de un producto que necesitan el buscador y el carrito en el navegador. */

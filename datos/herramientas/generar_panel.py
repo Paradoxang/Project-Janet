@@ -92,7 +92,71 @@ def main():
         },
     ]
 
-    datos = {"days": dias, "funnel": embudo, "bestSellers": mas_vendidos, "alerts": avisos}
+    # ——— Lo que se agregó el 16-10 (panel ampliado). Semilla aparte: lo de arriba no cambia. ———
+    extra = random.Random(2410)
+
+    # Clics y carrito por producto. El interés no siempre sigue a las ventas: el telescopio (p17) y el
+    # kit de robots (p18) se miran mucho y se venden poco; el arcoíris de madera (p05), al revés.
+    interes = {pid: peso * extra.uniform(0.8, 1.2) for pid, peso in PESOS.items()}
+    interes.update({"p17": 7.5, "p18": 7.0, "p05": 1.0})
+    total_interes = sum(interes.values())
+    carrito_peso = {pid: PESOS[pid] * extra.uniform(0.85, 1.2) for pid in PESOS}
+    total_carrito = sum(carrito_peso.values())
+    productos = []
+    for pid in sorted(PESOS):
+        u = round(unidades_totales * PESOS[pid] / peso_total)
+        productos.append({
+            "productId": pid,
+            "views": round(embudo["productViews"] * interes[pid] / total_interes),
+            "addedToCart": round(embudo["addedToCart"] * carrito_peso[pid] / total_carrito),
+            "units": u,
+            "revenue": round(u * PRECIOS[pid], 2),
+        })
+
+    # Lo que buscan (sin marcas). Las que no tienen resultados son lo que piden y no tienes.
+    busquedas = []
+    for i, (texto, hay) in enumerate([
+        ("magnetic tiles", True), ("regalo niño 5 años", True), ("teddy bear", True), ("play kitchen", False),
+        ("science kit", True), ("rc car", True), ("dollhouse", False), ("puzzle", True),
+        ("bike helmet", False), ("xilófono", True),
+    ]):
+        busquedas.append({"term": texto, "count": round(430 * 0.78 ** i * extra.uniform(0.92, 1.08)), "results": hay})
+
+    def reparto(pesos, total):
+        suma = sum(pesos.values())
+        return {k: round(total * v / suma) for k, v in pesos.items()}
+
+    dispositivos = [
+        {"device": k, "visitors": v, "orders": o}
+        for (k, v), o in zip(
+            reparto({"mobile": 68, "desktop": 26, "tablet": 6}, visitas).items(),
+            reparto({"mobile": 58, "desktop": 36, "tablet": 6}, compras).values(),
+        )
+    ]
+    origen_visitas = reparto({"instagram": 31, "google": 27, "direct": 18, "facebook": 11, "email": 8, "tiktok": 5}, visitas)
+    origen_pedidos = reparto({"instagram": 27, "google": 30, "direct": 21, "facebook": 8, "email": 11, "tiktok": 3}, compras)
+    fuentes = [{"source": k, "visitors": v, "orders": origen_pedidos[k]} for k, v in origen_visitas.items()]
+
+    nuevos = round(compras * 0.71)
+    clientes = {"newOrders": nuevos, "returningOrders": compras - nuevos}
+
+    ventas_act = sum(x["sales"] for x in actual)
+    estados = []
+    for codigo, peso in [("CA", 22), ("TX", 13), ("FL", 10), ("NY", 9), ("WA", 7), ("IL", 5)]:
+        estados.append({"state": codigo, "orders": round(compras * peso / 100), "revenue": round(ventas_act * peso / 100, 2)})
+
+    # Pedidos por hora: al mediodía y, sobre todo, de 8 a 10 de la noche (cuando los niños ya duermen).
+    forma = [
+        0.05 + math.exp(-((h - 12.5) ** 2) / 5) * 0.55 + math.exp(-((h - 21) ** 2) / 3) * 1.0 + extra.uniform(0, 0.06)
+        for h in range(24)
+    ]
+    horas = list(reparto({h: f for h, f in enumerate(forma)}, compras).values())
+
+    datos = {
+        "days": dias, "funnel": embudo, "bestSellers": mas_vendidos, "alerts": avisos,
+        "products": productos, "searches": busquedas, "devices": dispositivos, "sources": fuentes,
+        "customers": clientes, "states": estados, "hours": horas,
+    }
     with open(SALIDA, "w") as f:
         json.dump(datos, f, ensure_ascii=False, indent=2)
         f.write("\n")

@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { registrarActividad } from "./actividad";
 
 export interface LineaCarrito {
   id: string;
@@ -29,7 +30,8 @@ export const useCarrito = create<Carrito>()(
     (set) => ({
       lineas: [],
       regalo: false,
-      agregar: (id, qty = 1) =>
+      agregar: (id, qty = 1) => {
+        registrarActividad({ tipo: "carrito", producto: id });
         set((s) => {
           const existe = s.lineas.find((l) => l.id === id);
           if (existe) {
@@ -40,7 +42,8 @@ export const useCarrito = create<Carrito>()(
             };
           }
           return { lineas: [...s.lineas, { id, qty: Math.min(MAX_QTY, qty), guardado: false }] };
-        }),
+        });
+      },
       quitar: (id) => set((s) => ({ lineas: s.lineas.filter((l) => l.id !== id) })),
       setQty: (id, qty) =>
         set((s) => ({

@@ -463,5 +463,310 @@
         "es": "Prepara una guía de regalos por edad"
       }
     }
+  ],
+  "products": [
+    {
+      "productId": "p01",
+      "views": 307,
+      "addedToCart": 66,
+      "units": 30,
+      "revenue": 389.7
+    },
+    {
+      "productId": "p02",
+      "views": 752,
+      "addedToCart": 174,
+      "units": 74,
+      "revenue": 2219.26
+    },
+    {
+      "productId": "p03",
+      "views": 780,
+      "addedToCart": 143,
+      "units": 74,
+      "revenue": 1331.26
+    },
+    {
+      "productId": "p04",
+      "views": 984,
+      "addedToCart": 251,
+      "units": 103,
+      "revenue": 2573.97
+    },
+    {
+      "productId": "p05",
+      "views": 131,
+      "addedToCart": 77,
+      "units": 30,
+      "revenue": 569.7
+    },
+    {
+      "productId": "p06",
+      "views": 136,
+      "addedToCart": 39,
+      "units": 15,
+      "revenue": 299.85
+    },
+    {
+      "productId": "p07",
+      "views": 225,
+      "addedToCart": 78,
+      "units": 30,
+      "revenue": 689.7
+    },
+    {
+      "productId": "p08",
+      "views": 684,
+      "addedToCart": 161,
+      "units": 74,
+      "revenue": 1479.26
+    },
+    {
+      "productId": "p09",
+      "views": 880,
+      "addedToCart": 227,
+      "units": 88,
+      "revenue": 3519.12
+    },
+    {
+      "productId": "p10",
+      "views": 216,
+      "addedToCart": 67,
+      "units": 30,
+      "revenue": 749.7
+    },
+    {
+      "productId": "p11",
+      "views": 370,
+      "addedToCart": 106,
+      "units": 44,
+      "revenue": 967.56
+    },
+    {
+      "productId": "p12",
+      "views": 1361,
+      "addedToCart": 270,
+      "units": 133,
+      "revenue": 6648.67
+    },
+    {
+      "productId": "p13",
+      "views": 401,
+      "addedToCart": 111,
+      "units": 44,
+      "revenue": 879.56
+    },
+    {
+      "productId": "p14",
+      "views": 864,
+      "addedToCart": 201,
+      "units": 88,
+      "revenue": 3079.12
+    },
+    {
+      "productId": "p15",
+      "views": 326,
+      "addedToCart": 102,
+      "units": 44,
+      "revenue": 1011.56
+    },
+    {
+      "productId": "p16",
+      "views": 309,
+      "addedToCart": 58,
+      "units": 30,
+      "revenue": 509.7
+    },
+    {
+      "productId": "p17",
+      "views": 982,
+      "addedToCart": 28,
+      "units": 15,
+      "revenue": 674.85
+    },
+    {
+      "productId": "p18",
+      "views": 916,
+      "addedToCart": 137,
+      "units": 59,
+      "revenue": 2359.41
+    },
+    {
+      "productId": "p19",
+      "views": 307,
+      "addedToCart": 78,
+      "units": 30,
+      "revenue": 899.7
+    },
+    {
+      "productId": "p20",
+      "views": 277,
+      "addedToCart": 60,
+      "units": 30,
+      "revenue": 839.7
+    }
+  ],
+  "searches": [
+    {
+      "term": "magnetic tiles",
+      "count": 432,
+      "results": true
+    },
+    {
+      "term": "regalo niño 5 años",
+      "count": 327,
+      "results": true
+    },
+    {
+      "term": "teddy bear",
+      "count": 281,
+      "results": true
+    },
+    {
+      "term": "play kitchen",
+      "count": 214,
+      "results": false
+    },
+    {
+      "term": "science kit",
+      "count": 163,
+      "results": true
+    },
+    {
+      "term": "rc car",
+      "count": 134,
+      "results": true
+    },
+    {
+      "term": "dollhouse",
+      "count": 96,
+      "results": false
+    },
+    {
+      "term": "puzzle",
+      "count": 70,
+      "results": true
+    },
+    {
+      "term": "bike helmet",
+      "count": 61,
+      "results": false
+    },
+    {
+      "term": "xilófono",
+      "count": 47,
+      "results": true
+    }
+  ],
+  "devices": [
+    {
+      "device": "mobile",
+      "visitors": 18589,
+      "orders": 385
+    },
+    {
+      "device": "desktop",
+      "visitors": 7108,
+      "orders": 239
+    },
+    {
+      "device": "tablet",
+      "visitors": 1640,
+      "orders": 40
+    }
+  ],
+  "sources": [
+    {
+      "source": "instagram",
+      "visitors": 8474,
+      "orders": 179
+    },
+    {
+      "source": "google",
+      "visitors": 7381,
+      "orders": 199
+    },
+    {
+      "source": "direct",
+      "visitors": 4921,
+      "orders": 139
+    },
+    {
+      "source": "facebook",
+      "visitors": 3007,
+      "orders": 53
+    },
+    {
+      "source": "email",
+      "visitors": 2187,
+      "orders": 73
+    },
+    {
+      "source": "tiktok",
+      "visitors": 1367,
+      "orders": 20
+    }
+  ],
+  "customers": {
+    "newOrders": 471,
+    "returningOrders": 193
+  },
+  "states": [
+    {
+      "state": "CA",
+      "orders": 146,
+      "revenue": 6372.67
+    },
+    {
+      "state": "TX",
+      "orders": 86,
+      "revenue": 3765.67
+    },
+    {
+      "state": "FL",
+      "orders": 66,
+      "revenue": 2896.67
+    },
+    {
+      "state": "NY",
+      "orders": 60,
+      "revenue": 2607.0
+    },
+    {
+      "state": "WA",
+      "orders": 46,
+      "revenue": 2027.67
+    },
+    {
+      "state": "IL",
+      "orders": 33,
+      "revenue": 1448.33
+    }
+  ],
+  "hours": [
+    8,
+    9,
+    7,
+    10,
+    7,
+    7,
+    9,
+    7,
+    6,
+    11,
+    22,
+    39,
+    58,
+    55,
+    39,
+    24,
+    10,
+    11,
+    10,
+    35,
+    76,
+    100,
+    75,
+    31
   ]
 }

@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { useCatalogo } from "@/components/proveedor-catalogo";
 import { Precio } from "@/components/producto/precio";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
+import { registrarActividad } from "@/stores/actividad";
 
 /** Buscador con sugerencias desde la 2.ª letra (patrón combobox accesible). */
 export function Buscador({ className }: { className?: string }) {
@@ -33,6 +34,7 @@ export function Buscador({ className }: { className?: string }) {
   function irABusqueda() {
     const texto = q.trim();
     if (!texto) return;
+    registrarActividad({ tipo: "busqueda", texto });
     setAbierto(false);
     entrada.current?.blur();
     router.push({ pathname: "/search", query: { q: texto } });

@@ -7,6 +7,7 @@ import "@fontsource-variable/nunito-sans";
 import { Cabecera } from "@/components/cabecera/cabecera";
 import { PanelCarrito } from "@/components/carrito/panel-carrito";
 import { ObservadorRevelar } from "@/components/efectos/observador-revelar";
+import { RegistroVisitas } from "@/components/efectos/registro-actividad";
 import { FranjaDemo } from "@/components/franja-demo";
 import { Pie } from "@/components/pie";
 import { ProveedorCatalogo } from "@/components/proveedor-catalogo";
@@ -56,6 +57,7 @@ export default async function LayoutIdioma({
             <Pie />
             <PanelCarrito />
             <ObservadorRevelar />
+            <RegistroVisitas />
             <Toaster position="top-center" />
           </ProveedorCatalogo>
         </NextIntlClientProvider>

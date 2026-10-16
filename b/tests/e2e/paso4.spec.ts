@@ -27,7 +27,7 @@ test("dónde comprar: buscar por ZIP reordena por distancia", async ({ page }) =
 test("panel de la dueña: números con su explicación y avisos", async ({ page }) => {
   await entrarComoDuena(page);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("¿Cómo va mi negocio?");
-  await expect(page.getByTestId("kpi")).toHaveCount(3);
+  await expect(page.getByTestId("kpi")).toHaveCount(7);
   await expect(page.getByTestId("avisos")).toContainText("Los bloques magnéticos se agotaron");
   await expect(page.getByTestId("frase-camino")).toContainText("De cada 100 visitantes");
   await expect(page.getByTestId("grafico-ventas").locator("svg").first()).toBeVisible();
