@@ -31,7 +31,9 @@
     "otroIdiomaCorto": "EN",
     "irAlInicio": "Ir al inicio",
     "sugerencias": "Sugerencias",
-    "verTodos": "Ver todos los resultados de «{q}»"
+    "verTodos": "Ver todos los resultados de «{q}»",
+    "cuentaDe": "Tu cuenta: {nombre}",
+    "panel": "Panel de administración"
   },
   "nav": {
     "edad": "Compra por edad",
@@ -237,8 +239,8 @@
     "paso1": "1. ¿Cómo quieres pagar?",
     "invitado": "Pagar como invitado",
     "invitadoTexto": "Solo necesitas un correo para el recibo.",
-    "cuenta": "Entrar (cuenta de demostración)",
-    "cuentaTexto": "Usa una cuenta de demostración. No hace falta contraseña.",
+    "cuenta": "Comprar con mi cuenta",
+    "cuentaTexto": "Guarda el pedido en tu historial.",
     "correo": "Correo",
     "paso2": "2. Dirección de envío",
     "nombre": "Nombre completo",
@@ -272,14 +274,14 @@
     "seguir": "Seguir comprando",
     "verPedidos": "Tus pedidos",
     "regalo": "Pedido de regalo",
-    "resumen": "Resumen del pedido"
+    "resumen": "Resumen del pedido",
+    "cuentaEntrar": "Entrar o crear una cuenta",
+    "comprandoComo": "Comprando como {nombre} ({correo})",
+    "entraPrimero": "Entra en tu cuenta o elige pagar como invitado."
   },
   "cuenta": {
     "titulo": "Tu cuenta",
     "nota": "Cuenta de demostración: todo se guarda solo en este navegador.",
-    "entrar": "Entrar con la cuenta de demostración",
-    "registrarse": "Crear una cuenta (demo)",
-    "entrarTexto": "Sin contraseña: esta demo no guarda cuentas reales.",
     "hola": "Hola, {nombre}",
     "salir": "Salir",
     "pedidos": "Tus pedidos",
@@ -288,7 +290,10 @@
     "comprarOtraVez": "Comprar otra vez",
     "deseos": "Lista de deseos",
     "sinDeseos": "Tu lista de deseos está vacía. Toca el corazón de cualquier juguete para guardarlo.",
-    "quitar": "Quitar"
+    "quitar": "Quitar",
+    "admin": "Entraste como administradora",
+    "adminTexto": "Desde el panel ves cómo va la tienda y gestionas los productos.",
+    "irAlPanel": "Ir al panel"
   },
   "faq": {
     "titulo": "Preguntas frecuentes",
@@ -413,5 +418,44 @@
     "bien": "3 o más",
     "explicaStock": "Cuántas unidades hay en cada sitio. «Online» es la bodega que despacha los pedidos de la web; las tiendas solo muestran lo que el cliente encuentra en persona.",
     "producto": "Juguete"
+  },
+  "acceso": {
+    "tituloEntrar": "Entra en tu cuenta",
+    "tituloCrear": "Crea tu cuenta",
+    "nombre": "Tu nombre",
+    "correo": "Correo electrónico",
+    "clave": "Contraseña",
+    "claveNueva": "Contraseña (mínimo 8 caracteres)",
+    "mostrarClave": "Mostrar contraseña",
+    "ocultarClave": "Ocultar contraseña",
+    "olvide": "¿Olvidaste tu contraseña?",
+    "olvideTexto": "En la tienda real te llegaría un correo con un enlace para crear una nueva. En esta demo no se envían correos.",
+    "botonEntrar": "Entrar",
+    "botonCrear": "Crear mi cuenta",
+    "esNueva": "¿Es tu primera vez aquí?",
+    "irACrear": "Crear una cuenta",
+    "yaTienes": "¿Ya tienes cuenta?",
+    "irAEntrar": "Entrar",
+    "aviso": "Demo: tus datos se guardan solo en este navegador y la contraseña, cifrada. No uses datos reales.",
+    "pruebas": "Accesos para probar",
+    "pruebasCompradora": "Compradora: crea una cuenta con cualquier correo inventado.",
+    "pruebasDuena": "Dueña: {correo} con cualquier contraseña.",
+    "errores": {
+      "nombreVacio": "Escribe tu nombre.",
+      "correoInvalido": "Escribe un correo válido, como nombre@ejemplo.com.",
+      "claveCorta": "La contraseña debe tener al menos 8 caracteres.",
+      "claveVacia": "Escribe tu contraseña.",
+      "correoUsado": "Ya hay una cuenta con ese correo: entra con ella.",
+      "correoAdmin": "Ese correo es el de administración: úsalo para entrar, no para crear una cuenta.",
+      "credenciales": "El correo o la contraseña no coinciden."
+    },
+    "zonaAdmin": "Zona de administración",
+    "tituloAdmin": "Panel de la dueña",
+    "zonaAdminTexto": "Para ver el panel, entra con el correo de administración.",
+    "sinPermiso": "Entraste como {nombre}. Esta zona es solo para la dueña de la tienda.",
+    "cambiarCuenta": "Salir y entrar como dueña",
+    "barra": "Administración",
+    "verTienda": "Ver la tienda",
+    "salir": "Salir"
   }
 }

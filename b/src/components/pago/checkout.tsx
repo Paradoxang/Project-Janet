@@ -24,6 +24,7 @@ import type { Idioma, Impuestos } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
 import { zipValido } from "@/lib/zip";
 import { useCarrito } from "@/stores/carrito";
+import { useCuenta } from "@/stores/cuenta";
 import { usePedidos } from "@/stores/pedidos";
 import { usePreferencias } from "@/stores/preferencias";
 
@@ -48,17 +49,19 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
   const { lineas, regalo, vaciar } = useCarrito();
   const zipPreferido = usePreferencias((s) => s.zip);
   const guardarPedido = usePedidos((s) => s.guardar);
+  const usuario = useCuenta((s) => s.usuario);
 
-  const [modo, setModo] = useState<"invitado" | "cuenta">("invitado");
-  const [datos, setDatos] = useState<Record<Campo, string>>({
-    correo: "",
-    nombre: "",
+  const [modo, setModo] = useState<"invitado" | "cuenta">(() => (usuario ? "cuenta" : "invitado"));
+  const [datos, setDatos] = useState<Record<Campo, string>>(() => ({
+    correo: usuario?.correo ?? "",
+    nombre: usuario?.nombre ?? "",
     direccion: "",
     ciudad: "",
     estado: "",
     zip: "",
-  });
+  }));
   const [errores, setErrores] = useState<Partial<Record<Campo, string>>>({});
+  const [sinCuenta, setSinCuenta] = useState(false);
   const [envio, setEnvio] = useState<MetodoEnvio>("estandar");
   const [pago, setPago] = useState<Pago>("tarjeta");
 
@@ -92,6 +95,13 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
   };
 
   function validar(): boolean {
+    // «Comprar con mi cuenta» sin haber entrado: primero hay que entrar (o pagar como invitada).
+    const falta = modo === "cuenta" && !usuario;
+    setSinCuenta(falta);
+    if (falta) {
+      document.getElementById("entrar-para-pagar")?.focus();
+      return false;
+    }
     const e: Partial<Record<Campo, string>> = {};
     for (const c of Object.keys(datos) as Campo[]) if (!datos[c].trim()) e[c] = t("pago.obligatorio");
     if (datos.correo && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(datos.correo)) e.correo = t("pago.correoInvalido");
@@ -126,6 +136,7 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
       nombre: datos.nombre,
       direccion: `${datos.direccion}, ${datos.ciudad}, ${datos.estado} ${datos.zip}`,
       regalo,
+      cuenta: modo === "cuenta" ? usuario?.correo : undefined,
     });
     vaciar();
     router.push({ pathname: "/order", query: { id } });
@@ -174,7 +185,11 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
               value={modo}
               onValueChange={(v) => {
                 setModo(v as "invitado" | "cuenta");
-                if (v === "cuenta") setDatos((d) => ({ ...d, correo: "demo@example.com", nombre: d.nombre || "Demo Customer" }));
+                setSinCuenta(false);
+                if (v === "cuenta" && usuario) {
+                  setDatos((d) => ({ ...d, correo: usuario.correo, nombre: d.nombre || usuario.nombre }));
+                  setErrores((e) => ({ ...e, correo: undefined }));
+                }
               }}
               className="grid gap-2"
             >
@@ -192,7 +207,26 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
                 </Label>
               ))}
             </RadioGroup>
-            <div className="mt-3">{campo("correo", t("pago.correo"), { type: "email", autoComplete: "off", inputMode: "email" })}</div>
+            {modo === "invitado" ? (
+              <div className="mt-3">{campo("correo", t("pago.correo"), { type: "email", autoComplete: "off", inputMode: "email" })}</div>
+            ) : usuario ? (
+              <p className="mt-3 rounded-md bg-surface px-3 py-2 text-sm font-semibold" data-testid="comprando-como">
+                {t("pago.comprandoComo", { nombre: usuario.nombre || usuario.correo, correo: usuario.correo })}
+              </p>
+            ) : (
+              <div className="mt-3 grid gap-2">
+                <Button asChild variant="outline" size="lg">
+                  <Link id="entrar-para-pagar" href={{ pathname: "/account", query: { volver: "/checkout" } }} data-testid="entrar-para-pagar">
+                    {t("pago.cuentaEntrar")}
+                  </Link>
+                </Button>
+                {sinCuenta ? (
+                  <p role="alert" className="text-[13px] font-semibold text-out">
+                    {t("pago.entraPrimero")}
+                  </p>
+                ) : null}
+              </div>
+            )}
           </section>
 
           <section className={caja} aria-labelledby="paso2">

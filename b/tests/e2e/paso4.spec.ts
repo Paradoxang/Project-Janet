@@ -1,4 +1,4 @@
-import { expect, test } from "./fixtures";
+import { entrarComoDuena, expect, test } from "./fixtures";
 
 test("dónde comprar: desde el producto, Seattle sin stock y San Diego destacada", async ({ page }) => {
   await page.goto("/en/p/magnetic-tiles/");
@@ -25,7 +25,7 @@ test("dónde comprar: buscar por ZIP reordena por distancia", async ({ page }) =
 });
 
 test("panel de la dueña: números con su explicación y avisos", async ({ page }) => {
-  await page.goto("/es/panel/");
+  await entrarComoDuena(page);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("¿Cómo va mi negocio?");
   await expect(page.getByTestId("kpi")).toHaveCount(3);
   await expect(page.getByTestId("avisos")).toContainText("Los bloques magnéticos se agotaron");

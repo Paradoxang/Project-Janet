@@ -31,7 +31,9 @@
     "otroIdiomaCorto": "ES",
     "irAlInicio": "Go to home page",
     "sugerencias": "Suggestions",
-    "verTodos": "See all results for “{q}”"
+    "verTodos": "See all results for “{q}”",
+    "cuentaDe": "Your account: {nombre}",
+    "panel": "Admin dashboard"
   },
   "nav": {
     "edad": "Shop by age",
@@ -237,8 +239,8 @@
     "paso1": "1. How do you want to check out?",
     "invitado": "Check out as a guest",
     "invitadoTexto": "You only need an email for the receipt.",
-    "cuenta": "Sign in (demo account)",
-    "cuentaTexto": "Uses a demo account. No password needed.",
+    "cuenta": "Check out with my account",
+    "cuentaTexto": "Saves the order to your history.",
     "correo": "Email",
     "paso2": "2. Shipping address",
     "nombre": "Full name",
@@ -272,14 +274,14 @@
     "seguir": "Continue shopping",
     "verPedidos": "Your orders",
     "regalo": "Gift order",
-    "resumen": "Order summary"
+    "resumen": "Order summary",
+    "cuentaEntrar": "Sign in or create an account",
+    "comprandoComo": "Checking out as {nombre} ({correo})",
+    "entraPrimero": "Sign in to your account or choose guest checkout."
   },
   "cuenta": {
     "titulo": "Your account",
-    "nota": "Demo account: everything is saved only in this browser.",
-    "entrar": "Sign in with the demo account",
-    "registrarse": "Create an account (demo)",
-    "entrarTexto": "No password: this demo doesn’t store real accounts.",
+    "nota": "Demo account: everything stays in this browser only.",
     "hola": "Hello, {nombre}",
     "salir": "Sign out",
     "pedidos": "Your orders",
@@ -288,7 +290,10 @@
     "comprarOtraVez": "Buy it again",
     "deseos": "Wish list",
     "sinDeseos": "Your wish list is empty. Tap the heart on any toy to save it.",
-    "quitar": "Remove"
+    "quitar": "Remove",
+    "admin": "You’re signed in as the admin",
+    "adminTexto": "From the dashboard you see how the store is doing and manage the products.",
+    "irAlPanel": "Go to the dashboard"
   },
   "faq": {
     "titulo": "Frequently asked questions",
@@ -413,5 +418,44 @@
     "bien": "3 or more",
     "explicaStock": "How many units each place has. “Online” is the warehouse that ships web orders; the stores only show what customers can find in person.",
     "producto": "Toy"
+  },
+  "acceso": {
+    "tituloEntrar": "Sign in to your account",
+    "tituloCrear": "Create your account",
+    "nombre": "Your name",
+    "correo": "Email",
+    "clave": "Password",
+    "claveNueva": "Password (at least 8 characters)",
+    "mostrarClave": "Show password",
+    "ocultarClave": "Hide password",
+    "olvide": "Forgot your password?",
+    "olvideTexto": "In the real store you would get an email with a link to create a new one. This demo doesn’t send emails.",
+    "botonEntrar": "Sign in",
+    "botonCrear": "Create my account",
+    "esNueva": "New here?",
+    "irACrear": "Create an account",
+    "yaTienes": "Already have an account?",
+    "irAEntrar": "Sign in",
+    "aviso": "Demo: your details stay in this browser only and your password is encrypted. Don’t use real data.",
+    "pruebas": "Demo logins",
+    "pruebasCompradora": "Shopper: create an account with any made-up email.",
+    "pruebasDuena": "Owner: {correo} with any password.",
+    "errores": {
+      "nombreVacio": "Enter your name.",
+      "correoInvalido": "Enter a valid email, like name@example.com.",
+      "claveCorta": "Your password needs at least 8 characters.",
+      "claveVacia": "Enter your password.",
+      "correoUsado": "There’s already an account with that email: sign in with it.",
+      "correoAdmin": "That’s the admin email: use it to sign in, not to create an account.",
+      "credenciales": "The email or password doesn’t match."
+    },
+    "zonaAdmin": "Admin area",
+    "tituloAdmin": "Owner dashboard",
+    "zonaAdminTexto": "To see the dashboard, sign in with the admin email.",
+    "sinPermiso": "You’re signed in as {nombre}. This area is only for the store owner.",
+    "cambiarCuenta": "Sign out and sign in as the owner",
+    "barra": "Admin",
+    "verTienda": "View the store",
+    "salir": "Sign out"
   }
 }

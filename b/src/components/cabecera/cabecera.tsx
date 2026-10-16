@@ -1,10 +1,10 @@
 import { useTranslations } from "next-intl";
-import { User } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIAS, GRUPOS_EDAD, OCASIONES } from "@/lib/data";
 import type { GrupoEdad } from "@/lib/tipos";
 import { Logo } from "@/marca/marca";
 import { Buscador } from "./buscador";
+import { EnlaceCuenta } from "./enlace-cuenta";
 import { IconoCarrito } from "./icono-carrito";
 import { MenuMovil } from "./menu-movil";
 import { SelectorIdioma } from "./selector-idioma";
@@ -33,13 +33,7 @@ export function Cabecera() {
         </div>
         <div className="ml-auto flex items-center gap-1 md:ml-0">
           <SelectorIdioma />
-          <Link
-            href="/account"
-            aria-label={t("cabecera.cuenta")}
-            className="grid size-10 place-items-center rounded-md text-ink hover:bg-surface"
-          >
-            <User className="size-6" aria-hidden="true" />
-          </Link>
+          <EnlaceCuenta />
           <IconoCarrito />
         </div>
       </div>

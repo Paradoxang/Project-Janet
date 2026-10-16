@@ -4,12 +4,12 @@ import { useTranslations } from "next-intl";
 import { Heart } from "lucide-react";
 import { useHidratado } from "@/hooks/use-hidratado";
 import { cn } from "@/lib/utils";
-import { useCuenta } from "@/stores/cuenta";
+import { useCuenta, useDeseos } from "@/stores/cuenta";
 
 export function BotonDeseos({ id }: { id: string }) {
   const t = useTranslations("producto");
   const hidratado = useHidratado();
-  const deseos = useCuenta((s) => s.deseos);
+  const deseos = useDeseos();
   const alternar = useCuenta((s) => s.alternarDeseo);
   const guardado = hidratado && deseos.includes(id);
   return (

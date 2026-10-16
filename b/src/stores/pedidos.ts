@@ -17,6 +17,8 @@ export interface Pedido {
   nombre: string;
   direccion: string;
   regalo: boolean;
+  /** Correo de la cuenta con la que se compró (sin cuenta: invitada). */
+  cuenta?: string;
 }
 
 interface Pedidos {
