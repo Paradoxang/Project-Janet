@@ -6,7 +6,7 @@ export function FranjaDemo() {
   const t = useTranslations("demo");
   return (
     <div
-      className="sticky top-0 z-50 flex items-center justify-center gap-x-2 bg-demo px-3 py-1 text-center text-[11.5px] text-white sm:gap-x-3"
+      className="cabecera-tienda sticky top-0 z-50 flex items-center justify-center gap-x-2 bg-demo px-3 py-1 text-center text-[11.5px] text-white sm:gap-x-3"
       data-testid="franja-demo"
     >
       <span className="font-bold">{t("franja")}</span>

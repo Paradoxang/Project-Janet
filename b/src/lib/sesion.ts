@@ -42,6 +42,9 @@ export const ADMINISTRACION: Record<string, { nombre: string; invitado: boolean 
   "juan@example.com": { nombre: "Juan", invitado: true },
 };
 
+/** Nombre con el que se guarda la sesión en el navegador (también lo lee el script de <head> del panel). */
+export const GUARDADO_SESION = "cuenta";
+
 export const CLAVE_MINIMA = 8;
 const ITERACIONES = 100_000;
 

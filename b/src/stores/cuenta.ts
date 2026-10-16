@@ -8,6 +8,7 @@ import {
   crearCuenta,
   type CuentaGuardada,
   type ErrorSesion,
+  GUARDADO_SESION,
   type Usuario,
 } from "@/lib/sesion";
 
@@ -103,7 +104,7 @@ export const useCuenta = create<Cuenta>()(
         }),
     }),
     {
-      name: "cuenta",
+      name: GUARDADO_SESION,
       version: 1,
       partialize: ({ usuario, cuentas, deseos, avisos }) => ({ usuario, cuentas, deseos, avisos }),
       // v0 (hasta el 16-10): { nombre, deseos: string[] }, sin contraseñas. Se conservan los favoritos.

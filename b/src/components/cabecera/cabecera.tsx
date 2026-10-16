@@ -21,7 +21,7 @@ export const FONDO_EDAD: Record<GrupoEdad, string> = {
 export function Cabecera() {
   const t = useTranslations();
   return (
-    <header className="border-b bg-white">
+    <header className="cabecera-tienda border-b bg-white" data-testid="cabecera">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-2 gap-y-2 px-3 pt-2 pb-2 md:flex-nowrap md:gap-x-4 md:px-6">
         <MenuMovil edades={GRUPOS_EDAD} categorias={CATEGORIAS} ocasiones={OCASIONES} />
         <Link href="/" aria-label={t("cabecera.irAlInicio")} className="shrink-0 rounded-md">

@@ -11,7 +11,8 @@
   },
   "demo": {
     "franja": "Maqueta de demostración · datos de ejemplo",
-    "propuestaMarca": "Propuesta de marca"
+    "propuestaMarca": "Propuesta de marca",
+    "corto": "Demo"
   },
   "cabecera": {
     "buscar": "Busca juguetes, regalos y edades",

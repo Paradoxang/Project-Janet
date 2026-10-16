@@ -24,6 +24,7 @@ import { cn } from "@/lib/utils";
 import { useActividad } from "@/stores/actividad";
 import { useCatalogoLocal } from "@/stores/catalogo";
 import { FormularioProducto } from "./formulario-producto";
+import { ANCHO_PANEL } from "./solo-admin";
 
 type Formulario = { abierto: boolean; producto: Producto | null; vez: number };
 
@@ -73,7 +74,7 @@ export function PaginaCatalogo({ base }: { base: Producto[] }) {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pt-5 md:px-6">
+    <div className={cn(ANCHO_PANEL, "pt-5")}>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-[28px] md:text-4xl">{t("titulo")}</h1>

@@ -9,11 +9,13 @@ import { PanelCarrito } from "@/components/carrito/panel-carrito";
 import { ObservadorRevelar } from "@/components/efectos/observador-revelar";
 import { RegistroVisitas } from "@/components/efectos/registro-actividad";
 import { FranjaDemo } from "@/components/franja-demo";
+import { ModoPanel } from "@/components/panel/modo-panel";
 import { Pie } from "@/components/pie";
 import { ProveedorCatalogo } from "@/components/proveedor-catalogo";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
 import { getCatalogoLigero } from "@/lib/data";
+import { scriptModoPanel } from "@/lib/modo-panel";
 import { ICONOS, MARCA_INICIAL, scriptMarca } from "@/marca/script-marca";
 
 export function generateStaticParams() {
@@ -47,6 +49,7 @@ export default async function LayoutIdioma({
     <html lang={locale} data-marca={MARCA_INICIAL} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: scriptMarca() }} />
+        <script dangerouslySetInnerHTML={{ __html: scriptModoPanel() }} />
       </head>
       <body id="arriba">
         <NextIntlClientProvider>
@@ -58,6 +61,7 @@ export default async function LayoutIdioma({
             <PanelCarrito />
             <ObservadorRevelar />
             <RegistroVisitas />
+            <ModoPanel />
             <Toaster position="top-center" />
           </ProveedorCatalogo>
         </NextIntlClientProvider>

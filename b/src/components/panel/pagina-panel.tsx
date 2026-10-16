@@ -12,6 +12,7 @@ import { EnVivo } from "./en-vivo";
 import { GraficoVentas, type PuntoVentas } from "./grafico-ventas";
 import { Kpi, Tarjeta, useFormatos } from "./piezas";
 import { Busquedas, Clientes, ClicsVentas, Dispositivos, Estados, Horas, JugueteEstrella, Origen } from "./secciones";
+import { ANCHO_PANEL } from "./solo-admin";
 
 const DIA_MS = 86_400_000;
 
@@ -106,7 +107,7 @@ export function PaginaPanel({ panel, tiendas }: { panel: Panel; tiendas: Tienda[
   const pocos = filasStock.filter((fila) => !fila.celdas.includes(0) && fila.celdas.some((n) => n <= 2)).length;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pt-5 md:px-6">
+    <div className={cn(ANCHO_PANEL, "pt-5")}>
       <div className="flex items-start justify-between gap-4">
         <div>
           <span className="inline-block rounded-chip bg-surface px-2 py-0.5 text-xs font-bold text-muted-ink">{t("demo")}</span>

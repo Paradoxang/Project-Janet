@@ -93,6 +93,11 @@
   display: none !important;
 }
 
+/* En el panel de administración la cabecera de la tienda se recoge (data-panel: ver lib/modo-panel.ts). */
+[data-panel] .cabecera-tienda {
+  display: none;
+}
+
 @theme inline {
   --color-page: var(--m-page);
   --color-trazo: var(--m-trazo);

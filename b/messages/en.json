@@ -11,7 +11,8 @@
   },
   "demo": {
     "franja": "Demo mockup · sample data",
-    "propuestaMarca": "Brand proposal"
+    "propuestaMarca": "Brand proposal",
+    "corto": "Demo"
   },
   "cabecera": {
     "buscar": "Search toys, gifts and ages",
