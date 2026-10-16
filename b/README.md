@@ -31,3 +31,18 @@ La misma tienda tiene dos versiones, siempre a la par:
 - Todos los datos pasan por `src/lib/data.ts`, que hoy lee `/datos` y mañana leerá la API.
 - Lo de ejemplo se ve como ejemplo: hay franja de demo, tiendas DEMO, reseñas de ejemplo e «Illustrative image».
 - El pago no pide datos reales.
+
+## Publicar en Cloudflare
+
+Es un Worker con archivos estáticos: `wrangler.jsonc` sube la carpeta `out/` y no lleva código de servidor. Ajustes del
+proyecto en el panel (Settings → Build):
+
+| Ajuste | Valor |
+|---|---|
+| Nombre del proyecto | `maqueta-b` (igual que `name` en `wrangler.jsonc`) |
+| Rama de producción | `demo` (solo se publica lo que llega ahí) |
+| Root directory | `b` |
+| Build command | `npm run build` |
+| Deploy command | `npx wrangler deploy` |
+| Variable de build | `NODE_VERSION` = `22` |
+| Builds for non-production branches | Desactivado |

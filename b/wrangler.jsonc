@@ -1,0 +1,11 @@
+// Publicación en Cloudflare (Workers con archivos estáticos): sube la carpeta out/ que genera `npm run build`.
+// Sin código de servidor. El nombre debe coincidir con el del proyecto en el panel de Cloudflare.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "maqueta-b",
+  "compatibility_date": "2026-10-15",
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  }
+}
