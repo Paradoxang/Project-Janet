@@ -2,8 +2,11 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { LayoutDashboard, RotateCcw, UserRound } from "lucide-react";
+import { AvisosCorreo } from "@/components/cuenta/avisos-correo";
+import { DatosCuenta } from "@/components/cuenta/datos-cuenta";
 import { FormularioAcceso } from "@/components/cuenta/formulario-acceso";
 import { useCatalogo } from "@/components/proveedor-catalogo";
+import { FilaProductos } from "@/components/producto/fila-productos";
 import { TarjetaProducto } from "@/components/producto/tarjeta-producto";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
 import { Button } from "@/components/ui/button";
@@ -11,6 +14,7 @@ import { useHidratado } from "@/hooks/use-hidratado";
 import { Link, useRouter } from "@/i18n/navigation";
 import { srcProducto } from "@/lib/catalogo";
 import { aDolares, fechaLarga, precio } from "@/lib/formato";
+import { recomendar } from "@/lib/recomendar";
 import type { Usuario } from "@/lib/sesion";
 import type { Idioma } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
@@ -18,6 +22,14 @@ import { useCarrito } from "@/stores/carrito";
 import { useCarritoUI } from "@/stores/carrito-ui";
 import { useCuenta, useDeseos } from "@/stores/cuenta";
 import { usePedidos } from "@/stores/pedidos";
+
+const SECCIONES = [
+  ["recomendados", "te-puede-gustar"],
+  ["pedidos", "pedidos"],
+  ["deseos", "favoritos"],
+  ["datos", "datos"],
+  ["avisos", "avisos"],
+] as const;
 
 /** Adónde ir al entrar: a `?volver=/ruta` si viene (solo rutas de esta web); la dueña, al panel. */
 function destinoAlEntrar(usuario: Usuario): string | null {
@@ -31,7 +43,7 @@ export function PaginaCuenta() {
   const locale = useLocale() as Idioma;
   const router = useRouter();
   const hidratado = useHidratado();
-  const { porId } = useCatalogo();
+  const { porId, productos } = useCatalogo();
   const usuario = useCuenta((s) => s.usuario);
   const salir = useCuenta((s) => s.salir);
   const alternarDeseo = useCuenta((s) => s.alternarDeseo);
@@ -78,6 +90,8 @@ export function PaginaCuenta() {
   }
 
   const pedidos = todos.filter((p) => p.cuenta === usuario.correo);
+  const comprados = pedidos.flatMap((p) => p.lineas.map((l) => l.id));
+  const recomendados = recomendar(productos, [...deseos, ...comprados], 8);
 
   return (
     <div className="mx-auto max-w-5xl px-4 pt-5 md:px-6">
@@ -94,7 +108,32 @@ export function PaginaCuenta() {
         </Button>
       </div>
 
-      <section className="mt-8" aria-labelledby="mis-pedidos">
+      <nav aria-label={t("irA")} className="mt-4">
+        <ul className="relative flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {SECCIONES.map(([clave, ancla]) => (
+            <li key={clave} className="shrink-0">
+              <a
+                href={`#${ancla}`}
+                className="inline-flex h-8 items-center rounded-chip border bg-white px-3 text-[13px] font-bold hover:bg-surface"
+              >
+                {t(`nav.${clave}`)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {recomendados.length > 0 ? (
+        <section id="te-puede-gustar" className="mt-8 scroll-mt-14" aria-labelledby="titulo-recomendados">
+          <h2 id="titulo-recomendados" className="text-xl">
+            {t("recomendados")}
+          </h2>
+          <p className="mt-1 mb-3 text-sm text-muted-ink">{t("recomendadosTexto")}</p>
+          <FilaProductos productos={recomendados} />
+        </section>
+      ) : null}
+
+      <section id="pedidos" className="mt-8 scroll-mt-14" aria-labelledby="mis-pedidos">
         <h2 id="mis-pedidos" className="text-xl">
           {t("pedidos")}
         </h2>
@@ -143,7 +182,7 @@ export function PaginaCuenta() {
         )}
       </section>
 
-      <section className="mt-8" aria-labelledby="lista-deseos">
+      <section id="favoritos" className="mt-8 scroll-mt-14" aria-labelledby="lista-deseos">
         <h2 id="lista-deseos" className="text-xl">
           {t("deseos")}
         </h2>
@@ -169,6 +208,20 @@ export function PaginaCuenta() {
             })}
           </ul>
         )}
+      </section>
+
+      <section id="datos" className="mt-8 scroll-mt-14" aria-labelledby="titulo-datos">
+        <h2 id="titulo-datos" className="mb-3 text-xl">
+          {t("datos")}
+        </h2>
+        <DatosCuenta />
+      </section>
+
+      <section id="avisos" className="mt-8 scroll-mt-14" aria-labelledby="titulo-avisos">
+        <h2 id="titulo-avisos" className="mb-3 text-xl">
+          {t("avisos")}
+        </h2>
+        <AvisosCorreo pedidos={pedidos} />
       </section>
     </div>
   );

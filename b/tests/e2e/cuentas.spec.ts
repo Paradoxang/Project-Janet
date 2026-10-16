@@ -59,7 +59,7 @@ test("los favoritos de antes de entrar pasan a la cuenta", async ({ page }) => {
   await page.goto("/es/account/");
   await crearCuenta(page, ana);
   await expect(page.getByTestId("saludo")).toBeVisible();
-  await expect(page.getByTestId("tarjeta-producto")).toContainText("magnéticos");
+  await expect(page.locator("#favoritos").getByTestId("tarjeta-producto")).toContainText("magnéticos");
 });
 
 test("comprar con la cuenta: pide entrar, vuelve al pago y guarda el pedido en su historial", async ({ page }) => {
@@ -88,4 +88,64 @@ test("en el celular el panel no se sale de la pantalla", async ({ page }) => {
   await page.waitForLoadState("networkidle");
   const desborde = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(desborde).toBeLessThanOrEqual(0);
+});
+
+test("la compradora cambia su nombre y su contraseña; la vieja deja de servir", async ({ page }) => {
+  await page.goto("/es/account/");
+  await crearCuenta(page, ana);
+  await page.getByTestId("cuenta-nombre").fill("Ana María");
+  await page.getByTestId("guardar-nombre").click();
+  await expect(page.getByTestId("saludo")).toHaveText("Hola, Ana María");
+
+  await page.getByTestId("clave-actual").fill("no-es-esta");
+  await page.getByTestId("clave-nueva").fill("nueva-clave-1");
+  await page.getByTestId("clave-repite").fill("nueva-clave-1");
+  await page.getByTestId("cambiar-clave").click();
+  await expect(page.getByTestId("error-clave")).toHaveText("La contraseña actual no coincide.");
+  await page.getByTestId("clave-actual").fill(ana.clave);
+  await page.getByTestId("cambiar-clave").click();
+  await expect(page.getByTestId("error-clave")).toBeHidden();
+  await expect(page.getByTestId("clave-actual")).toHaveValue("");
+
+  await page.getByTestId("salir").click();
+  await page.getByTestId("campo-correo").fill(ana.correo);
+  await page.getByTestId("campo-clave").fill(ana.clave);
+  await page.getByTestId("boton-acceso").click();
+  await expect(page.getByTestId("error-acceso")).toBeVisible();
+  await page.getByTestId("campo-clave").fill("nueva-clave-1");
+  await page.getByTestId("boton-acceso").click();
+  await expect(page.getByTestId("saludo")).toHaveText("Hola, Ana María");
+});
+
+test("avisos por correo: la bandeja simulada muestra la bienvenida y la confirmación del pedido", async ({ page }) => {
+  await page.goto("/es/account/");
+  await crearCuenta(page, ana);
+  const bandeja = page.getByTestId("bandeja");
+  await expect(bandeja).toContainText("Te damos la bienvenida");
+
+  // Compra con su cuenta (ya entró: el pago viene con la cuenta elegida)
+  await page.goto("/es/p/magnetic-tiles/");
+  await page.getByTestId("caja-compra").getByTestId("comprar-ahora").click();
+  await expect(page.getByTestId("comprando-como")).toContainText(ana.correo);
+  await page.getByTestId("rellenar").click();
+  await page.getByTestId("hacer-pedido").click();
+  await expect(page).toHaveURL(/\/es\/order\/?\?id=DEMO-\d{6}/);
+
+  await page.goto("/es/account/");
+  await expect(bandeja).toContainText("Recibimos tu pedido DEMO-");
+  await page.getByTestId("aviso-pedidos").click();
+  await expect(bandeja).not.toContainText("Recibimos tu pedido");
+  await page.getByTestId("aviso-ofertas").click();
+  await expect(bandeja).toContainText("Ideas de regalo para esta semana");
+});
+
+test("te puede gustar: recomienda según sus favoritos, sin repetirlos", async ({ page }) => {
+  await page.goto("/es/p/magnetic-tiles/");
+  await page.getByTestId("deseos").click();
+  await page.goto("/es/account/");
+  await crearCuenta(page, ana);
+  const recomendados = page.locator("#te-puede-gustar").getByTestId("tarjeta-producto");
+  await expect(recomendados.first()).toBeVisible();
+  expect(await recomendados.count()).toBeGreaterThan(2);
+  await expect(recomendados.filter({ hasText: "Bloques magnéticos" })).toHaveCount(0);
 });

@@ -23,7 +23,9 @@ export type ErrorSesion =
   | "claveVacia"
   | "correoUsado"
   | "correoAdmin"
-  | "credenciales";
+  | "credenciales"
+  | "claveActual"
+  | "claveIgual";
 
 /** La dueña entra con este correo y, en la demo, con cualquier contraseña (decisión del 16-10). */
 export const CORREO_ADMIN = "admin@example.com";
@@ -66,6 +68,19 @@ export async function crearCuenta(
     cuenta: { nombre, sal, huella, creada: new Date().toISOString() },
     usuario: { correo, nombre, rol: "cliente" },
   };
+}
+
+/** Cambia la contraseña: pide la actual y guarda la huella de la nueva (con sal nueva). */
+export async function cambiarClave(
+  cuenta: CuentaGuardada,
+  actual: string,
+  nueva: string,
+): Promise<{ error: ErrorSesion } | { cuenta: CuentaGuardada }> {
+  const { huella } = await huellaClave(actual, cuenta.sal);
+  if (huella !== cuenta.huella) return { error: "claveActual" };
+  if (nueva.length < CLAVE_MINIMA) return { error: "claveCorta" };
+  if (nueva === actual) return { error: "claveIgual" };
+  return { cuenta: { ...cuenta, ...(await huellaClave(nueva)) } };
 }
 
 export async function comprobarEntrada(
