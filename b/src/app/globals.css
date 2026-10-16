@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* La tienda solo tiene versión clara: el modo oscuro del sistema no debe aplicar los dark: de shadcn (dejaba los campos grises). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
   Dos marcas a la par, sobre las mismas pantallas:
   - data-marca="neutra": sin marca ni mascota, con marcadores (placeholders).

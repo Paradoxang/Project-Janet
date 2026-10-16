@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { FONDO_EDAD } from "@/components/cabecera/cabecera";
+import { FONDO_EDAD } from "@/lib/constantes";
 import { Link } from "@/i18n/navigation";
 import type { GrupoEdad, ProductoLigero } from "@/lib/tipos";
 

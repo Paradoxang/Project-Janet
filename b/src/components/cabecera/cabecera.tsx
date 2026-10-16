@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { FONDO_EDAD } from "@/lib/constantes";
 import { CATEGORIAS, GRUPOS_EDAD, OCASIONES } from "@/lib/data";
-import type { GrupoEdad } from "@/lib/tipos";
 import { Logo } from "@/marca/marca";
 import { Buscador } from "./buscador";
 import { EnlaceCuenta } from "./enlace-cuenta";
@@ -9,14 +9,6 @@ import { IconoCarrito } from "./icono-carrito";
 import { MenuMovil } from "./menu-movil";
 import { SelectorIdioma } from "./selector-idioma";
 import { SelectorZip } from "./selector-zip";
-
-export const FONDO_EDAD: Record<GrupoEdad, string> = {
-  "0-12m": "bg-tint-cielo",
-  "1-2": "bg-tint-menta",
-  "3-4": "bg-tint-lila",
-  "5-7": "bg-tint-durazno",
-  "8+": "bg-tint-limon",
-};
 
 export function Cabecera() {
   const t = useTranslations();

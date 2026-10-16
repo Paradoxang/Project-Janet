@@ -2,11 +2,9 @@
 
 import { Fragment, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Check, ImagePlus, Minus, Plus, Trash2 } from "lucide-react";
+import { Check, ImagePlus, Trash2, Upload } from "lucide-react";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import {
   DATOS_VACIOS,
@@ -17,8 +15,10 @@ import {
   type CampoConError,
   type DatosProducto,
 } from "@/lib/catalogo";
-import { CATEGORIAS, GRUPOS_EDAD, OCASIONES } from "@/lib/constantes";
+import { CATEGORIAS, FONDO_EDAD, GRUPOS_EDAD, OCASIONES } from "@/lib/constantes";
 import {
+  AVISOS_SEGURIDAD,
+  avisoComun,
   conMayuscula,
   MATERIALES,
   UNIDADES_MEDIDA,
@@ -27,104 +27,24 @@ import {
   type UnidadPeso,
 } from "@/lib/detalles";
 import { reducirFoto } from "@/lib/foto";
-import type { Idioma, Producto, Texto, Tinte } from "@/lib/tipos";
+import type { Idioma, Producto, Tinte } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
+import { Caja, Campo, Fichas, Grupo, Interruptor, ListaPuntos, Pasos, TextoBilingue, Unidades } from "./campos";
 
 const TINTES: Tinte[] = ["cielo", "menta", "lila", "durazno", "limon"];
-const IDIOMAS: Idioma[] = ["es", "en"];
-const CAJA_TEXTO =
-  "w-full rounded-md border border-input bg-white px-3 py-2 text-base outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 md:text-sm";
 
-/** Un mismo dato en español y en inglés (la tienda es bilingüe). */
-function ParIdiomas({
-  id,
-  etiqueta,
-  valor,
-  alCambiar,
-  multilinea = false,
-  error,
-}: {
-  id: string;
-  etiqueta: string;
-  valor: Texto;
-  alCambiar: (v: Texto) => void;
-  multilinea?: boolean;
-  error?: string;
-}) {
-  const t = useTranslations("gestion.formulario");
+/** Una sección del formulario: tarjeta con título y para qué sirve. */
+function Seccion({ id, titulo, texto, children }: { id: string; titulo: string; texto: string; children: React.ReactNode }) {
   return (
-    <fieldset className="grid gap-2" aria-describedby={error ? `error-${id}` : undefined}>
-      <legend className="mb-1 text-sm font-bold">{etiqueta}</legend>
-      <div className="grid gap-2 sm:grid-cols-2">
-        {IDIOMAS.map((idioma) => (
-          <div key={idioma} className="grid gap-1">
-            <Label htmlFor={`${id}-${idioma}`} className="text-xs font-semibold text-muted-ink">
-              {t(idioma)}
-            </Label>
-            {multilinea ? (
-              <textarea
-                id={`${id}-${idioma}`}
-                rows={3}
-                value={valor[idioma]}
-                onChange={(e) => alCambiar({ ...valor, [idioma]: e.target.value })}
-                className={CAJA_TEXTO}
-              />
-            ) : (
-              <Input
-                id={`${id}-${idioma}`}
-                value={valor[idioma]}
-                onChange={(e) => alCambiar({ ...valor, [idioma]: e.target.value })}
-                aria-invalid={error ? true : undefined}
-                className="h-11 bg-white"
-                data-testid={`producto-${id}-${idioma}`}
-              />
-            )}
-          </div>
-        ))}
+    <section className="grid gap-5 rounded-card bg-white p-4 shadow-tarjeta sm:p-5" aria-labelledby={id}>
+      <div>
+        <h3 id={id} className="text-lg">
+          {titulo}
+        </h3>
+        <p className="text-[13px] text-muted-ink">{texto}</p>
       </div>
-      {error ? (
-        <p id={`error-${id}`} className="text-[13px] text-out">
-          {error}
-        </p>
-      ) : null}
-    </fieldset>
-  );
-}
-
-/** Elegir la unidad (cm, m, in; kg, lb) con un solo toque. */
-function Unidades<U extends UnidadMedida | UnidadPeso>({
-  nombre,
-  etiqueta,
-  opciones,
-  valor,
-  alCambiar,
-}: {
-  nombre: string;
-  etiqueta: string;
-  opciones: readonly U[];
-  valor: U;
-  alCambiar: (u: U) => void;
-}) {
-  const t = useTranslations("gestion.formulario");
-  const nombreUnidad = (u: UnidadMedida | UnidadPeso) => t(`unidades.${u}`);
-  return (
-    <div role="radiogroup" aria-label={etiqueta} className="flex h-11 shrink-0 items-stretch rounded-md border bg-surface p-0.5">
-      {opciones.map((u) => (
-        <label
-          key={u}
-          title={nombreUnidad(u)}
-          className={cn(
-            "grid min-w-10 cursor-pointer place-items-center rounded-[5px] px-2 text-sm font-bold text-muted-ink has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-ring/50",
-            valor === u && "bg-white text-ink shadow-sm",
-          )}
-          data-testid={`${nombre}-${u}`}
-        >
-          <input type="radio" name={nombre} value={u} checked={valor === u} onChange={() => alCambiar(u)} className="sr-only" />
-          <span aria-hidden="true">{u}</span>
-          <span className="sr-only">{nombreUnidad(u)}</span>
-        </label>
-      ))}
-    </div>
+      {children}
+    </section>
   );
 }
 
@@ -149,10 +69,12 @@ export function FormularioProducto({
   const [datos, setDatos] = useState<DatosProducto>(() => (producto ? datosDesdeProducto(producto) : DATOS_VACIOS));
   const [errores, setErrores] = useState<CampoConError[]>([]);
   const [errorFoto, setErrorFoto] = useState(false);
+  const [arrastrando, setArrastrando] = useState(false);
 
   const cambiar = <K extends keyof DatosProducto>(campo: K, valor: DatosProducto[K]) =>
     setDatos((d) => ({ ...d, [campo]: valor }));
   const error = (campo: CampoConError) => (errores.includes(campo) ? t(`errores.${campo}`) : undefined);
+  const alternar = <T,>(lista: T[], valor: T) => (lista.includes(valor) ? lista.filter((x) => x !== valor) : [...lista, valor]);
 
   async function subirFoto(archivo: File | undefined) {
     if (!archivo) return;
@@ -175,393 +97,402 @@ export function FormularioProducto({
     alGuardar(productoDesdeDatos(datos, producto ?? undefined));
   }
 
-  const numero = (campo: "precio" | "stock" | "diasEntrega", etiqueta: string, decimal = false) => (
-    <div className="grid gap-1">
-      <Label htmlFor={`producto-${campo}`}>{etiqueta}</Label>
-      <Input
-        id={`producto-${campo}`}
-        inputMode={decimal ? "decimal" : "numeric"}
-        value={datos[campo === "diasEntrega" ? "diasEntrega" : campo]}
-        onChange={(e) => cambiar(campo, e.target.value)}
-        aria-invalid={error(campo) ? true : undefined}
-        aria-describedby={error(campo) ? `error-${campo}` : undefined}
-        className="h-11 bg-white"
-        data-testid={`producto-${campo}`}
-      />
-      {error(campo) ? (
-        <p id={`error-${campo}`} className="text-[13px] text-out">
-          {error(campo)}
-        </p>
-      ) : null}
-    </div>
-  );
-
   const vistaPrevia = datos.imagen || datos.ilustracion ? srcProducto({ illustration: datos.ilustracion, imagen: datos.imagen }) : null;
-
-  /** − y + de las piezas: de 1 en 1; por debajo de 1 queda vacío («no aplica»). */
-  const sumarPiezas = (paso: number) =>
-    setDatos((d) => {
-      const actual = /^\d+$/.test(d.piezas.trim()) ? Number(d.piezas) : 0;
-      const nuevo = Math.min(9999, Math.max(0, actual + paso));
-      return { ...d, piezas: nuevo === 0 ? "" : String(nuevo) };
-    });
-  const alternarMaterial = (id: string) =>
-    setDatos((d) => ({
-      ...d,
-      materiales: d.materiales.includes(id) ? d.materiales.filter((x) => x !== id) : [...d.materiales, id],
-    }));
+  const nombreUnidad = (u: UnidadMedida | UnidadPeso) => t(`unidades.${u}`);
   /** Lo que el producto ya decía y no encaja en los campos (se conserva hasta que se rellenen). */
-  const hoyDice = (texto: string) =>
-    texto ? <p className="text-xs text-muted-ink">{t("hoyDice", { texto })}</p> : null;
-  const mensajeError = (campo: CampoConError) =>
-    error(campo) ? (
-      <p id={`error-${campo}`} className="text-[13px] text-out">
-        {error(campo)}
-      </p>
-    ) : null;
+  const hoyDice = (texto: string) => (texto ? <p className="text-xs text-muted-ink">{t("hoyDice", { texto })}</p> : null);
+  const comunes = new Set(datos.seguridad.map((a) => avisoComun(a)?.id).filter(Boolean));
 
   return (
     <Sheet open={abierto} onOpenChange={(v) => !v && alCerrar()}>
-      <SheetContent side="right" className="w-full overflow-y-auto bg-page sm:max-w-xl" data-testid="formulario-producto">
-        <SheetHeader>
+      <SheetContent side="right" className="w-full gap-0 bg-page p-0 sm:max-w-2xl" data-testid="formulario-producto">
+        <SheetHeader className="border-b bg-white px-5 pt-5 pb-4">
           <SheetTitle className="text-2xl">{producto ? t("tituloEditar") : t("tituloNuevo")}</SheetTitle>
           <SheetDescription>{t("descripcion")}</SheetDescription>
         </SheetHeader>
 
-        <form onSubmit={guardar} noValidate className="grid gap-6 px-4 pb-8">
-          <section className="grid gap-4 rounded-card bg-white p-4 shadow-tarjeta" aria-labelledby="f-basico">
-            <h3 id="f-basico" className="text-lg">
-              {t("seccionBasico")}
-            </h3>
-
-            <div className="grid gap-2" data-error={error("imagen") ? "si" : undefined} tabIndex={error("imagen") ? -1 : undefined}>
-              <p className="text-sm font-bold">{t("foto")}</p>
-              <div className="flex items-start gap-3">
-                <span className={cn("grid size-28 shrink-0 place-items-center rounded-card border", FONDO_TINTE[datos.tinte])}>
-                  {vistaPrevia ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={vistaPrevia} alt="" className="size-[82%] object-contain" data-testid="vista-previa" />
-                  ) : (
-                    <ImagePlus className="size-8 text-muted-ink" aria-hidden="true" />
+        <form onSubmit={guardar} noValidate className="flex min-h-0 flex-1 flex-col">
+          <div className="grid flex-1 content-start gap-5 overflow-y-auto px-4 py-5 sm:px-5">
+            <Seccion id="f-basico" titulo={t("seccionBasico")} texto={t("subBasico")}>
+              {/* Foto: se arrastra o se elige; o una ilustración. Con su color de fondo. */}
+              <div className="grid gap-3" data-error={error("imagen") ? "si" : undefined} tabIndex={error("imagen") ? -1 : undefined}>
+                <p className="text-[13px] font-bold text-ink">{t("foto")}</p>
+                <div
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setArrastrando(true);
+                  }}
+                  onDragLeave={() => setArrastrando(false)}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    setArrastrando(false);
+                    void subirFoto(e.dataTransfer.files?.[0]);
+                  }}
+                  className={cn(
+                    "flex items-center gap-4 rounded-xl border-2 border-dashed border-line p-3 transition-colors",
+                    arrastrando && "border-ink bg-surface",
+                    error("imagen") && "border-out/60",
                   )}
-                </span>
-                <div className="grid gap-2">
-                  <Label
-                    htmlFor="producto-foto"
-                    className="inline-flex h-10 cursor-pointer items-center gap-2 rounded-btn border bg-white px-4 text-sm font-bold hover:bg-surface"
-                  >
-                    <ImagePlus className="size-4" aria-hidden="true" />
-                    {t("subirFoto")}
-                  </Label>
-                  <input
-                    id="producto-foto"
-                    type="file"
-                    accept="image/*"
-                    className="sr-only"
-                    onChange={(e) => void subirFoto(e.target.files?.[0])}
-                    data-testid="producto-foto"
-                  />
-                  {datos.imagen ? (
-                    <Button type="button" variant="outline" size="sm" onClick={() => cambiar("imagen", "")}>
-                      <Trash2 aria-hidden="true" />
-                      {t("quitarFoto")}
-                    </Button>
-                  ) : null}
-                </div>
-              </div>
-              {errorFoto ? <p className="text-[13px] text-out">{t("errores.foto")}</p> : null}
-              <p className="mt-1 text-xs font-bold text-muted-ink">{t("oElige")}</p>
-              <ul className="grid grid-cols-5 gap-1.5 sm:grid-cols-10">
-                {ilustraciones.map((nombre) => (
-                  <li key={nombre}>
-                    <button
-                      type="button"
-                      aria-pressed={!datos.imagen && datos.ilustracion === nombre}
-                      aria-label={t("ilustracion", { nombre })}
-                      onClick={() => setDatos((d) => ({ ...d, ilustracion: nombre, imagen: "" }))}
-                      className={cn(
-                        "grid aspect-square w-full place-items-center rounded-md border-2 bg-surface",
-                        !datos.imagen && datos.ilustracion === nombre ? "border-ink" : "border-transparent hover:border-line",
-                      )}
-                      data-testid={`ilustracion-${nombre}`}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={`/productos/${nombre}.svg`} alt="" className="size-[80%]" loading="lazy" />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              {error("imagen") ? <p className="text-[13px] text-out">{error("imagen")}</p> : null}
-            </div>
-
-            <fieldset className="grid gap-1.5">
-              <legend className="mb-1 text-sm font-bold">{t("fondo")}</legend>
-              <div className="flex flex-wrap gap-2">
-                {TINTES.map((tinte) => (
-                  <label
-                    key={tinte}
-                    className={cn(
-                      "flex cursor-pointer items-center gap-1.5 rounded-chip border px-2.5 py-1 text-[13px] font-semibold",
-                      datos.tinte === tinte && "border-ink bg-surface",
+                  data-testid="zona-foto"
+                >
+                  <span className={cn("grid size-24 shrink-0 place-items-center rounded-lg sm:size-28", FONDO_TINTE[datos.tinte])}>
+                    {vistaPrevia ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={vistaPrevia} alt="" className="size-[82%] object-contain" data-testid="vista-previa" />
+                    ) : (
+                      <ImagePlus className="size-8 text-muted-ink" aria-hidden="true" />
                     )}
-                  >
-                    <input
-                      type="radio"
-                      name="tinte"
-                      value={tinte}
-                      checked={datos.tinte === tinte}
-                      onChange={() => cambiar("tinte", tinte)}
-                      className="sr-only"
-                    />
-                    <span className={cn("size-4 rounded-full border", FONDO_TINTE[tinte])} aria-hidden="true" />
-                    {t(`tintes.${tinte}`)}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-
-            <ParIdiomas id="titulo" etiqueta={t("nombre")} valor={datos.titulo} alCambiar={(v) => cambiar("titulo", v)} error={error("titulo")} />
-            <p className="-mt-2 text-xs text-muted-ink">{t("idiomasTexto")}</p>
-
-            <div className="grid gap-3 sm:grid-cols-3">
-              {numero("precio", t("precio"), true)}
-              {numero("stock", t("stock"))}
-              {numero("diasEntrega", t("dias"))}
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              {(
-                [
-                  ["edad", t("edad"), GRUPOS_EDAD, "edad"],
-                  ["categoria", t("categoria"), CATEGORIAS, "categoria"],
-                ] as const
-              ).map(([campo, etiqueta, opciones, prefijo]) => (
-                <div key={campo} className="grid gap-1">
-                  <Label htmlFor={`producto-${campo}`}>{etiqueta}</Label>
-                  <select
-                    id={`producto-${campo}`}
-                    value={datos[campo]}
-                    onChange={(e) => cambiar(campo, e.target.value as DatosProducto[typeof campo])}
-                    aria-invalid={error(campo) ? true : undefined}
-                    aria-describedby={error(campo) ? `error-${campo}` : undefined}
-                    className="h-11 rounded-md border border-input bg-white px-2 text-sm aria-invalid:border-out"
-                    data-testid={`producto-${campo}`}
-                  >
-                    <option value="">{t("elegir")}</option>
-                    {opciones.map((o) => (
-                      <option key={o} value={o}>
-                        {tr(`${prefijo}.${o}`)}
-                      </option>
-                    ))}
-                  </select>
-                  {error(campo) ? (
-                    <p id={`error-${campo}`} className="text-[13px] text-out">
-                      {error(campo)}
-                    </p>
-                  ) : null}
-                </div>
-              ))}
-            </div>
-
-            <fieldset className="grid gap-1.5">
-              <legend className="mb-1 text-sm font-bold">{t("ocasiones")}</legend>
-              <div className="flex flex-wrap gap-x-4 gap-y-2">
-                {OCASIONES.map((o) => (
-                  <label key={o} className="flex items-center gap-2 text-sm">
-                    <input
-                      type="checkbox"
-                      checked={datos.ocasiones.includes(o)}
-                      onChange={(e) =>
-                        cambiar("ocasiones", e.target.checked ? [...datos.ocasiones, o] : datos.ocasiones.filter((x) => x !== o))
-                      }
-                      className="size-4 accent-[var(--m-ink)]"
-                    />
-                    {tr(`ocasion.${o}`)}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-
-            <label className="flex items-center gap-2 text-sm font-semibold">
-              <input
-                type="checkbox"
-                checked={datos.masVendido}
-                onChange={(e) => cambiar("masVendido", e.target.checked)}
-                className="size-4 accent-[var(--m-ink)]"
-                data-testid="producto-mas-vendido"
-              />
-              {t("masVendido")}
-            </label>
-          </section>
-
-          <section className="grid gap-4 rounded-card bg-white p-4 shadow-tarjeta" aria-labelledby="f-ficha">
-            <h3 id="f-ficha" className="text-lg">
-              {t("seccionFicha")}
-            </h3>
-            <ParIdiomas id="resumen" etiqueta={t("resumen")} valor={datos.resumen} alCambiar={(v) => cambiar("resumen", v)} multilinea />
-            <ParIdiomas id="vinetas" etiqueta={t("vinetas")} valor={datos.vinetas} alCambiar={(v) => cambiar("vinetas", v)} multilinea />
-            <ParIdiomas id="seguridad" etiqueta={t("seguridad")} valor={datos.seguridad} alCambiar={(v) => cambiar("seguridad", v)} multilinea />
-          </section>
-
-          <section className="grid gap-4 rounded-card bg-white p-4 shadow-tarjeta" aria-labelledby="f-detalles">
-            <h3 id="f-detalles" className="text-lg">
-              {t("seccionDetalles")}
-            </h3>
-
-            <fieldset className="grid gap-1.5" aria-describedby="ayuda-medidas">
-              <legend className="mb-1 text-sm font-bold">{t("medidas")}</legend>
-              <div className="flex flex-wrap items-end gap-x-1.5 gap-y-2">
-                {(["largo", "ancho", "alto"] as const).map((eje, i) => (
-                  <Fragment key={eje}>
-                    {i > 0 ? (
-                      <span aria-hidden="true" className="pb-3 text-sm font-bold text-muted-ink">
-                        ×
-                      </span>
-                    ) : null}
-                    <div className="grid w-[4.5rem] gap-1">
-                      <Label htmlFor={`producto-${eje}`} className="text-xs font-semibold text-muted-ink">
-                        {t(eje)}
-                      </Label>
-                      <Input
-                        id={`producto-${eje}`}
-                        inputMode="decimal"
-                        value={datos.medidas[eje]}
-                        onChange={(e) => cambiar("medidas", { ...datos.medidas, [eje]: e.target.value })}
-                        aria-invalid={error("medidas") ? true : undefined}
-                        aria-describedby={error("medidas") ? "error-medidas" : undefined}
-                        className="h-11 bg-white"
-                        data-testid={`producto-${eje}`}
-                      />
+                  </span>
+                  <div className="grid gap-2">
+                    <p className="text-sm font-bold text-ink">{t("arrastraFoto")}</p>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <label
+                        htmlFor="producto-foto"
+                        className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-full border border-line bg-white px-3.5 text-[13px] font-bold hover:border-input has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-ink/15"
+                      >
+                        <Upload className="size-4" aria-hidden="true" />
+                        {datos.imagen ? t("cambiarFoto") : t("subirFoto")}
+                        <input
+                          id="producto-foto"
+                          type="file"
+                          accept="image/*"
+                          className="sr-only"
+                          onChange={(e) => void subirFoto(e.target.files?.[0])}
+                          data-testid="producto-foto"
+                        />
+                      </label>
+                      {datos.imagen ? (
+                        <Button type="button" variant="ghost" size="sm" onClick={() => cambiar("imagen", "")}>
+                          <Trash2 aria-hidden="true" />
+                          {t("quitarFoto")}
+                        </Button>
+                      ) : null}
                     </div>
-                  </Fragment>
-                ))}
-                <span className="ml-1.5">
-                  <Unidades
-                    nombre="unidad-medida"
-                    etiqueta={t("unidadMedidas")}
-                    opciones={UNIDADES_MEDIDA}
-                    valor={datos.medidas.unidad}
-                    alCambiar={(unidad) => cambiar("medidas", { ...datos.medidas, unidad })}
-                  />
-                </span>
-              </div>
-              <p id="ayuda-medidas" className="text-xs text-muted-ink">
-                {t("medidasTexto")}
-              </p>
-              {mensajeError("medidas")}
-              {hoyDice(datos.textoLibre.medidas)}
-            </fieldset>
-
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div className="grid content-start gap-1.5">
-                <Label htmlFor="producto-peso" className="font-bold">
-                  {t("peso")}
-                </Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="producto-peso"
-                    inputMode="decimal"
-                    value={datos.peso.valor}
-                    onChange={(e) => cambiar("peso", { ...datos.peso, valor: e.target.value })}
-                    aria-invalid={error("peso") ? true : undefined}
-                    aria-describedby={error("peso") ? "error-peso" : undefined}
-                    className="h-11 w-24 bg-white"
-                    data-testid="producto-peso"
-                  />
-                  <Unidades
-                    nombre="unidad-peso"
-                    etiqueta={t("unidadPeso")}
-                    opciones={UNIDADES_PESO}
-                    valor={datos.peso.unidad}
-                    alCambiar={(unidad) => cambiar("peso", { ...datos.peso, unidad })}
-                  />
+                    <p className="text-xs text-muted-ink">{t("formatos")}</p>
+                  </div>
                 </div>
-                {mensajeError("peso")}
-                {hoyDice(datos.textoLibre.peso)}
-              </div>
+                {errorFoto ? <p className="text-[13px] font-semibold text-out">{t("errores.foto")}</p> : null}
 
-              <div className="grid content-start gap-1.5">
-                <Label htmlFor="producto-piezas" className="font-bold">
-                  {t("piezas")}
-                </Label>
-                <div className="flex items-center gap-1.5">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="size-11 rounded-md"
-                    onClick={() => sumarPiezas(-1)}
-                    aria-label={t("menosPiezas")}
-                    data-testid="menos-piezas"
-                  >
-                    <Minus aria-hidden="true" />
-                  </Button>
-                  <Input
-                    id="producto-piezas"
-                    inputMode="numeric"
-                    value={datos.piezas}
-                    onChange={(e) => cambiar("piezas", e.target.value)}
-                    aria-invalid={error("piezas") ? true : undefined}
-                    aria-describedby={error("piezas") ? "error-piezas" : "ayuda-piezas"}
-                    className="h-11 w-16 bg-white text-center"
-                    data-testid="producto-piezas"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="size-11 rounded-md"
-                    onClick={() => sumarPiezas(1)}
-                    aria-label={t("masPiezas")}
-                    data-testid="mas-piezas"
-                  >
-                    <Plus aria-hidden="true" />
-                  </Button>
-                </div>
-                <p id="ayuda-piezas" className="text-xs text-muted-ink">
-                  {t("piezasTexto")}
-                </p>
-                {mensajeError("piezas")}
-              </div>
-            </div>
+                <p className="mt-1 text-xs font-bold text-muted-ink">{t("oElige")}</p>
+                <ul className="grid grid-cols-5 gap-1.5 sm:grid-cols-10">
+                  {ilustraciones.map((nombre) => {
+                    const elegida = !datos.imagen && datos.ilustracion === nombre;
+                    return (
+                      <li key={nombre}>
+                        <button
+                          type="button"
+                          aria-pressed={elegida}
+                          aria-label={t("ilustracion", { nombre })}
+                          onClick={() => setDatos((d) => ({ ...d, ilustracion: nombre, imagen: "" }))}
+                          className={cn(
+                            "grid aspect-square w-full place-items-center rounded-lg bg-surface outline-none hover:ring-2 hover:ring-input focus-visible:ring-4 focus-visible:ring-ink/20",
+                            elegida && "bg-white ring-2 ring-ink hover:ring-ink",
+                          )}
+                          data-testid={`ilustracion-${nombre}`}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={`/productos/${nombre}.svg`} alt="" className="size-[78%]" loading="lazy" />
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+                {error("imagen") ? <p className="text-[13px] font-semibold text-out">{error("imagen")}</p> : null}
 
-            <fieldset className="grid gap-1.5" aria-describedby="ayuda-materiales">
-              <legend className="mb-1 text-sm font-bold">{t("materiales")}</legend>
-              <p id="ayuda-materiales" className="-mt-1 text-xs text-muted-ink">
-                {t("materialesTexto")}
-              </p>
-              <div className="mt-1 flex flex-wrap gap-2" data-testid="lista-materiales">
-                {MATERIALES.map((m) => {
-                  const elegido = datos.materiales.includes(m.id);
-                  return (
+                <div role="radiogroup" aria-label={t("fondo")} className="flex items-center gap-2.5">
+                  <span aria-hidden="true" className="mr-1 text-xs font-bold text-muted-ink">
+                    {t("fondo")}
+                  </span>
+                  {TINTES.map((tinte) => (
                     <label
-                      key={m.id}
+                      key={tinte}
+                      title={t(`tintes.${tinte}`)}
                       className={cn(
-                        "flex cursor-pointer items-center gap-1 rounded-chip border px-3 py-1.5 text-[13px] font-semibold has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-ring/50",
-                        elegido ? "border-ink bg-ink text-white" : "bg-white hover:bg-surface",
+                        "grid size-8 cursor-pointer place-items-center rounded-full ring-1 ring-ink/15 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-ink/20",
+                        FONDO_TINTE[tinte],
+                        datos.tinte === tinte && "ring-2 ring-ink ring-offset-2",
                       )}
-                      data-testid={`material-${m.id}`}
+                      data-testid={`tinte-${tinte}`}
                     >
-                      <input type="checkbox" checked={elegido} onChange={() => alternarMaterial(m.id)} className="sr-only" />
-                      {elegido ? <Check className="size-3.5" aria-hidden="true" /> : null}
-                      {conMayuscula(m[locale])}
+                      <input
+                        type="radio"
+                        name="tinte"
+                        value={tinte}
+                        checked={datos.tinte === tinte}
+                        onChange={() => cambiar("tinte", tinte)}
+                        className="sr-only"
+                      />
+                      <span className="sr-only">{t(`tintes.${tinte}`)}</span>
+                      {datos.tinte === tinte ? <Check className="size-4 text-ink" aria-hidden="true" /> : null}
                     </label>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
-              {hoyDice(datos.textoLibre.materiales[locale] || datos.textoLibre.materiales[locale === "es" ? "en" : "es"])}
-            </fieldset>
-          </section>
 
-          <div className="grid gap-2">
+              <TextoBilingue
+                id="titulo"
+                etiqueta={t("nombre")}
+                valor={datos.titulo}
+                alCambiar={(v) => cambiar("titulo", v)}
+                ejemplo={t("ejNombre")}
+                error={error("titulo")}
+              />
+
+              <div className="grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-3">
+                <Campo
+                  etiqueta={t("precio")}
+                  htmlFor="producto-precio"
+                  ayuda={t("precioTexto")}
+                  error={error("precio")}
+                  idError="error-precio"
+                  className="col-span-2 sm:col-span-1"
+                >
+                  <Caja
+                    id="producto-precio"
+                    prefijo="$"
+                    sufijo="USD"
+                    inputMode="decimal"
+                    placeholder="0.00"
+                    value={datos.precio}
+                    onChange={(e) => cambiar("precio", e.target.value)}
+                    aria-invalid={error("precio") ? true : undefined}
+                    aria-describedby={error("precio") ? "error-precio" : undefined}
+                    data-testid="producto-precio"
+                  />
+                </Campo>
+                <Campo etiqueta={t("stock")} htmlFor="producto-stock" ayuda={t("stockTexto")} error={error("stock")} idError="error-stock">
+                  <Pasos
+                    id="stock"
+                    etiqueta={t("stock")}
+                    valor={datos.stock}
+                    alCambiar={(v) => cambiar("stock", v)}
+                    max={99_999}
+                    sufijo={t("uds")}
+                    error={Boolean(error("stock"))}
+                    describe={error("stock") ? "error-stock" : undefined}
+                  />
+                </Campo>
+                <Campo
+                  etiqueta={t("dias")}
+                  htmlFor="producto-diasEntrega"
+                  ayuda={t("diasTexto")}
+                  error={error("diasEntrega")}
+                  idError="error-diasEntrega"
+                >
+                  <Pasos
+                    id="diasEntrega"
+                    etiqueta={t("dias")}
+                    valor={datos.diasEntrega}
+                    alCambiar={(v) => cambiar("diasEntrega", v)}
+                    min={1}
+                    max={99}
+                    sufijo={t("diasCorto")}
+                    error={Boolean(error("diasEntrega"))}
+                    describe={error("diasEntrega") ? "error-diasEntrega" : undefined}
+                  />
+                </Campo>
+              </div>
+
+              <Grupo leyenda={t("edad")} error={error("edad")} idError="error-edad">
+                <Fichas
+                  nombre="edad"
+                  opciones={GRUPOS_EDAD.map((e) => ({ valor: e, texto: tr(`edadCorta.${e}`), punto: FONDO_EDAD[e] }))}
+                  elegidas={datos.edad ? [datos.edad] : []}
+                  alElegir={(e) => cambiar("edad", e)}
+                  invalido={Boolean(error("edad"))}
+                />
+              </Grupo>
+
+              <Grupo leyenda={t("categoria")} error={error("categoria")} idError="error-categoria">
+                <Fichas
+                  nombre="categoria"
+                  opciones={CATEGORIAS.map((c) => ({ valor: c, texto: tr(`categoria.${c}`) }))}
+                  elegidas={datos.categoria ? [datos.categoria] : []}
+                  alElegir={(c) => cambiar("categoria", c)}
+                  invalido={Boolean(error("categoria"))}
+                />
+              </Grupo>
+
+              <Grupo leyenda={t("ocasiones")} ayuda={t("ocasionesTexto")}>
+                <Fichas
+                  nombre="ocasion"
+                  varias
+                  opciones={OCASIONES.map((o) => ({ valor: o, texto: tr(`ocasion.${o}`) }))}
+                  elegidas={datos.ocasiones}
+                  alElegir={(o) => cambiar("ocasiones", alternar(datos.ocasiones, o))}
+                />
+              </Grupo>
+
+              <Interruptor
+                id="producto-mas-vendido"
+                titulo={t("masVendido")}
+                texto={t("masVendidoTexto")}
+                activo={datos.masVendido}
+                alCambiar={(v) => cambiar("masVendido", v)}
+              />
+            </Seccion>
+
+            <Seccion id="f-ficha" titulo={t("seccionFicha")} texto={t("subFicha")}>
+              <TextoBilingue
+                id="resumen"
+                etiqueta={t("resumen")}
+                valor={datos.resumen}
+                alCambiar={(v) => cambiar("resumen", v)}
+                ejemplo={t("ejResumen")}
+                multilinea
+              />
+              <ListaPuntos
+                id="vinetas"
+                etiqueta={t("vinetas")}
+                ayuda={t("vinetasTexto")}
+                puntos={datos.vinetas}
+                alCambiar={(v) => cambiar("vinetas", v)}
+                ejemplo={t("ejPunto")}
+                textoAgregar={t("agregarPunto")}
+              />
+              <ListaPuntos
+                id="seguridad"
+                etiqueta={t("seguridad")}
+                ayuda={t("seguridadTexto")}
+                puntos={datos.seguridad}
+                alCambiar={(v) => cambiar("seguridad", v)}
+                ejemplo={t("ejAviso")}
+                textoAgregar={t("agregarAviso")}
+                minimo={0}
+                fija={(p) => {
+                  const comun = avisoComun(p);
+                  return comun ? t(`avisosComunes.${comun.id}`) : undefined;
+                }}
+                extra={
+                  <Fichas
+                    nombre="aviso"
+                    varias
+                    opciones={AVISOS_SEGURIDAD.map((a) => ({ valor: a.id, texto: t(`avisosComunes.${a.id}`) }))}
+                    elegidas={AVISOS_SEGURIDAD.filter((a) => comunes.has(a.id)).map((a) => a.id)}
+                    alElegir={(id) => {
+                      const aviso = AVISOS_SEGURIDAD.find((a) => a.id === id)!;
+                      cambiar(
+                        "seguridad",
+                        comunes.has(id)
+                          ? datos.seguridad.filter((s) => avisoComun(s)?.id !== id)
+                          : [...datos.seguridad.filter((s) => s.es.trim() || s.en.trim()), { es: aviso.es, en: aviso.en }],
+                      );
+                    }}
+                  />
+                }
+              />
+            </Seccion>
+
+            <Seccion id="f-detalles" titulo={t("seccionDetalles")} texto={t("subDetalles")}>
+              <Grupo leyenda={t("medidas")} ayuda={t("medidasTexto")} error={error("medidas")} idError="error-medidas">
+                <div className="flex flex-wrap items-end gap-x-1.5 gap-y-2">
+                  {(["largo", "ancho", "alto"] as const).map((eje, i) => (
+                    <Fragment key={eje}>
+                      {i > 0 ? (
+                        <span aria-hidden="true" className="pb-3 text-sm font-bold text-muted-ink">
+                          ×
+                        </span>
+                      ) : null}
+                      <div className="grid w-[5.75rem] gap-1">
+                        <label htmlFor={`producto-${eje}`} className="text-xs font-semibold text-muted-ink">
+                          {t(eje)}
+                        </label>
+                        <Caja
+                          id={`producto-${eje}`}
+                          inputMode="decimal"
+                          placeholder="0"
+                          sufijo={datos.medidas.unidad}
+                          value={datos.medidas[eje]}
+                          onChange={(e) => cambiar("medidas", { ...datos.medidas, [eje]: e.target.value })}
+                          aria-invalid={error("medidas") ? true : undefined}
+                          aria-describedby={error("medidas") ? "error-medidas" : undefined}
+                          data-testid={`producto-${eje}`}
+                        />
+                      </div>
+                    </Fragment>
+                  ))}
+                  <span className="ml-1.5">
+                    <Unidades
+                      nombre="unidad-medida"
+                      etiqueta={t("unidadMedidas")}
+                      opciones={UNIDADES_MEDIDA}
+                      valor={datos.medidas.unidad}
+                      alCambiar={(unidad) => cambiar("medidas", { ...datos.medidas, unidad })}
+                      nombreUnidad={nombreUnidad}
+                    />
+                  </span>
+                </div>
+                {hoyDice(datos.textoLibre.medidas)}
+              </Grupo>
+
+              <div className="grid gap-x-3 gap-y-5 sm:grid-cols-2">
+                <Campo etiqueta={t("peso")} htmlFor="producto-peso" error={error("peso")} idError="error-peso">
+                  <div className="flex gap-2">
+                    <Caja
+                      id="producto-peso"
+                      inputMode="decimal"
+                      placeholder={t("ejPeso")}
+                      value={datos.peso.valor}
+                      onChange={(e) => cambiar("peso", { ...datos.peso, valor: e.target.value })}
+                      aria-invalid={error("peso") ? true : undefined}
+                      aria-describedby={error("peso") ? "error-peso" : undefined}
+                      className="flex-1"
+                      data-testid="producto-peso"
+                    />
+                    <Unidades
+                      nombre="unidad-peso"
+                      etiqueta={t("unidadPeso")}
+                      opciones={UNIDADES_PESO}
+                      valor={datos.peso.unidad}
+                      alCambiar={(unidad) => cambiar("peso", { ...datos.peso, unidad })}
+                      nombreUnidad={nombreUnidad}
+                    />
+                  </div>
+                  {hoyDice(datos.textoLibre.peso)}
+                </Campo>
+
+                <Campo etiqueta={t("piezas")} htmlFor="producto-piezas" ayuda={t("piezasTexto")} error={error("piezas")} idError="error-piezas">
+                  <Pasos
+                    id="piezas"
+                    etiqueta={t("piezas")}
+                    valor={datos.piezas}
+                    alCambiar={(v) => cambiar("piezas", v)}
+                    vacioEnCero
+                    marcador={t("noAplica")}
+                    error={Boolean(error("piezas"))}
+                    describe={error("piezas") ? "error-piezas" : undefined}
+                  />
+                </Campo>
+              </div>
+
+              <Grupo leyenda={t("materiales")} ayuda={t("materialesTexto")}>
+                <Fichas
+                  nombre="material"
+                  varias
+                  opciones={MATERIALES.map((m) => ({ valor: m.id, texto: conMayuscula(m[locale]) }))}
+                  elegidas={datos.materiales}
+                  alElegir={(id) => cambiar("materiales", alternar(datos.materiales, id))}
+                />
+                {hoyDice(datos.textoLibre.materiales[locale] || datos.textoLibre.materiales[locale === "es" ? "en" : "es"])}
+              </Grupo>
+            </Seccion>
+          </div>
+
+          {/* Pie fijo: el botón siempre a la vista */}
+          <div className="grid gap-2 border-t bg-white px-4 py-3 sm:px-5">
             {errores.length > 0 ? (
               <p role="alert" className="text-sm font-bold text-out" data-testid="error-producto">
                 {t("revisa")}
               </p>
             ) : null}
-            <Button type="submit" variant="cta" size="xl" data-testid="guardar-producto">
-              {producto ? t("guardar") : t("crear")}
-            </Button>
+            <div className="flex gap-2">
+              <Button type="button" variant="outline" size="xl" onClick={alCerrar} className="flex-1 sm:flex-none">
+                {t("cancelar")}
+              </Button>
+              <Button type="submit" variant="cta" size="xl" className="flex-[2] sm:ml-auto sm:flex-none sm:px-10" data-testid="guardar-producto">
+                {producto ? t("guardar") : t("crear")}
+              </Button>
+            </div>
           </div>
         </form>
       </SheetContent>

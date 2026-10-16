@@ -14,7 +14,7 @@ import {
   type DatosProducto,
 } from "@/lib/catalogo";
 import { getCatalogoLigero, getProducts } from "@/lib/data";
-import { MEDIDAS_VACIAS } from "@/lib/detalles";
+import { AVISOS_SEGURIDAD, avisoComun, MEDIDAS_VACIAS } from "@/lib/detalles";
 
 const datos: DatosProducto = {
   ...DATOS_VACIOS,
@@ -24,7 +24,11 @@ const datos: DatosProducto = {
   edad: "3-4",
   categoria: "pretend",
   ilustracion: "tea-set",
-  vinetas: { es: "Horno que se abre\n\n  Incluye 6 utensilios ", en: "" },
+  vinetas: [
+    { es: "Horno que se abre", en: "" },
+    { es: "", en: "" },
+    { es: "  Incluye 6 utensilios ", en: "" },
+  ],
 };
 
 describe("catálogo con los cambios de la dueña", () => {
@@ -121,10 +125,37 @@ describe("catálogo con los cambios de la dueña", () => {
     expect(con({ piezas: "12" })).toEqual([]);
   });
 
-  it("editar un juguete de ejemplo sin tocar sus detalles los deja idénticos (los 20)", async () => {
+  it("editar un juguete de ejemplo sin tocar nada lo deja idéntico (los 20)", async () => {
     for (const p of await getProducts()) {
-      expect(productoDesdeDatos(datosDesdeProducto(p), p).specs).toEqual(p.specs);
+      expect(productoDesdeDatos(datosDesdeProducto(p), p)).toEqual(p);
     }
+  });
+
+  it("los puntos y las advertencias van en pares de idioma; si falta uno, se usa el otro", () => {
+    const p = productoDesdeDatos({
+      ...datos,
+      vinetas: [
+        { es: "Horno que se abre", en: "Oven door opens" },
+        { es: "Incluye 6 utensilios", en: "" },
+        { es: "", en: "" },
+      ],
+      seguridad: [{ es: AVISOS_SEGURIDAD[0].es, en: AVISOS_SEGURIDAD[0].en }, { es: "", en: "Not for outdoor use" }],
+    });
+    expect(p.bullets).toEqual({
+      es: ["Horno que se abre", "Incluye 6 utensilios"],
+      en: ["Oven door opens", "Incluye 6 utensilios"],
+    });
+    expect(p.safety.en).toEqual([AVISOS_SEGURIDAD[0].en, "Not for outdoor use"]);
+    expect(p.safety.es[1]).toBe("Not for outdoor use");
+  });
+
+  it("al editar, las advertencias comunes se reconocen y el orden se conserva", async () => {
+    const todos = await getProducts();
+    const carro = todos.find((p) => p.id === "p14")!;
+    const seguridad = datosDesdeProducto(carro).seguridad;
+    expect(seguridad.map((a) => avisoComun(a)?.id ?? "propia")).toEqual(["propia", "pilas"]);
+    const ids = todos.flatMap((p) => datosDesdeProducto(p).seguridad.map((a) => avisoComun(a)?.id)).filter(Boolean);
+    expect(new Set(ids)).toEqual(new Set(["asfixia", "empaque", "pilas", "proyectiles"]));
   });
 
   it("lo escrito antes sin unidad (como «85» o «C») se conserva hasta que se rellenan los campos", async () => {

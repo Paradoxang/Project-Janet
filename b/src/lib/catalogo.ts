@@ -13,7 +13,7 @@ import {
   type Medidas,
   type Peso,
 } from "./detalles";
-import type { Categoria, GrupoEdad, Ocasion, Producto, ProductoLigero, Texto, Tinte } from "./tipos";
+import type { Categoria, GrupoEdad, Lista, Ocasion, Producto, ProductoLigero, Texto, Tinte } from "./tipos";
 
 export interface CambiosCatalogo {
   /** Productos creados por la dueña. */
@@ -94,10 +94,10 @@ export function aSlug(texto: string): string {
 export interface DatosProducto {
   titulo: Texto;
   resumen: Texto;
-  /** «Sobre este artículo»: una idea por línea. */
-  vinetas: Texto;
-  /** Advertencias de seguridad: una por línea. */
-  seguridad: Texto;
+  /** «Sobre este artículo»: cada punto en los dos idiomas. */
+  vinetas: Texto[];
+  /** Advertencias de seguridad, en orden: las comunes (lib/detalles.ts) y las propias, cada una en los dos idiomas. */
+  seguridad: Texto[];
   precio: string;
   stock: string;
   diasEntrega: string;
@@ -152,14 +152,18 @@ export function validarProducto(d: DatosProducto): CampoConError[] {
   return errores;
 }
 
-const lineas = (texto: string) =>
-  texto
-    .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean);
-
 /** Si falta un idioma, se usa el otro (la tienda es bilingüe). */
 const ambos = (t: Texto): Texto => ({ en: t.en.trim() || t.es.trim(), es: t.es.trim() || t.en.trim() });
+
+/** Puntos del formulario → listas de la ficha (sin los vacíos y con el idioma que falte). */
+function aLista(puntos: Texto[]): Lista {
+  const llenos = puntos.map(ambos).filter((p) => p.es);
+  return { es: llenos.map((p) => p.es), en: llenos.map((p) => p.en) };
+}
+
+/** Listas de la ficha → un punto por idea, con sus dos idiomas juntos. */
+const aPuntos = (l: Lista): Texto[] =>
+  Array.from({ length: Math.max(l.es.length, l.en.length) }, (_, i) => ({ es: l.es[i] ?? "", en: l.en[i] ?? "" }));
 
 /** Producto a partir del formulario. Con `anterior`, conserva lo que el formulario no toca (reseñas, etc.). */
 export function productoDesdeDatos(d: DatosProducto, anterior?: Producto, id?: string): Producto {
@@ -187,15 +191,12 @@ export function productoDesdeDatos(d: DatosProducto, anterior?: Producto, id?: s
     keywords: { en: [], es: [] },
     reviews: [],
   };
-  const resumen = ambos(d.resumen);
-  const vinetas = ambos(d.vinetas);
-  const seguridad = ambos(d.seguridad);
   return {
     ...base,
     title: titulo,
-    summary: resumen,
-    bullets: { en: lineas(vinetas.en), es: lineas(vinetas.es) },
-    safety: { en: lineas(seguridad.en), es: lineas(seguridad.es) },
+    summary: ambos(d.resumen),
+    bullets: aLista(d.vinetas),
+    safety: aLista(d.seguridad),
     price: Math.round(Number(d.precio) * 100) / 100,
     stockOnline: Number(d.stock),
     deliveryDays: Number(d.diasEntrega),
@@ -247,8 +248,8 @@ export function datosDesdeProducto(p: Producto): DatosProducto {
   return {
     titulo: { ...p.title },
     resumen: { ...p.summary },
-    vinetas: { en: p.bullets.en.join("\n"), es: p.bullets.es.join("\n") },
-    seguridad: { en: p.safety.en.join("\n"), es: p.safety.es.join("\n") },
+    vinetas: aPuntos(p.bullets),
+    seguridad: aPuntos(p.safety),
     precio: String(p.price),
     stock: String(p.stockOnline),
     diasEntrega: String(p.deliveryDays),
@@ -274,8 +275,8 @@ export function datosDesdeProducto(p: Producto): DatosProducto {
 export const DATOS_VACIOS: DatosProducto = {
   titulo: { en: "", es: "" },
   resumen: { en: "", es: "" },
-  vinetas: { en: "", es: "" },
-  seguridad: { en: "", es: "" },
+  vinetas: [],
+  seguridad: [],
   precio: "",
   stock: "10",
   diasEntrega: "3",

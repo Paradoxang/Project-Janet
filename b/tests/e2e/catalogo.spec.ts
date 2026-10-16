@@ -20,9 +20,12 @@ test("la dueña crea un juguete con foto y aparece en la tienda; se puede compra
   await expect(formulario.getByTestId("vista-previa")).toHaveAttribute("src", /^data:image\/jpeg/);
   await formulario.getByTestId("producto-titulo-es").fill("Cocinita de madera con horno");
   await formulario.getByTestId("producto-precio").fill("59.90");
-  await formulario.getByTestId("producto-edad").selectOption("3-4");
-  await formulario.getByTestId("producto-categoria").selectOption("pretend");
-  await formulario.locator("#vinetas-es").fill("Horno que se abre\nIncluye 6 utensilios");
+  await formulario.getByTestId("edad-3-4").click();
+  await formulario.getByTestId("categoria-pretend").click();
+  await formulario.getByTestId("vinetas-es-0").fill("Horno que se abre");
+  await formulario.getByTestId("vinetas-es-0").press("Enter");
+  await expect(formulario.getByTestId("vinetas-es-1")).toBeFocused();
+  await page.keyboard.type("Incluye 6 utensilios");
   await formulario.getByTestId("guardar-producto").click();
   await expect(formulario).toBeHidden();
   await expect(page.getByTestId("fila-producto")).toHaveCount(21);
@@ -95,8 +98,8 @@ test("los detalles se piden con su unidad, las piezas con − y + y los material
   await formulario.getByTestId("ilustracion-tea-set").click();
   await formulario.getByTestId("producto-titulo-es").fill("Cocina de madera con horno");
   await formulario.getByTestId("producto-precio").fill("89");
-  await formulario.getByTestId("producto-edad").selectOption("3-4");
-  await formulario.getByTestId("producto-categoria").selectOption("pretend");
+  await formulario.getByTestId("edad-3-4").click();
+  await formulario.getByTestId("categoria-pretend").click();
 
   // Medidas: con letras (o sin el ancho) no deja guardar
   await formulario.getByTestId("producto-largo").fill("sesenta");
@@ -161,4 +164,59 @@ test("al editar un juguete de ejemplo, trae sus medidas y su peso con la unidad,
     "No requiere",
     "1",
   ]);
+});
+
+test("el formulario se llena sin cajas en blanco: pestañas de idioma, pasos, fichas, interruptor y advertencias comunes", async ({
+  page,
+}) => {
+  await entrarComoDuena(page);
+  await page.goto("/es/panel/catalogo/");
+  await page.getByTestId("nuevo-producto").click();
+  const formulario = page.getByTestId("formulario-producto");
+  await formulario.getByTestId("ilustracion-teddy-bear").click();
+
+  // Nombre: un idioma a la vez; el inglés vacío dice qué se usará
+  await formulario.getByTestId("producto-titulo-es").fill("Osito de apego");
+  await formulario.getByTestId("idioma-titulo-en").click();
+  await expect(formulario.getByTestId("producto-titulo-en")).toHaveAttribute("placeholder", "Si lo dejas vacío: «Osito de apego»");
+  await formulario.getByTestId("producto-titulo-en").fill("Cuddle bear");
+  await expect(formulario.getByTestId("idioma-titulo-es")).toHaveAccessibleName("Español (ya escrito)");
+
+  // Precio, inventario y entrega en una fila: mismas alturas y alineados
+  await formulario.getByTestId("producto-precio").fill("19.99");
+  await formulario.getByTestId("mas-stock").click();
+  await expect(formulario.getByTestId("producto-stock")).toHaveValue("11");
+  await formulario.getByTestId("menos-diasEntrega").click();
+  await expect(formulario.getByTestId("producto-diasEntrega")).toHaveValue("2");
+  const cajas = await Promise.all(
+    ["producto-precio", "producto-stock", "producto-diasEntrega"].map((id) => formulario.getByTestId(id).boundingBox()),
+  );
+  expect(new Set(cajas.map((c) => Math.round(c!.height))).size).toBe(1);
+  if ((page.viewportSize()?.width ?? 0) >= 640) expect(new Set(cajas.map((c) => Math.round(c!.y))).size).toBe(1);
+
+  // Edad, categoría y ocasiones con fichas; «Más vendido» con un interruptor
+  await formulario.getByTestId("edad-0-12m").click();
+  await formulario.getByTestId("categoria-plush").click();
+  await formulario.getByTestId("ocasion-baby-shower").click();
+  await expect(formulario.getByRole("radio", { name: "0–12 m" })).toBeChecked();
+  await expect(formulario.getByRole("checkbox", { name: "Baby shower" })).toBeChecked();
+  await formulario.getByTestId("interruptor-producto-mas-vendido").click();
+  await expect(formulario.getByRole("switch", { name: /Más vendido/ })).toBeChecked();
+
+  // Advertencias: la común se marca (y se ve su texto completo); otra se escribe
+  await formulario.getByTestId("aviso-asfixia").click();
+  await expect(formulario).toContainText("PELIGRO DE ASFIXIA — Piezas pequeñas");
+  await formulario.getByTestId("agregar-seguridad").click();
+  await page.keyboard.type("No lo laves en lavadora");
+  await formulario.getByTestId("guardar-producto").click();
+  await expect(formulario).toBeHidden();
+
+  await page.getByTestId("fila-producto").first().getByTestId("ver-producto").click();
+  await expect(page.getByTestId("titulo-producto")).toHaveText("Osito de apego");
+  const seguridad = page.locator('section[aria-labelledby="seguridad"]');
+  await expect(seguridad).toContainText("PELIGRO DE ASFIXIA");
+  await expect(seguridad).toContainText("No lo laves en lavadora");
+  await page.getByTestId("selector-idioma").click();
+  await expect(page.getByTestId("titulo-producto")).toHaveText("Cuddle bear");
+  await expect(seguridad).toContainText("CHOKING HAZARD");
 });

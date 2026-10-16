@@ -47,6 +47,44 @@ export const MATERIALES: ({ id: string } & Texto)[] = [
   { id: "pintura-agua", es: "pintura a base de agua", en: "water-based paint" },
 ];
 
+/**
+ * Advertencias de seguridad comunes, para marcarlas en vez de escribirlas. Las que ya usa el catálogo de ejemplo
+ * van con su texto exacto (la de asfixia activa el aviso destacado de la ficha).
+ */
+export type IdAviso = "asfixia" | "empaque" | "supervision" | "pilas" | "imanes" | "proyectiles";
+
+export const AVISOS_SEGURIDAD: ({ id: IdAviso } & Texto)[] = [
+  {
+    id: "asfixia",
+    es: "ADVERTENCIA: PELIGRO DE ASFIXIA — Piezas pequeñas. No apto para menores de 3 años.",
+    en: "WARNING: CHOKING HAZARD — Small parts. Not for children under 3 yrs.",
+  },
+  {
+    id: "empaque",
+    es: "Retira todo el empaque antes de darle este juguete a un niño.",
+    en: "Remove all packaging before giving this toy to a child.",
+  },
+  { id: "supervision", es: "Se requiere la supervisión de un adulto.", en: "Adult supervision required." },
+  {
+    id: "pilas",
+    es: "Mantén las pilas y baterías fuera del alcance de los niños.",
+    en: "Keep batteries away from children.",
+  },
+  {
+    id: "imanes",
+    es: "ADVERTENCIA: Este producto contiene imanes pequeños. Si se tragan, los imanes pueden unirse a través de los intestinos y causar infecciones graves y la muerte. Busca atención médica de inmediato si se tragan o se inhalan imanes.",
+    en: "WARNING: This product contains small magnets. Swallowed magnets can stick together across intestines causing serious infections and death. Seek immediate medical attention if magnets are swallowed or inhaled.",
+  },
+  {
+    id: "proyectiles",
+    es: "No apuntes a los ojos ni a la cara. Usa solo los proyectiles incluidos con este juguete.",
+    en: "Do not aim at eyes or face. Use only the projectiles supplied with this toy.",
+  },
+];
+
+/** La advertencia común que dice exactamente este texto (en los dos idiomas), si la hay. */
+export const avisoComun = (t: Texto) => AVISOS_SEGURIDAD.find((a) => a.es === t.es && a.en === t.en);
+
 export const conMayuscula = (texto: string) => texto.charAt(0).toUpperCase() + texto.slice(1);
 
 /** "12,5" o "12.5" → 12.5 (con 2 decimales como mucho). Lo que no es un número positivo bien escrito → NaN. */

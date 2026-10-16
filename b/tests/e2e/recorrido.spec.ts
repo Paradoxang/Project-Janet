@@ -12,10 +12,11 @@ test("recorrido completo: la dueña sube un juguete, una compradora lo compra y 
   const formulario = page.getByTestId("formulario-producto");
   await formulario.getByTestId("producto-foto").setInputFiles(path.join(__dirname, "foto-prueba.png"));
   await formulario.getByTestId("producto-titulo-es").fill("Cocinita de madera con horno");
+  await formulario.getByTestId("idioma-titulo-en").click();
   await formulario.getByTestId("producto-titulo-en").fill("Wooden play kitchen with oven");
   await formulario.getByTestId("producto-precio").fill("59.90");
-  await formulario.getByTestId("producto-edad").selectOption("3-4");
-  await formulario.getByTestId("producto-categoria").selectOption("pretend");
+  await formulario.getByTestId("edad-3-4").click();
+  await formulario.getByTestId("categoria-pretend").click();
   await formulario.getByTestId("guardar-producto").click();
   await expect(formulario).toBeHidden();
   await page.getByTestId("salir-admin").click();

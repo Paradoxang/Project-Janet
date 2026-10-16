@@ -39,8 +39,10 @@ Todo es de demostración y vive solo en el navegador (no hay servidor ni se env�
 - En el panel, la cabecera de la tienda se recoge en una sola barra (logo, Resumen y Productos, idioma, «Ver la
   tienda» y Salir; la franja de demo pasa a ser la etiqueta «Demo») y el panel usa todo el ancho. En la tienda vuelve
   la cabecera de siempre.
-- En «Productos», los detalles se piden con su unidad (medidas en cm, m o in; peso en kg o lb), las piezas con − y
-  +, y los materiales se eligen de una lista (`src/lib/detalles.ts`); la ficha los muestra en los dos idiomas.
+- En «Productos», el formulario se llena casi sin escribir: fichas para elegir (edad, categoría, ocasiones,
+  materiales y advertencias comunes), − y + para inventario, entrega y piezas, un idioma a la vez con pestañas ES/EN
+  y listas de puntos. Las medidas (cm, m o in) y el peso (kg o lb) van con su unidad (`src/lib/detalles.ts`); la
+  ficha lo muestra todo en los dos idiomas. Las piezas del formulario están en `src/components/panel/campos.tsx`.
 - Las contraseñas de las compradoras se guardan cifradas (PBKDF2 con sal), nunca tal cual.
 - Lo que crea o cambia la dueña se ve al momento en la tienda **del mismo navegador**. Para la presentación, usar un
   solo dispositivo. «Volver al catálogo de ejemplo» deshace todo; «Empezar de cero» borra la actividad en vivo.
