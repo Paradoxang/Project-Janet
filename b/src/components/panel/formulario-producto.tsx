@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { useTranslations } from "next-intl";
-import { ImagePlus, Trash2 } from "lucide-react";
+import { Fragment, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { Check, ImagePlus, Minus, Plus, Trash2 } from "lucide-react";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,14 @@ import {
   type DatosProducto,
 } from "@/lib/catalogo";
 import { CATEGORIAS, GRUPOS_EDAD, OCASIONES } from "@/lib/constantes";
+import {
+  conMayuscula,
+  MATERIALES,
+  UNIDADES_MEDIDA,
+  UNIDADES_PESO,
+  type UnidadMedida,
+  type UnidadPeso,
+} from "@/lib/detalles";
 import { reducirFoto } from "@/lib/foto";
 import type { Idioma, Producto, Texto, Tinte } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
@@ -83,6 +91,43 @@ function ParIdiomas({
   );
 }
 
+/** Elegir la unidad (cm, m, in; kg, lb) con un solo toque. */
+function Unidades<U extends UnidadMedida | UnidadPeso>({
+  nombre,
+  etiqueta,
+  opciones,
+  valor,
+  alCambiar,
+}: {
+  nombre: string;
+  etiqueta: string;
+  opciones: readonly U[];
+  valor: U;
+  alCambiar: (u: U) => void;
+}) {
+  const t = useTranslations("gestion.formulario");
+  const nombreUnidad = (u: UnidadMedida | UnidadPeso) => t(`unidades.${u}`);
+  return (
+    <div role="radiogroup" aria-label={etiqueta} className="flex h-11 shrink-0 items-stretch rounded-md border bg-surface p-0.5">
+      {opciones.map((u) => (
+        <label
+          key={u}
+          title={nombreUnidad(u)}
+          className={cn(
+            "grid min-w-10 cursor-pointer place-items-center rounded-[5px] px-2 text-sm font-bold text-muted-ink has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-ring/50",
+            valor === u && "bg-white text-ink shadow-sm",
+          )}
+          data-testid={`${nombre}-${u}`}
+        >
+          <input type="radio" name={nombre} value={u} checked={valor === u} onChange={() => alCambiar(u)} className="sr-only" />
+          <span aria-hidden="true">{u}</span>
+          <span className="sr-only">{nombreUnidad(u)}</span>
+        </label>
+      ))}
+    </div>
+  );
+}
+
 /** Crear o editar un producto, en un panel lateral. */
 export function FormularioProducto({
   abierto,
@@ -100,6 +145,7 @@ export function FormularioProducto({
 }) {
   const t = useTranslations("gestion.formulario");
   const tr = useTranslations();
+  const locale = useLocale() as Idioma;
   const [datos, setDatos] = useState<DatosProducto>(() => (producto ? datosDesdeProducto(producto) : DATOS_VACIOS));
   const [errores, setErrores] = useState<CampoConError[]>([]);
   const [errorFoto, setErrorFoto] = useState(false);
@@ -151,6 +197,28 @@ export function FormularioProducto({
   );
 
   const vistaPrevia = datos.imagen || datos.ilustracion ? srcProducto({ illustration: datos.ilustracion, imagen: datos.imagen }) : null;
+
+  /** − y + de las piezas: de 1 en 1; por debajo de 1 queda vacío («no aplica»). */
+  const sumarPiezas = (paso: number) =>
+    setDatos((d) => {
+      const actual = /^\d+$/.test(d.piezas.trim()) ? Number(d.piezas) : 0;
+      const nuevo = Math.min(9999, Math.max(0, actual + paso));
+      return { ...d, piezas: nuevo === 0 ? "" : String(nuevo) };
+    });
+  const alternarMaterial = (id: string) =>
+    setDatos((d) => ({
+      ...d,
+      materiales: d.materiales.includes(id) ? d.materiales.filter((x) => x !== id) : [...d.materiales, id],
+    }));
+  /** Lo que el producto ya decía y no encaja en los campos (se conserva hasta que se rellenen). */
+  const hoyDice = (texto: string) =>
+    texto ? <p className="text-xs text-muted-ink">{t("hoyDice", { texto })}</p> : null;
+  const mensajeError = (campo: CampoConError) =>
+    error(campo) ? (
+      <p id={`error-${campo}`} className="text-[13px] text-out">
+        {error(campo)}
+      </p>
+    ) : null;
 
   return (
     <Sheet open={abierto} onOpenChange={(v) => !v && alCerrar()}>
@@ -339,27 +407,150 @@ export function FormularioProducto({
             <h3 id="f-detalles" className="text-lg">
               {t("seccionDetalles")}
             </h3>
-            <div className="grid gap-3 sm:grid-cols-3">
-              {(
-                [
-                  ["medidas", t("medidas")],
-                  ["peso", t("peso")],
-                  ["piezas", t("piezas")],
-                ] as const
-              ).map(([campo, etiqueta]) => (
-                <div key={campo} className="grid gap-1">
-                  <Label htmlFor={`producto-${campo}`}>{etiqueta}</Label>
+
+            <fieldset className="grid gap-1.5" aria-describedby="ayuda-medidas">
+              <legend className="mb-1 text-sm font-bold">{t("medidas")}</legend>
+              <div className="flex flex-wrap items-end gap-x-1.5 gap-y-2">
+                {(["largo", "ancho", "alto"] as const).map((eje, i) => (
+                  <Fragment key={eje}>
+                    {i > 0 ? (
+                      <span aria-hidden="true" className="pb-3 text-sm font-bold text-muted-ink">
+                        ×
+                      </span>
+                    ) : null}
+                    <div className="grid w-[4.5rem] gap-1">
+                      <Label htmlFor={`producto-${eje}`} className="text-xs font-semibold text-muted-ink">
+                        {t(eje)}
+                      </Label>
+                      <Input
+                        id={`producto-${eje}`}
+                        inputMode="decimal"
+                        value={datos.medidas[eje]}
+                        onChange={(e) => cambiar("medidas", { ...datos.medidas, [eje]: e.target.value })}
+                        aria-invalid={error("medidas") ? true : undefined}
+                        aria-describedby={error("medidas") ? "error-medidas" : undefined}
+                        className="h-11 bg-white"
+                        data-testid={`producto-${eje}`}
+                      />
+                    </div>
+                  </Fragment>
+                ))}
+                <span className="ml-1.5">
+                  <Unidades
+                    nombre="unidad-medida"
+                    etiqueta={t("unidadMedidas")}
+                    opciones={UNIDADES_MEDIDA}
+                    valor={datos.medidas.unidad}
+                    alCambiar={(unidad) => cambiar("medidas", { ...datos.medidas, unidad })}
+                  />
+                </span>
+              </div>
+              <p id="ayuda-medidas" className="text-xs text-muted-ink">
+                {t("medidasTexto")}
+              </p>
+              {mensajeError("medidas")}
+              {hoyDice(datos.textoLibre.medidas)}
+            </fieldset>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              <div className="grid content-start gap-1.5">
+                <Label htmlFor="producto-peso" className="font-bold">
+                  {t("peso")}
+                </Label>
+                <div className="flex gap-2">
                   <Input
-                    id={`producto-${campo}`}
-                    value={datos[campo]}
-                    onChange={(e) => cambiar(campo, e.target.value)}
-                    inputMode={campo === "piezas" ? "numeric" : undefined}
-                    className="h-11 bg-white"
+                    id="producto-peso"
+                    inputMode="decimal"
+                    value={datos.peso.valor}
+                    onChange={(e) => cambiar("peso", { ...datos.peso, valor: e.target.value })}
+                    aria-invalid={error("peso") ? true : undefined}
+                    aria-describedby={error("peso") ? "error-peso" : undefined}
+                    className="h-11 w-24 bg-white"
+                    data-testid="producto-peso"
+                  />
+                  <Unidades
+                    nombre="unidad-peso"
+                    etiqueta={t("unidadPeso")}
+                    opciones={UNIDADES_PESO}
+                    valor={datos.peso.unidad}
+                    alCambiar={(unidad) => cambiar("peso", { ...datos.peso, unidad })}
                   />
                 </div>
-              ))}
+                {mensajeError("peso")}
+                {hoyDice(datos.textoLibre.peso)}
+              </div>
+
+              <div className="grid content-start gap-1.5">
+                <Label htmlFor="producto-piezas" className="font-bold">
+                  {t("piezas")}
+                </Label>
+                <div className="flex items-center gap-1.5">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="size-11 rounded-md"
+                    onClick={() => sumarPiezas(-1)}
+                    aria-label={t("menosPiezas")}
+                    data-testid="menos-piezas"
+                  >
+                    <Minus aria-hidden="true" />
+                  </Button>
+                  <Input
+                    id="producto-piezas"
+                    inputMode="numeric"
+                    value={datos.piezas}
+                    onChange={(e) => cambiar("piezas", e.target.value)}
+                    aria-invalid={error("piezas") ? true : undefined}
+                    aria-describedby={error("piezas") ? "error-piezas" : "ayuda-piezas"}
+                    className="h-11 w-16 bg-white text-center"
+                    data-testid="producto-piezas"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="size-11 rounded-md"
+                    onClick={() => sumarPiezas(1)}
+                    aria-label={t("masPiezas")}
+                    data-testid="mas-piezas"
+                  >
+                    <Plus aria-hidden="true" />
+                  </Button>
+                </div>
+                <p id="ayuda-piezas" className="text-xs text-muted-ink">
+                  {t("piezasTexto")}
+                </p>
+                {mensajeError("piezas")}
+              </div>
             </div>
-            <ParIdiomas id="materiales" etiqueta={t("materiales")} valor={datos.materiales} alCambiar={(v) => cambiar("materiales", v)} />
+
+            <fieldset className="grid gap-1.5" aria-describedby="ayuda-materiales">
+              <legend className="mb-1 text-sm font-bold">{t("materiales")}</legend>
+              <p id="ayuda-materiales" className="-mt-1 text-xs text-muted-ink">
+                {t("materialesTexto")}
+              </p>
+              <div className="mt-1 flex flex-wrap gap-2" data-testid="lista-materiales">
+                {MATERIALES.map((m) => {
+                  const elegido = datos.materiales.includes(m.id);
+                  return (
+                    <label
+                      key={m.id}
+                      className={cn(
+                        "flex cursor-pointer items-center gap-1 rounded-chip border px-3 py-1.5 text-[13px] font-semibold has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-ring/50",
+                        elegido ? "border-ink bg-ink text-white" : "bg-white hover:bg-surface",
+                      )}
+                      data-testid={`material-${m.id}`}
+                    >
+                      <input type="checkbox" checked={elegido} onChange={() => alternarMaterial(m.id)} className="sr-only" />
+                      {elegido ? <Check className="size-3.5" aria-hidden="true" /> : null}
+                      {conMayuscula(m[locale])}
+                    </label>
+                  );
+                })}
+              </div>
+              {hoyDice(datos.textoLibre.materiales[locale] || datos.textoLibre.materiales[locale === "es" ? "en" : "es"])}
+            </fieldset>
           </section>
 
           <div className="grid gap-2">

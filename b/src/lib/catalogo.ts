@@ -1,5 +1,18 @@
 // Catálogo de la tienda = el de ejemplo (/datos) + los cambios que hace la dueña desde su panel.
 // En la demo, los cambios viven en este navegador; en el desarrollo real irán a la API.
+import {
+  leerMateriales,
+  leerMedidas,
+  leerPeso,
+  MEDIDAS_VACIAS,
+  numeroValido,
+  PESO_VACIO,
+  textoMateriales,
+  textoMedidas,
+  textoPeso,
+  type Medidas,
+  type Peso,
+} from "./detalles";
 import type { Categoria, GrupoEdad, Ocasion, Producto, ProductoLigero, Texto, Tinte } from "./tipos";
 
 export interface CambiosCatalogo {
@@ -94,14 +107,30 @@ export interface DatosProducto {
   ilustracion: string;
   imagen: string;
   tinte: Tinte;
-  medidas: string;
-  peso: string;
-  materiales: Texto;
+  medidas: Medidas;
+  peso: Peso;
+  /** Ids de la lista de materiales (lib/detalles.ts). */
+  materiales: string[];
   piezas: string;
+  /**
+   * Lo que el producto ya decía y no encaja en los campos de arriba (los materiales del catálogo de ejemplo,
+   * o unas medidas sin unidad): se conserva mientras no se rellenen esos campos.
+   */
+  textoLibre: { medidas: string; peso: string; materiales: Texto };
   masVendido: boolean;
 }
 
-export type CampoConError = "titulo" | "precio" | "stock" | "diasEntrega" | "edad" | "categoria" | "imagen";
+export type CampoConError =
+  | "titulo"
+  | "precio"
+  | "stock"
+  | "diasEntrega"
+  | "edad"
+  | "categoria"
+  | "imagen"
+  | "medidas"
+  | "peso"
+  | "piezas";
 
 export function validarProducto(d: DatosProducto): CampoConError[] {
   const errores: CampoConError[] = [];
@@ -113,6 +142,13 @@ export function validarProducto(d: DatosProducto): CampoConError[] {
   if (!d.edad) errores.push("edad");
   if (!d.categoria) errores.push("categoria");
   if (!d.imagen && !d.ilustracion) errores.push("imagen");
+  // Detalles: opcionales, pero si se escriben, con números (el largo y el ancho, al menos)
+  const { largo, ancho, alto } = d.medidas;
+  if ([largo, ancho, alto].some((v) => v.trim())) {
+    if (!numeroValido(largo) || !numeroValido(ancho) || (alto.trim() && !numeroValido(alto))) errores.push("medidas");
+  }
+  if (d.peso.valor.trim() && !numeroValido(d.peso.valor)) errores.push("peso");
+  if (d.piezas.trim() && !(/^\d{1,4}$/.test(d.piezas.trim()) && Number(d.piezas) >= 1)) errores.push("piezas");
   return errores;
 }
 
@@ -154,7 +190,6 @@ export function productoDesdeDatos(d: DatosProducto, anterior?: Producto, id?: s
   const resumen = ambos(d.resumen);
   const vinetas = ambos(d.vinetas);
   const seguridad = ambos(d.seguridad);
-  const materiales = ambos(d.materiales);
   return {
     ...base,
     title: titulo,
@@ -172,10 +207,10 @@ export function productoDesdeDatos(d: DatosProducto, anterior?: Producto, id?: s
     tint: d.tinte,
     specs: {
       ...base.specs,
-      dimensions: d.medidas.trim(),
-      weight: d.peso.trim(),
-      materials: materiales,
-      pieces: /^\d+$/.test(d.piezas.trim()) ? Number(d.piezas) : null,
+      dimensions: textoMedidas(d.medidas) || d.textoLibre.medidas,
+      weight: textoPeso(d.peso) || d.textoLibre.peso,
+      materials: d.materiales.length > 0 ? textoMateriales(d.materiales) : { ...d.textoLibre.materiales },
+      pieces: /^\d+$/.test(d.piezas.trim()) && Number(d.piezas) > 0 ? Number(d.piezas) : null,
     },
     bestSeller: d.masVendido,
   };
@@ -206,6 +241,9 @@ export function soloEditables(p: Producto): Partial<Producto> {
 
 /** Formulario lleno con un producto (para editarlo). */
 export function datosDesdeProducto(p: Producto): DatosProducto {
+  const medidas = leerMedidas(p.specs.dimensions);
+  const peso = leerPeso(p.specs.weight);
+  const materiales = leerMateriales(p.specs.materials);
   return {
     titulo: { ...p.title },
     resumen: { ...p.summary },
@@ -220,10 +258,15 @@ export function datosDesdeProducto(p: Producto): DatosProducto {
     ilustracion: p.illustration,
     imagen: p.imagen ?? "",
     tinte: p.tint,
-    medidas: p.specs.dimensions,
-    peso: p.specs.weight,
-    materiales: { ...p.specs.materials },
+    medidas: medidas ?? MEDIDAS_VACIAS,
+    peso: peso ?? PESO_VACIO,
+    materiales: materiales ?? [],
     piezas: p.specs.pieces === null ? "" : String(p.specs.pieces),
+    textoLibre: {
+      medidas: medidas ? "" : p.specs.dimensions,
+      peso: peso ? "" : p.specs.weight,
+      materiales: materiales ? { en: "", es: "" } : { ...p.specs.materials },
+    },
     masVendido: p.bestSeller,
   };
 }
@@ -242,9 +285,10 @@ export const DATOS_VACIOS: DatosProducto = {
   ilustracion: "",
   imagen: "",
   tinte: "cielo",
-  medidas: "",
-  peso: "",
-  materiales: { en: "", es: "" },
+  medidas: MEDIDAS_VACIAS,
+  peso: PESO_VACIO,
+  materiales: [],
   piezas: "",
+  textoLibre: { medidas: "", peso: "", materiales: { en: "", es: "" } },
   masVendido: false,
 };

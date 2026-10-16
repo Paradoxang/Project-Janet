@@ -680,6 +680,24 @@
       "peso": "Peso",
       "materiales": "Materiales",
       "piezas": "Número de piezas",
+      "largo": "Largo",
+      "ancho": "Ancho",
+      "alto": "Alto",
+      "unidadMedidas": "Unidad de las medidas",
+      "unidadPeso": "Unidad del peso",
+      "unidades": {
+        "cm": "centímetros",
+        "m": "metros",
+        "in": "pulgadas",
+        "kg": "kilogramos",
+        "lb": "libras"
+      },
+      "medidasTexto": "Largo × ancho × alto. Si es plano (como un rompecabezas), deja el alto vacío.",
+      "piezasTexto": "Cuántas piezas trae. Si no aplica, déjalo vacío.",
+      "menosPiezas": "Una pieza menos",
+      "masPiezas": "Una pieza más",
+      "materialesTexto": "Marca todos los que lleve. La tienda los muestra en español y en inglés.",
+      "hoyDice": "Ahora dice «{texto}». Lo que pongas aquí lo reemplaza.",
       "masVendido": "Marcar como «Más vendido»",
       "seccionBasico": "Lo básico",
       "seccionFicha": "La ficha",
@@ -697,7 +715,10 @@
         "edad": "Elige la edad.",
         "categoria": "Elige la categoría.",
         "imagen": "Sube una foto o elige una ilustración.",
-        "foto": "No se pudo leer esa imagen. Prueba con una foto JPG o PNG."
+        "foto": "No se pudo leer esa imagen. Prueba con una foto JPG o PNG.",
+        "medidas": "Escribe al menos el largo y el ancho, con números (por ejemplo, 30 o 12,5).",
+        "peso": "Escribe el peso con un número (por ejemplo, 1,2).",
+        "piezas": "Escribe un número entero de piezas (por ejemplo, 12)."
       }
     }
   }

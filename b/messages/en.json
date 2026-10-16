@@ -680,6 +680,24 @@
       "peso": "Weight",
       "materiales": "Materials",
       "piezas": "Number of pieces",
+      "largo": "Length",
+      "ancho": "Width",
+      "alto": "Height",
+      "unidadMedidas": "Dimension unit",
+      "unidadPeso": "Weight unit",
+      "unidades": {
+        "cm": "centimeters",
+        "m": "meters",
+        "in": "inches",
+        "kg": "kilograms",
+        "lb": "pounds"
+      },
+      "medidasTexto": "Length × width × height. If it’s flat (like a puzzle), leave the height empty.",
+      "piezasTexto": "How many pieces it comes with. Leave it empty if it doesn’t apply.",
+      "menosPiezas": "One fewer piece",
+      "masPiezas": "One more piece",
+      "materialesTexto": "Select all that apply. The store shows them in English and Spanish.",
+      "hoyDice": "Right now it says “{texto}”. What you enter here replaces it.",
       "masVendido": "Mark as “Best seller”",
       "seccionBasico": "The basics",
       "seccionFicha": "The page",
@@ -697,7 +715,10 @@
         "edad": "Choose the age.",
         "categoria": "Choose the category.",
         "imagen": "Upload a photo or pick an illustration.",
-        "foto": "That image couldn’t be read. Try a JPG or PNG photo."
+        "foto": "That image couldn’t be read. Try a JPG or PNG photo.",
+        "medidas": "Enter at least the length and width as numbers (for example, 30 or 12.5).",
+        "peso": "Enter the weight as a number (for example, 1.2).",
+        "piezas": "Enter a whole number of pieces (for example, 12)."
       }
     }
   }

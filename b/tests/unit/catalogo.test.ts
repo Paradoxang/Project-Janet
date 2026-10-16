@@ -14,6 +14,7 @@ import {
   type DatosProducto,
 } from "@/lib/catalogo";
 import { getCatalogoLigero, getProducts } from "@/lib/data";
+import { MEDIDAS_VACIAS } from "@/lib/detalles";
 
 const datos: DatosProducto = {
   ...DATOS_VACIOS,
@@ -82,5 +83,66 @@ describe("catálogo con los cambios de la dueña", () => {
   it("hace slugs legibles", () => {
     expect(aSlug("¡Tren de Madera, 40 piezas!")).toBe("tren-de-madera-40-piezas");
     expect(aSlug("???")).toBe("producto");
+  });
+
+  it("crea el producto con sus detalles: medidas y peso con unidad, piezas y materiales de la lista", () => {
+    const p = productoDesdeDatos({
+      ...datos,
+      medidas: { ...MEDIDAS_VACIAS, largo: "60", ancho: "30,5", alto: "85" },
+      peso: { valor: "4,5", unidad: "lb" },
+      piezas: "12",
+      materiales: ["pintura-agua", "madera"],
+    });
+    expect(p.specs).toMatchObject({
+      dimensions: "60 x 30.5 x 85 cm",
+      weight: "4.5 lb",
+      pieces: 12,
+      materials: { es: "Madera, pintura a base de agua", en: "Wood, water-based paint" },
+    });
+    // Al editarlo, el formulario vuelve con lo mismo
+    const d = datosDesdeProducto(p);
+    expect(d.medidas).toEqual({ ...MEDIDAS_VACIAS, largo: "60", ancho: "30.5", alto: "85" });
+    expect(d.peso).toEqual({ valor: "4.5", unidad: "lb" });
+    expect(d.piezas).toBe("12");
+    expect(d.materiales).toEqual(["madera", "pintura-agua"]);
+    expect(d.textoLibre).toEqual(DATOS_VACIOS.textoLibre);
+  });
+
+  it("valida los detalles: son opcionales, pero si se escriben, con números", () => {
+    const con = (cambios: Partial<DatosProducto>) => validarProducto({ ...datos, ...cambios });
+    expect(con({ medidas: { ...MEDIDAS_VACIAS, largo: "60" } })).toEqual(["medidas"]);
+    expect(con({ medidas: { ...MEDIDAS_VACIAS, largo: "sesenta", ancho: "30" } })).toEqual(["medidas"]);
+    expect(con({ medidas: { ...MEDIDAS_VACIAS, largo: "60", ancho: "30", alto: "0" } })).toEqual(["medidas"]);
+    expect(con({ medidas: { ...MEDIDAS_VACIAS, largo: "60", ancho: "30" } })).toEqual([]);
+    expect(con({ peso: { valor: "C", unidad: "kg" } })).toEqual(["peso"]);
+    expect(con({ peso: { valor: "1,2", unidad: "kg" } })).toEqual([]);
+    expect(con({ piezas: "2.5" })).toEqual(["piezas"]);
+    expect(con({ piezas: "0" })).toEqual(["piezas"]);
+    expect(con({ piezas: "12" })).toEqual([]);
+  });
+
+  it("editar un juguete de ejemplo sin tocar sus detalles los deja idénticos (los 20)", async () => {
+    for (const p of await getProducts()) {
+      expect(productoDesdeDatos(datosDesdeProducto(p), p).specs).toEqual(p.specs);
+    }
+  });
+
+  it("lo escrito antes sin unidad (como «85» o «C») se conserva hasta que se rellenan los campos", async () => {
+    const [base] = await getProducts();
+    const viejo = { ...base, specs: { ...base.specs, dimensions: "85", weight: "C", materials: { es: "Tela", en: "Fabric" } } };
+    const d = datosDesdeProducto(viejo);
+    expect(d.textoLibre).toEqual({ medidas: "85", peso: "C", materiales: { es: "Tela", en: "Fabric" } });
+    expect(productoDesdeDatos(d, viejo).specs).toEqual(viejo.specs);
+
+    const cambiado = productoDesdeDatos(
+      {
+        ...d,
+        medidas: { ...d.medidas, largo: "85", ancho: "40" },
+        peso: { valor: "2", unidad: "kg" },
+        materiales: ["algodon"],
+      },
+      viejo,
+    );
+    expect(cambiado.specs).toMatchObject({ dimensions: "85 x 40 cm", weight: "2 kg", materials: { es: "Algodón", en: "Cotton" } });
   });
 });

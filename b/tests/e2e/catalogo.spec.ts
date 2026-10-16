@@ -84,3 +84,81 @@ test("editar el precio de un juguete de ejemplo cambia en toda la tienda; oculta
   await page.goto("/es/p/plush-teddy-bear/");
   await expect(page.getByTestId("titulo-producto")).toContainText("Oso de peluche");
 });
+
+test("los detalles se piden con su unidad, las piezas con − y + y los materiales de una lista; la ficha los muestra", async ({
+  page,
+}) => {
+  await entrarComoDuena(page);
+  await page.goto("/es/panel/catalogo/");
+  await page.getByTestId("nuevo-producto").click();
+  const formulario = page.getByTestId("formulario-producto");
+  await formulario.getByTestId("ilustracion-tea-set").click();
+  await formulario.getByTestId("producto-titulo-es").fill("Cocina de madera con horno");
+  await formulario.getByTestId("producto-precio").fill("89");
+  await formulario.getByTestId("producto-edad").selectOption("3-4");
+  await formulario.getByTestId("producto-categoria").selectOption("pretend");
+
+  // Medidas: con letras (o sin el ancho) no deja guardar
+  await formulario.getByTestId("producto-largo").fill("sesenta");
+  await formulario.getByTestId("guardar-producto").click();
+  await expect(formulario).toContainText("Escribe al menos el largo y el ancho");
+  await formulario.getByTestId("producto-largo").fill("60");
+  await formulario.getByTestId("producto-ancho").fill("30,5");
+  await formulario.getByTestId("producto-alto").fill("85");
+  await expect(formulario.getByRole("radio", { name: "centímetros" })).toBeChecked();
+
+  // Peso en libras
+  await formulario.getByTestId("producto-peso").fill("4,5");
+  await formulario.getByTestId("unidad-peso-lb").click();
+  await expect(formulario.getByRole("radio", { name: "libras" })).toBeChecked();
+
+  // Piezas con − y +
+  for (let i = 0; i < 3; i++) await formulario.getByTestId("mas-piezas").click();
+  await formulario.getByTestId("menos-piezas").click();
+  await expect(formulario.getByTestId("producto-piezas")).toHaveValue("2");
+
+  // Materiales: se marcan de la lista
+  await formulario.getByTestId("material-madera").click();
+  await formulario.getByTestId("material-pintura-agua").click();
+  await expect(formulario.getByRole("checkbox", { name: "Madera", exact: true })).toBeChecked();
+  await formulario.getByTestId("guardar-producto").click();
+  await expect(formulario).toBeHidden();
+
+  // La ficha, en español y en inglés
+  await page.getByTestId("fila-producto").first().getByTestId("ver-producto").click();
+  await expect(page.getByTestId("titulo-producto")).toHaveText("Cocina de madera con horno");
+  const valores = page.locator('section[aria-labelledby="detalles"] dd');
+  await expect(valores).toHaveText(["60 x 30.5 x 85 cm", "4.5 lb", "Madera, pintura a base de agua", "2"]);
+  await page.getByTestId("selector-idioma").click();
+  await expect(valores).toHaveText(["60 x 30.5 x 85 cm", "4.5 lb", "Wood, water-based paint", "2"]);
+});
+
+test("al editar un juguete de ejemplo, trae sus medidas y su peso con la unidad, y conserva sus materiales", async ({
+  page,
+}) => {
+  await entrarComoDuena(page);
+  await page.goto("/es/panel/catalogo/");
+  await page.getByTestId("fila-producto").filter({ hasText: "Oso de peluche" }).getByTestId("editar-producto").click();
+  const formulario = page.getByTestId("formulario-producto");
+  await expect(formulario.getByTestId("producto-largo")).toHaveValue("9.1");
+  await expect(formulario.getByTestId("producto-ancho")).toHaveValue("7.1");
+  await expect(formulario.getByTestId("producto-alto")).toHaveValue("14");
+  await expect(formulario.getByRole("radio", { name: "pulgadas" })).toBeChecked();
+  await expect(formulario.getByTestId("producto-peso")).toHaveValue("0.7");
+  await expect(formulario.getByRole("radio", { name: "libras" })).toBeChecked();
+  await expect(formulario.getByTestId("producto-piezas")).toHaveValue("1");
+  // Sus materiales no están en la lista: se conservan tal cual
+  await expect(formulario).toContainText("Ahora dice «Peluche y relleno de poliéster»");
+  await formulario.getByTestId("guardar-producto").click();
+  await expect(formulario).toBeHidden();
+
+  await page.goto("/es/p/plush-teddy-bear/");
+  await expect(page.locator('section[aria-labelledby="detalles"] dd')).toHaveText([
+    "Desde el nacimiento",
+    "9.1 x 7.1 x 14 in",
+    "0.7 lb",
+    "Peluche y relleno de poliéster",
+    "No requiere",
+    "1",
+  ]);
+});
