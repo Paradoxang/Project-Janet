@@ -191,7 +191,8 @@
     "panel": "Panel de la dueña",
     "derechos": "Maqueta de demostración con datos de ejemplo. No hay pedidos ni pagos reales.",
     "arriba": "Volver arriba",
-    "cierre": "Hecho para manos pequeñas y papás con poco tiempo."
+    "cierre": "Hecho para manos pequeñas y papás con poco tiempo.",
+    "creditos": "Créditos: tarjetas holográficas adaptadas de <holo>HoloCard de React Bits</holo> (David Haz) · componentes de interfaz de <shadcn>shadcn/ui</shadcn> · íconos de <lucide>Lucide</lucide>."
   },
   "catalogo": {
     "ordenar": "Ordenar por",

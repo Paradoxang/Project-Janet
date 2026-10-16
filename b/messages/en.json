@@ -191,7 +191,8 @@
     "panel": "Owner dashboard",
     "derechos": "Demo mockup with sample data. No real orders or payments.",
     "arriba": "Back to top",
-    "cierre": "Made for little hands and busy parents."
+    "cierre": "Made for little hands and busy parents.",
+    "creditos": "Credits: holographic cards adapted from <holo>HoloCard by React Bits</holo> (David Haz) · UI components from <shadcn>shadcn/ui</shadcn> · icons by <lucide>Lucide</lucide>."
   },
   "catalogo": {
     "ordenar": "Sort by",

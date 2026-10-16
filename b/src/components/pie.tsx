@@ -2,9 +2,24 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Logo } from "@/marca/marca";
 
+// Créditos a los autores del código de terceros que usamos (pequeño y discreto, al final del pie).
+const CREDITOS = {
+  holo: "https://reactbits.dev",
+  shadcn: "https://ui.shadcn.com",
+  lucide: "https://lucide.dev",
+};
+
 export function Pie() {
   const t = useTranslations("pie");
   const enlace = "text-sm text-white/85 hover:text-white hover:underline";
+  const credito = (clave: keyof typeof CREDITOS, texto: React.ReactNode) => (
+    <a
+      href={CREDITOS[clave]}
+      className="underline decoration-white/30 underline-offset-2 hover:text-white hover:decoration-white"
+    >
+      {texto}
+    </a>
+  );
   return (
     <footer className="mt-12 bg-ink text-white">
       <a href="#arriba" className="block bg-white/10 py-3 text-center text-sm font-bold hover:bg-white/15">
@@ -41,6 +56,15 @@ export function Pie() {
             {t("panel")}
           </Link>
         </nav>
+      </div>
+      <div className="border-t border-white/10">
+        <p className="mx-auto max-w-7xl px-4 py-4 text-xs leading-relaxed text-white/60 md:px-6" data-testid="creditos">
+          {t.rich("creditos", {
+            holo: (texto) => credito("holo", texto),
+            shadcn: (texto) => credito("shadcn", texto),
+            lucide: (texto) => credito("lucide", texto),
+          })}
+        </p>
       </div>
     </footer>
   );

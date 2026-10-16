@@ -98,6 +98,16 @@ test.describe("tarjetas holográficas", () => {
     await expect(page.locator(".holo-card")).toHaveCount(0);
   });
 
+  test("el pie da el crédito a sus autores", async ({ page }) => {
+    await page.goto("/es/");
+    const creditos = page.getByTestId("creditos");
+    await expect(creditos.getByRole("link", { name: "HoloCard de React Bits" })).toHaveAttribute(
+      "href",
+      "https://reactbits.dev",
+    );
+    await expect(creditos).toContainText("David Haz");
+  });
+
   test("sin GPU aunque el navegador no lo avise (Lighthouse) tampoco se monta", async ({ page }) => {
     // Pasó de verdad: en Chrome --headless=new se montaba por software y Lighthouse marcó 160 s de bloqueo.
     await sinAvisoDeSoftware(page);
