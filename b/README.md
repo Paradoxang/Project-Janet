@@ -26,6 +26,20 @@ La misma tienda tiene dos versiones, siempre a la par:
 - Todo lo que cambia está en `src/app/globals.css` (variables `--m-*`) y en `src/marca/`.
 - Para que la marca inicial de un despliegue sea Brinco: `NEXT_PUBLIC_MARCA_INICIAL=brinco`.
 
+## Cuentas y panel de la dueña
+
+Todo es de demostración y vive solo en el navegador (no hay servidor ni se envían correos).
+
+| Quién | Cómo entra | Qué ve |
+|---|---|---|
+| **Compradora** | «Crear una cuenta» con cualquier correo inventado | Su cuenta: pedidos y «Volver a comprar», favoritos, «Te puede gustar», datos y contraseña, avisos por correo (simulados) |
+| **Dueña** | El mismo login con `admin@example.com` y cualquier contraseña | El panel (`/panel`): cifras con su explicación, «En vivo» con lo que se hace en la tienda, y «Productos» para crear, editar, ocultar y borrar |
+
+- Las contraseñas de las compradoras se guardan cifradas (PBKDF2 con sal), nunca tal cual.
+- Lo que crea o cambia la dueña se ve al momento en la tienda **del mismo navegador**. Para la presentación, usar un
+  solo dispositivo. «Volver al catálogo de ejemplo» deshace todo; «Empezar de cero» borra la actividad en vivo.
+- Los datos de ejemplo del panel salen de `datos/herramientas/generar_panel.py` (determinista).
+
 ## Reglas
 
 - Todos los datos pasan por `src/lib/data.ts`, que hoy lee `/datos` y mañana leerá la API.
