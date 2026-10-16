@@ -19,6 +19,7 @@ export function ImagenProducto({
   prioridad = false,
   zoom = 1,
   claseImagen,
+  capa,
 }: {
   illustration: string;
   tint: Tinte;
@@ -28,6 +29,8 @@ export function ImagenProducto({
   prioridad?: boolean;
   zoom?: number;
   claseImagen?: string;
+  /** Algo encima de la imagen y debajo del rótulo (p. ej., la capa holográfica). */
+  capa?: React.ReactNode;
 }) {
   return (
     <div className={cn("relative grid aspect-square place-items-center overflow-hidden", FONDO_TINTE[tint], className)}>
@@ -41,6 +44,7 @@ export function ImagenProducto({
         className={cn("h-[82%] w-[82%] object-contain", claseImagen)}
         style={zoom !== 1 ? { transform: `scale(${zoom})` } : undefined}
       />
+      {capa}
       {etiqueta ? (
         <span className="absolute bottom-1.5 left-1.5 rounded-md bg-white/90 px-1.5 py-0.5 text-[10px] leading-tight font-bold text-muted-ink">
           {etiqueta}

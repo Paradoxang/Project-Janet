@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import type { Idioma, ProductoLigero } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
 import { BotonAgregar } from "./boton-agregar";
+import { CapaHolo } from "./capa-holo";
 import { Estrellas } from "./estrellas";
 import { ImagenProducto } from "./imagen-producto";
 import { Precio } from "./precio";
@@ -34,6 +35,7 @@ export function TarjetaProducto({
           alt=""
           etiqueta={t("imagenIlustrativa")}
           claseImagen="menear-al-pasar"
+          capa={<CapaHolo ilustracion={p.illustration} preset={puesto === 1 ? "bursts" : "stars"} />}
         />
         {puesto ? (
           <span

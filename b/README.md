@@ -31,6 +31,9 @@ La misma tienda tiene dos versiones, siempre a la par:
 - Todos los datos pasan por `src/lib/data.ts`, que hoy lee `/datos` y mañana leerá la API.
 - Lo de ejemplo se ve como ejemplo: hay franja de demo, tiendas DEMO, reseñas de ejemplo e «Illustrative image».
 - El pago no pide datos reales.
+- Código de terceros: las tarjetas holográficas usan HoloCard de React Bits (MIT + Commons Clause). Se puede usar
+  dentro de la tienda, con su aviso (`src/components/efectos/holo-card/LICENSE.md`); no se puede vender ni repartir
+  el componente por separado.
 
 ## Publicar en Cloudflare
 
