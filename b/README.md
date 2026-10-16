@@ -34,6 +34,7 @@ Todo es de demostración y vive solo en el navegador (no hay servidor ni se env�
 |---|---|---|
 | **Compradora** | «Crear una cuenta» con cualquier correo inventado | Su cuenta: pedidos y «Volver a comprar», favoritos, «Te puede gustar», datos y contraseña, avisos por correo (simulados) |
 | **Dueña** | El mismo login con `admin@example.com` y cualquier contraseña | El panel (`/panel`): cifras con su explicación, «En vivo» con lo que se hace en la tienda, y «Productos» para crear, editar, ocultar y borrar |
+| **Equipo (invitados)** | `santiago@example.com` o `juan@example.com`, con cualquier contraseña | El mismo panel, marcado como «Invitado» |
 
 - Las contraseñas de las compradoras se guardan cifradas (PBKDF2 con sal), nunca tal cual.
 - Lo que crea o cambia la dueña se ve al momento en la tienda **del mismo navegador**. Para la presentación, usar un

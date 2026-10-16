@@ -351,7 +351,8 @@
     "correoStock": "We’ll let you know when “{producto}” is back",
     "correoStockTexto": "It’s sold out right now; we’ll email you as soon as it arrives.",
     "correoOfertas": "Gift ideas for this week",
-    "correoOfertasTexto": "The most searched toys by age, so you get the gift right."
+    "correoOfertasTexto": "The most searched toys by age, so you get the gift right.",
+    "adminInvitado": "You’re signed in with a guest admin account ({nombre})"
   },
   "faq": {
     "titulo": "Frequently asked questions",
@@ -607,7 +608,8 @@
     "salir": "Sign out",
     "pestanas": "Admin sections",
     "resumen": "Summary",
-    "productos": "Products"
+    "productos": "Products",
+    "invitado": "Guest: {nombre}"
   },
   "gestion": {
     "titulo": "Your products",

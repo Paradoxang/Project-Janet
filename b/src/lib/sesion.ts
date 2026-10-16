@@ -7,6 +7,8 @@ export interface Usuario {
   correo: string;
   nombre: string;
   rol: Rol;
+  /** Administración invitada (el equipo que enseña la demo), no la dueña. */
+  invitado?: boolean;
 }
 
 export interface CuentaGuardada {
@@ -29,12 +31,24 @@ export type ErrorSesion =
 
 /** La dueña entra con este correo y, en la demo, con cualquier contraseña (decisión del 16-10). */
 export const CORREO_ADMIN = "admin@example.com";
+
+/**
+ * Quién entra al panel. Todos con cualquier contraseña (es una demo). Además de la dueña, dos cuentas de
+ * administración invitada para el equipo (decisión del 16-10). Correos de ejemplo: el repositorio es público.
+ */
+export const ADMINISTRACION: Record<string, { nombre: string; invitado: boolean }> = {
+  [CORREO_ADMIN]: { nombre: "", invitado: false },
+  "santiago@example.com": { nombre: "Santiago", invitado: true },
+  "juan@example.com": { nombre: "Juan", invitado: true },
+};
+
 export const CLAVE_MINIMA = 8;
 const ITERACIONES = 100_000;
 
 export const normalizarCorreo = (correo: string) => correo.trim().toLowerCase();
 export const correoValido = (correo: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.trim());
-export const esCorreoAdmin = (correo: string) => normalizarCorreo(correo) === CORREO_ADMIN;
+export const esCorreoAdmin = (correo: string) =>
+  Object.prototype.hasOwnProperty.call(ADMINISTRACION, normalizarCorreo(correo));
 
 const aHex = (bytes: ArrayBuffer | Uint8Array) =>
   Array.from(new Uint8Array(bytes), (b) => b.toString(16).padStart(2, "0")).join("");
@@ -91,7 +105,10 @@ export async function comprobarEntrada(
   const correo = normalizarCorreo(correoEscrito);
   if (!correoValido(correo)) return { error: "correoInvalido" };
   if (!clave) return { error: "claveVacia" };
-  if (esCorreoAdmin(correo)) return { usuario: { correo, nombre: "", rol: "admin" } };
+  if (esCorreoAdmin(correo)) {
+    const { nombre, invitado } = ADMINISTRACION[correo];
+    return { usuario: { correo, nombre, rol: "admin", ...(invitado ? { invitado } : {}) } };
+  }
   const cuenta = cuentas[correo];
   if (!cuenta) return { error: "credenciales" };
   const { huella } = await huellaClave(clave, cuenta.sal);

@@ -149,3 +149,15 @@ test("te puede gustar: recomienda según sus favoritos, sin repetirlos", async (
   expect(await recomendados.count()).toBeGreaterThan(2);
   await expect(recomendados.filter({ hasText: "Bloques magnéticos" })).toHaveCount(0);
 });
+
+test("el equipo entra al panel con su cuenta de administración invitada", async ({ page }) => {
+  await page.goto("/es/account/");
+  await page.getByTestId("campo-correo").fill("juan@example.com");
+  await page.getByTestId("campo-clave").fill("cualquier-cosa");
+  await page.getByTestId("boton-acceso").click();
+  await expect(page).toHaveURL(/\/es\/panel\/?$/);
+  await expect(page.getByTestId("admin-invitado")).toHaveText("Invitado: Juan");
+  await expect(page.getByTestId("kpi")).toHaveCount(7);
+  await page.goto("/es/account/");
+  await expect(page.getByTestId("cuenta-admin")).toContainText("administración invitada (Juan)");
+});

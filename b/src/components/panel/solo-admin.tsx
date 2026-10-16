@@ -28,6 +28,11 @@ export function SoloAdmin({ children }: { children: React.ReactNode }) {
               {t("barra")}
             </span>
             <span className="text-white/70">{usuario.correo}</span>
+            {usuario.invitado ? (
+              <span className="rounded-chip bg-white/15 px-2 py-0.5 text-xs font-bold" data-testid="admin-invitado">
+                {t("invitado", { nombre: usuario.nombre })}
+              </span>
+            ) : null}
             <nav aria-label={t("pestanas")} className="order-last w-full sm:order-none sm:w-auto">
               <ul className="flex gap-1">
                 {(

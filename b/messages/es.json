@@ -351,7 +351,8 @@
     "correoStock": "Te avisaremos cuando vuelva «{producto}»",
     "correoStockTexto": "Ahora está agotado; en cuanto llegue, te escribimos.",
     "correoOfertas": "Ideas de regalo para esta semana",
-    "correoOfertasTexto": "Lo más buscado por edad, para acertar con el regalo."
+    "correoOfertasTexto": "Lo más buscado por edad, para acertar con el regalo.",
+    "adminInvitado": "Entraste con una cuenta de administración invitada ({nombre})"
   },
   "faq": {
     "titulo": "Preguntas frecuentes",
@@ -607,7 +608,8 @@
     "salir": "Salir",
     "pestanas": "Secciones de administración",
     "resumen": "Resumen",
-    "productos": "Productos"
+    "productos": "Productos",
+    "invitado": "Invitado: {nombre}"
   },
   "gestion": {
     "titulo": "Tus productos",

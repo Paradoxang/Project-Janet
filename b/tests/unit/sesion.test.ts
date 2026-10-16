@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { comprobarEntrada, CORREO_ADMIN, crearCuenta, huellaClave, type CuentaGuardada } from "@/lib/sesion";
+import {
+  comprobarEntrada,
+  CORREO_ADMIN,
+  crearCuenta,
+  esCorreoAdmin,
+  huellaClave,
+  type CuentaGuardada,
+} from "@/lib/sesion";
 
 const datos = { nombre: "Ana", correo: "Ana@Ejemplo.com ", clave: "juguetes123" };
 
@@ -48,6 +55,18 @@ describe("cuentas de la demo", () => {
     // Mismo error si el correo no existe: no se revela qué cuentas hay.
     expect(await comprobarEntrada(cuentas, "nadie@ejemplo.com", "juguetes123")).toEqual({ error: "credenciales" });
     expect(await comprobarEntrada(cuentas, "ana@ejemplo.com", "")).toEqual({ error: "claveVacia" });
+  });
+
+  it("el equipo entra como administración invitada; esos correos tampoco sirven para crear cuentas", async () => {
+    expect(await comprobarEntrada({}, "Juan@Example.com", "x")).toEqual({
+      usuario: { correo: "juan@example.com", nombre: "Juan", rol: "admin", invitado: true },
+    });
+    expect(await comprobarEntrada({}, "santiago@example.com", "x")).toEqual({
+      usuario: { correo: "santiago@example.com", nombre: "Santiago", rol: "admin", invitado: true },
+    });
+    expect(await crearCuenta({}, { ...datos, correo: "santiago@example.com" })).toEqual({ error: "correoAdmin" });
+    // Solo los correos de la lista (no las propiedades heredadas de un objeto)
+    expect(esCorreoAdmin("constructor")).toBe(false);
   });
 
   it("la dueña entra con el correo de administración y cualquier contraseña", async () => {

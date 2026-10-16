@@ -73,7 +73,9 @@ export function PaginaCuenta() {
       <div className="mx-auto max-w-md px-4 pt-5 md:px-6">
         <h1 className="text-[26px] md:text-3xl">{t("titulo")}</h1>
         <div className="mt-4 grid gap-3 rounded-card bg-white p-5 shadow-tarjeta" data-testid="cuenta-admin">
-          <p className="font-display text-xl">{t("admin")}</p>
+          <p className="font-display text-xl">
+            {usuario.invitado ? t("adminInvitado", { nombre: usuario.nombre }) : t("admin")}
+          </p>
           <p className="text-sm text-muted-ink">{t("adminTexto")}</p>
           <Button asChild variant="cta" size="lg">
             <Link href="/panel">
