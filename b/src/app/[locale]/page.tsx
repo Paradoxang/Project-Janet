@@ -87,7 +87,11 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
       </section>
 
       <section aria-labelledby="por-categoria" data-revelar>
-        <Titulo id="por-categoria">{t("inicio.porCategoria")}</Titulo>
+        {/* Cada categoría con su «promoción de la semana» (propuesta P4 de la review de usuario, aprobada el 16-10).
+            Son ejemplos marcados DEMO y sin descuentos: la dueña pondrá las suyas. */}
+        <Titulo id="por-categoria" texto={t("promo.nota")}>
+          {t("inicio.porCategoria")}
+        </Titulo>
         <ul className="grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-4 md:gap-x-4">
           {CATEGORIAS.map((c) => {
             const delGrupo = catalogo.filter((p) => p.category === c);
@@ -110,6 +114,13 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
                   ) : null}
                   <span className="px-0.5 text-[15px] leading-tight font-bold group-hover:underline">
                     {t(`categoria.${c}`)}
+                  </span>
+                  <span className="grid gap-1 px-0.5" data-testid="promo-semana">
+                    <span className="flex flex-wrap items-center gap-1.5 text-[11.5px] font-bold text-ink">
+                      {t("promo.etiqueta")}
+                      <span className="rounded border bg-surface px-1 text-[10px] font-extrabold text-muted-ink">DEMO</span>
+                    </span>
+                    <span className="text-[13px] leading-snug text-muted-ink">{t(`promo.textos.${c}`)}</span>
                   </span>
                 </Link>
               </li>

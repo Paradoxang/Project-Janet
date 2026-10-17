@@ -1,12 +1,12 @@
 import { useTranslations } from "next-intl";
 import { MapPin } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { TINTA_EDAD } from "@/lib/constantes";
 import { CATEGORIAS, GRUPOS_EDAD, OCASIONES } from "@/lib/data";
 import { Logo } from "@/marca/marca";
 import { Buscador } from "./buscador";
 import { EnlaceCuenta } from "./enlace-cuenta";
 import { EnlaceDeseos } from "./enlace-deseos";
+import { FichasEdadCabecera } from "./fichas-edad";
 import { IconoCarrito } from "./icono-carrito";
 import { MenuMovil } from "./menu-movil";
 import { SelectorIdioma } from "./selector-idioma";
@@ -38,7 +38,6 @@ export function Cabecera() {
         <SelectorZip />
       </div>
       <nav aria-label={t("nav.edad")} className="mx-auto max-w-7xl">
-        {/* Cada edad lleva su punto de color: el mismo tono la acompaña por toda la tienda. */}
         <ul className="relative flex gap-1.5 overflow-x-auto px-3 pb-2.5 [scrollbar-width:none] md:px-6 [&::-webkit-scrollbar]:hidden">
           <li className="shrink-0">
             <Link
@@ -48,17 +47,7 @@ export function Cabecera() {
               {t("nav.todos")}
             </Link>
           </li>
-          {GRUPOS_EDAD.map((e) => (
-            <li key={e} className="shrink-0">
-              <Link
-                href={{ pathname: "/search", query: { edad: e } }}
-                className="inline-flex h-9 items-center gap-2 rounded-chip px-3.5 text-[13.5px] font-semibold whitespace-nowrap text-ink hover:bg-surface"
-              >
-                <span aria-hidden="true" className={`size-2.5 rounded-full ${TINTA_EDAD[e].punto}`} />
-                {t(`edadCorta.${e}`)}
-              </Link>
-            </li>
-          ))}
+          <FichasEdadCabecera edades={GRUPOS_EDAD} />
           <li className="shrink-0">
             <Link
               href="/where-to-buy"

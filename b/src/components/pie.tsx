@@ -36,6 +36,25 @@ export function Pie() {
           <p className="max-w-xs font-display text-lg leading-snug text-white">{t("cierre")}</p>
           <p className="max-w-xs text-sm text-white/70">{t("derechos")}</p>
           <SelectorIdioma pie />
+          {/* País y moneda, solo de muestra (propuesta P5 de la review de usuario; Santiago: «dejalo como una propuesta
+              visual de que se puede hacer»). No cambian nada: la tienda vende solo en EE. UU. y en dólares. */}
+          <div className="grid gap-1.5" data-testid="pie-region">
+            <div className="flex flex-wrap gap-2">
+              <label className="grid gap-1 text-xs text-white/70">
+                {t("pais")}
+                <select disabled className="h-9 rounded-md border border-white/30 bg-transparent px-2 text-sm text-white/80">
+                  <option>{t("paisEEUU")}</option>
+                </select>
+              </label>
+              <label className="grid gap-1 text-xs text-white/70">
+                {t("moneda")}
+                <select disabled className="h-9 rounded-md border border-white/30 bg-transparent px-2 text-sm text-white/80">
+                  <option>USD ($)</option>
+                </select>
+              </label>
+            </div>
+            <p className="max-w-xs text-xs text-white/70">{t("muestraRegion")}</p>
+          </div>
         </div>
         <nav className="grid content-start gap-2" aria-label={t("productos")}>
           <Link href="/search" className={enlace}>

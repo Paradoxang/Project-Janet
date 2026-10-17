@@ -12,7 +12,8 @@
   "demo": {
     "franja": "Demo mockup · sample data",
     "propuestaMarca": "Brand proposal",
-    "corto": "Demo"
+    "corto": "Demo",
+    "varianteColor": "Colorful variant"
   },
   "cabecera": {
     "buscar": "Search toys, gifts and ages",
@@ -129,7 +130,12 @@
     },
     "menosDe25Texto": "Small price, big smiles.",
     "novedades": "Just arrived",
-    "novedadesTexto": "The latest the store added."
+    "novedadesTexto": "The latest the store added.",
+    "varianteTitulo": "Toys to laugh, build and discover",
+    "varianteBoton": "See all toys",
+    "varianteFotoAlt": "Children playing on the floor with colorful building blocks (AI-generated image)",
+    "imagenIA": "Illustrative image (AI)",
+    "imagenIACorta": "AI image"
   },
   "producto": {
     "migas": "Toys",
@@ -212,7 +218,11 @@
     "sobreNosotros": "About us",
     "trabaja": "Careers",
     "blog": "Blog",
-    "proximamente": "coming soon"
+    "proximamente": "coming soon",
+    "pais": "Country or region",
+    "paisEEUU": "United States",
+    "moneda": "Currency",
+    "muestraRegion": "Preview only: for now the store sells only in the US, in dollars."
   },
   "catalogo": {
     "ordenar": "Sort by",
@@ -779,5 +789,19 @@
     "vaciaTexto": "Tap the heart on a toy’s page to save it here.",
     "verJuguetes": "See all toys",
     "quitar": "Remove from list"
+  },
+  "promo": {
+    "etiqueta": "Promotion of the week",
+    "nota": "Each category with its promotion of the week. These are mockup examples: the owner will add her own.",
+    "textos": {
+      "baby": "First-toy week: ideas for the first 12 months.",
+      "building": "Building week: projects to put together as a family.",
+      "pretend": "Pretend-play week: play kitchens, dress-up and more.",
+      "stem": "Science week: experiments to do at home.",
+      "arts": "Creative week: paint, sculpt and make music.",
+      "outdoor": "Outdoor week: toys to run and jump with.",
+      "games": "Family game week: for 2 to 6 players.",
+      "plush": "Plush week: bedtime buddies."
+    }
   }
 }

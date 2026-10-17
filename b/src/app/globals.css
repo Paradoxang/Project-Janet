@@ -106,6 +106,28 @@
   display: none !important;
 }
 
+/* Variante colorida (propuesta P3 de la review de usuario, 16-10; ver marca/script-variante.ts): tintes de edad más
+   vivos, el banner de la portada en un azul fuerte y fotos de niños jugando hechas con IA. Las tintas siguen siendo las
+   mismas y pasan AA sobre estos tintes. La tienda blanca («base») es la de siempre y la que sale por defecto. */
+:root[data-variante="color"] {
+  --m-tint-cielo: #c6e3ff;
+  --m-tint-menta: #c4f0d9;
+  --m-tint-lila: #ddd2ff;
+  --m-tint-durazno: #ffd6bd;
+  --m-tint-limon: #ffec99;
+  --m-variante-banner: #1d5fbf;
+  --m-variante-banner-ink: #ffffff;
+  --m-variante-acento: #ffc940;
+  --m-variante-acento-ink: #161a1f;
+}
+:root[data-variante="color"][data-marca="brinco"] {
+  --m-variante-banner: #1f2a44;
+}
+[data-variante="color"] .solo-variante-base,
+:root:not([data-variante="color"]) .solo-variante-color {
+  display: none !important;
+}
+
 /* En el panel de administración la cabecera de la tienda se recoge (data-panel: ver lib/modo-panel.ts). */
 [data-panel] .cabecera-tienda {
   display: none;

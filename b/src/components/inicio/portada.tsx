@@ -4,6 +4,7 @@ import { Garabato } from "@/components/efectos/garabato";
 import { Link } from "@/i18n/navigation";
 import type { GrupoEdad, ProductoLigero } from "@/lib/tipos";
 import { Mascota } from "@/marca/marca";
+import { BannerVariante } from "./banner-variante";
 import { BloquesEdad } from "./bloques-edad";
 
 /**
@@ -15,7 +16,8 @@ export function Portada({ catalogo, edades }: { catalogo: ProductoLigero[]; edad
   const g = (trozo: React.ReactNode) => <Garabato>{trozo}</Garabato>;
   return (
     <section aria-labelledby="portada" className="grid gap-5 md:gap-8">
-      <div className="flex items-end justify-between gap-4 md:gap-10">
+      <BannerVariante />
+      <div className="solo-variante-base flex items-end justify-between gap-4 md:gap-10">
         <div className="min-w-0">
           <h1 id="portada" className="text-[32px] leading-[1.04] md:text-[58px] md:leading-[1.02]">
             <span className="solo-brinco">{t.rich("heroBrincoRico", { g })}</span>

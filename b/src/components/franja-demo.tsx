@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { InterruptorMarca } from "@/marca/interruptor-marca";
+import { InterruptorVariante } from "@/marca/interruptor-variante";
 
 /** Franja fija que avisa en todas las páginas de que es una maqueta con datos de ejemplo. */
 export function FranjaDemo() {
@@ -15,6 +16,7 @@ export function FranjaDemo() {
         |
       </span>
       <InterruptorMarca />
+      <InterruptorVariante />
     </aside>
   );
 }

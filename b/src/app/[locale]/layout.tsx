@@ -19,6 +19,7 @@ import { routing } from "@/i18n/routing";
 import { getCatalogoLigero } from "@/lib/data";
 import { scriptModoPanel } from "@/lib/modo-panel";
 import { ICONOS, MARCA_INICIAL, scriptMarca } from "@/marca/script-marca";
+import { scriptVariante } from "@/marca/script-variante";
 
 // Letra de la versión neutra (OFL, servida desde la propia web por next/font). Brinco usa la suya (ver /b/marca).
 const gabarito = Gabarito({ subsets: ["latin", "latin-ext"], variable: "--font-gabarito", display: "swap" });
@@ -55,11 +56,13 @@ export default async function LayoutIdioma({
     <html
       lang={locale}
       data-marca={MARCA_INICIAL}
+      data-variante="base"
       className={`${gabarito.variable} ${hanken.variable}`}
       suppressHydrationWarning
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: scriptMarca() }} />
+        <script dangerouslySetInnerHTML={{ __html: scriptVariante() }} />
         <script dangerouslySetInnerHTML={{ __html: scriptModoPanel() }} />
       </head>
       <body id="arriba">

@@ -11,6 +11,9 @@ const NUMERO: Record<GrupoEdad, { n: string; unidad: "meses" | "anios" }> = {
   "8+": { n: "8+", unidad: "anios" },
 };
 
+/** Nombre del archivo de la foto de cada edad en la variante colorida (public/variante/). */
+const ARCHIVO: Record<GrupoEdad, string> = { "0-12m": "0-12m", "1-2": "1-2", "3-4": "3-4", "5-7": "5-7", "8+": "8" };
+
 /** Las edades como bloques de juguete: su color, el número grande en su tinta y un juguete asomando. */
 export function BloquesEdad({ catalogo, edades }: { catalogo: ProductoLigero[]; edades: GrupoEdad[] }) {
   const t = useTranslations();
@@ -40,9 +43,20 @@ export function BloquesEdad({ catalogo, edades }: { catalogo: ProductoLigero[]; 
                 <img
                   src={`/productos/${rep.illustration}.svg`}
                   alt=""
-                  className="menear-al-pasar absolute -right-2 -bottom-3 z-0 size-[92px] rotate-6 md:-right-3 md:-bottom-4 md:size-[132px]"
+                  className="solo-variante-base menear-al-pasar absolute -right-2 -bottom-3 z-0 size-[92px] rotate-6 md:-right-3 md:-bottom-4 md:size-[132px]"
                 />
               ) : null}
+              {/* Variante colorida: un niño de esa edad jugando, en foto hecha con IA y marcada como tal. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`/variante/edad-${ARCHIVO[edad]}.webp`}
+                alt=""
+                loading="lazy"
+                className="solo-variante-color absolute inset-y-0 right-0 z-0 h-full w-[54%] object-cover [mask-image:linear-gradient(to_right,transparent,#000_38%)]"
+              />
+              <span className="solo-variante-color absolute right-1.5 bottom-1.5 z-10 rounded bg-black/70 px-1 py-px text-[10px] font-bold text-white">
+                {t("inicio.imagenIACorta")}
+              </span>
             </Link>
           </li>
         );

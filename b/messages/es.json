@@ -12,7 +12,8 @@
   "demo": {
     "franja": "Maqueta de demostración · datos de ejemplo",
     "propuestaMarca": "Propuesta de marca",
-    "corto": "Demo"
+    "corto": "Demo",
+    "varianteColor": "Variante colorida"
   },
   "cabecera": {
     "buscar": "Busca juguetes, regalos y edades",
@@ -129,7 +130,12 @@
     },
     "menosDe25Texto": "Precio pequeño, sonrisas grandes.",
     "novedades": "Recién llegados",
-    "novedadesTexto": "Lo último que agregó la tienda."
+    "novedadesTexto": "Lo último que agregó la tienda.",
+    "varianteTitulo": "Juguetes para reír, construir y descubrir",
+    "varianteBoton": "Ver todos los juguetes",
+    "varianteFotoAlt": "Niños jugando en el suelo con bloques de construcción de colores (imagen creada con IA)",
+    "imagenIA": "Imagen ilustrativa (IA)",
+    "imagenIACorta": "Imagen IA"
   },
   "producto": {
     "migas": "Juguetes",
@@ -212,7 +218,11 @@
     "sobreNosotros": "Sobre nosotros",
     "trabaja": "Trabaja con nosotros",
     "blog": "Blog",
-    "proximamente": "próximamente"
+    "proximamente": "próximamente",
+    "pais": "País o región",
+    "paisEEUU": "Estados Unidos",
+    "moneda": "Moneda",
+    "muestraRegion": "Muestra: por ahora la tienda vende solo en EE. UU. y en dólares."
   },
   "catalogo": {
     "ordenar": "Ordenar por",
@@ -779,5 +789,19 @@
     "vaciaTexto": "Toca el corazón en la ficha de un juguete para guardarlo aquí.",
     "verJuguetes": "Ver todos los juguetes",
     "quitar": "Quitar de la lista"
+  },
+  "promo": {
+    "etiqueta": "Promoción de la semana",
+    "nota": "Cada categoría con su promoción de la semana. Son ejemplos de la maqueta: la dueña pondrá las suyas.",
+    "textos": {
+      "baby": "Semana del primer juguete: ideas para los primeros 12 meses.",
+      "building": "Semana de construir: proyectos para armar en familia.",
+      "pretend": "Semana de jugar a ser: cocinitas, disfraces y más.",
+      "stem": "Semana de la ciencia: experimentos para hacer en casa.",
+      "arts": "Semana creativa: pintar, modelar y hacer música.",
+      "outdoor": "Semana al aire libre: juguetes para correr y saltar.",
+      "games": "Semana de juegos en familia: de 2 a 6 jugadores.",
+      "plush": "Semana de peluches: compañeros para la hora de dormir."
+    }
   }
 }

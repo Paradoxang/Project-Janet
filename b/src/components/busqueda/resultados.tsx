@@ -121,6 +121,21 @@ export function ResultadosBusqueda() {
         </label>
       </div>
 
+      {/* La «promoción de la semana» de la categoría (propuesta P4, aprobada el 16-10): un ejemplo DEMO, sin descuentos. */}
+      {categoria ? (
+        <aside
+          aria-label={t("promo.etiqueta")}
+          className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-card bg-warm px-4 py-3"
+          data-testid="promo-categoria"
+        >
+          <span className="rounded-chip bg-ink px-2.5 py-1 text-[12px] font-bold text-white">{t("promo.etiqueta")}</span>
+          <p className="min-w-0 flex-1 text-sm">
+            <b>{t(`categoria.${categoria}`)}:</b> {t(`promo.textos.${categoria}`)}
+          </p>
+          <span className="rounded border bg-white px-1 text-[10px] font-extrabold text-muted-ink">DEMO</span>
+        </aside>
+      ) : null}
+
       {resultados.length > 0 ? (
         <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:grid-cols-5" data-testid="resultados">
           {resultados.map((p) => (
