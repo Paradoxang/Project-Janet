@@ -32,7 +32,7 @@ export function BannerVariante() {
         <img
           src="/variante/portada.webp"
           alt={t("varianteFotoAlt")}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-[72%_50%]"
           data-testid="foto-ia"
         />
         <figcaption className="absolute bottom-2 left-2 rounded bg-black/70 px-1.5 py-0.5 text-[11px] font-bold text-white">

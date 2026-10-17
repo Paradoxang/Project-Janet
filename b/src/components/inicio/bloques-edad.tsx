@@ -52,7 +52,7 @@ export function BloquesEdad({ catalogo, edades }: { catalogo: ProductoLigero[]; 
                 src={`/variante/edad-${ARCHIVO[edad]}.webp`}
                 alt=""
                 loading="lazy"
-                className="solo-variante-color absolute inset-y-0 right-0 z-0 h-full w-[54%] object-cover [mask-image:linear-gradient(to_right,transparent,#000_38%)]"
+                className="solo-variante-color absolute inset-y-0 right-0 z-0 h-full w-[54%] object-cover object-[70%_50%] [mask-image:linear-gradient(to_right,transparent,#000_38%)]"
               />
               <span className="solo-variante-color absolute right-1.5 bottom-1.5 z-10 rounded bg-black/70 px-1 py-px text-[10px] font-bold text-white">
                 {t("inicio.imagenIACorta")}
