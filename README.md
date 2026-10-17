@@ -63,9 +63,10 @@ desarrollo real solo empieza si ella firma.
 - **Antes de presentar,** repasa la lista de `PLAN.md` §3 («Antes de presentar se revisa»).
 
 **Pendiente o abierto:**
-- **Accesibilidad** (fallos que ya estaban): poco contraste en la etiqueta «Publicado» de `/panel/catalogo`, y dos tablas
-  del panel con scroll en celular a las que no se llega con el teclado.
-- **Lighthouse:** el buscador tiene un CLS de 0.092, que ya estaba. Accesibilidad y buenas prácticas dan 100.
+- **Accesibilidad:** los dos fallos que ya estaban (poco contraste en «Publicado» de `/panel/catalogo` y dos tablas del
+  panel con scroll en celular a las que no se llegaba con el teclado) se arreglaron en el rediseño del 16-10.
+- **Lighthouse:** el buscador tenía un CLS de 0.092 antes del rediseño; no se ha vuelto a medir. Accesibilidad y buenas
+  prácticas dan 100 en inicio, buscador, ficha y carrito (16-10).
 - **Ofrecido, sin respuesta:** administración invitada de solo lectura; ocultar el interruptor de marca antes de presentar;
   versiones alternativas de la marca cuando Santiago valide Brinco.
 - **Con la clienta:** los pendientes de `PLAN.md` §6 (tiendas físicas reales, inventario, empresa en EE. UU., tercer
@@ -263,6 +264,8 @@ Las completas están en `CLAUDE.md`. Resumen:
   productos creados en el panel usan `/p/nuevo/?id=`.
 
 **Entorno y servidores**
+- **En un equipo con GPU,** las dos pruebas holográficas de «sin GPU» fallan (en iPhone y Android): cuentan con el WebGL
+  por software del contenedor. Para correrlas ahí, Chromium se lanza con `--use-angle=swiftshader --enable-unsafe-swiftshader`.
 - **`pkill -f` con un patrón** puede matar la propia shell.
 - **Puertos de `serve`:** el de las e2e es el 4173; reusa uno que ya esté levantado.
 - **Lighthouse en headless:** Chrome no siempre avisa del WebGL por software. Por eso la tarjeta holográfica revisa además el
