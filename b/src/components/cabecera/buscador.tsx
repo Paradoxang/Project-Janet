@@ -105,7 +105,7 @@ export function Buscador({ className }: { className?: string }) {
       {visible ? (
         <div className="absolute inset-x-0 top-full z-50 mt-1 overflow-hidden rounded-card border bg-white shadow-lg">
           {sugerencias.length > 0 ? (
-            <p className="px-4 pt-2.5 pb-1 text-xs font-bold tracking-wide text-muted-ink uppercase">
+            <p className="px-4 pt-2.5 pb-1 text-[13px] font-bold text-muted-ink">
               {t("sugerencias")}
             </p>
           ) : null}

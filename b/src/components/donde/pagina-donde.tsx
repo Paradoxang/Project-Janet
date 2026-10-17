@@ -174,7 +174,7 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
                 className={cn("rounded-card bg-white p-4 shadow-tarjeta", destacada && "ring-2 ring-stock", foco === ti.id && "bg-surface")}
               >
                 {destacada ? (
-                  <p className="mb-1 text-xs font-extrabold tracking-wide text-stock uppercase">{t("masCercana")}</p>
+                  <p className="mb-1 text-[13px] font-bold text-stock">{t("masCercana")}</p>
                 ) : null}
                 <div className="flex items-start justify-between gap-2">
                   <h2 className="flex items-center gap-2 text-lg">

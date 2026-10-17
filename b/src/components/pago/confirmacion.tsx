@@ -33,11 +33,11 @@ export function Confirmacion() {
   }
   return (
     <div className="mx-auto max-w-3xl px-4 pt-6 md:px-6" data-testid="confirmacion">
-      <div className="textura-puntos relative flex flex-col items-center gap-4 rounded-card bg-warm px-5 py-8 text-center">
+      <div className="textura-puntos relative flex flex-col items-center gap-4 rounded-card bg-tint-menta px-5 py-8 text-center">
         <Confeti disparo={1} cantidad={36} />
         <Mascota className="h-40 w-32" />
-        <h1 className="flex items-center gap-2 text-[26px] text-stock md:text-3xl">
-          <CircleCheck className="size-7" aria-hidden="true" />
+        <h1 className="flex flex-col items-center gap-2 text-[28px] leading-tight text-balance text-tinta-menta md:text-4xl">
+          <CircleCheck className="size-8" aria-hidden="true" />
           {t("pago.confirmacionTitulo")}
         </h1>
         <p className="text-lg">

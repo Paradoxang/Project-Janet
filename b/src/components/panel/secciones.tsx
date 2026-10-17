@@ -131,7 +131,8 @@ export function ClicsVentas({ productos }: { productos: Panel["products"] }) {
           })}
         </Consejo>
       ) : null}
-      <div className="overflow-x-auto">
+      {/* En el celular la tabla se desliza: la zona recibe el foco para poder moverla con el teclado. */}
+      <div className="overflow-x-auto rounded-md" tabIndex={0} role="region" aria-labelledby="titulo-clics-ventas">
         <table className="w-full min-w-[560px] text-[13px] tabular-nums" data-testid="tabla-clics">
           <thead>
             <tr className="border-b text-left text-muted-ink">

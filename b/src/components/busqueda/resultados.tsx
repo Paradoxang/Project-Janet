@@ -8,6 +8,7 @@ import { useCatalogo } from "@/components/proveedor-catalogo";
 import { TarjetaProducto } from "@/components/producto/tarjeta-producto";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { buscar, crearIndice } from "@/lib/buscar";
+import { TINTA_EDAD } from "@/lib/constantes";
 import type { Categoria, GrupoEdad, Ocasion } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
 
@@ -73,10 +74,11 @@ export function ResultadosBusqueda() {
             aria-pressed={edad === e}
             onClick={() => cambiar("edad", edad === e ? null : e)}
             className={cn(
-              "h-8 rounded-chip border px-3 text-[13px] font-bold",
+              "inline-flex h-9 items-center gap-2 rounded-chip border px-3.5 text-[13.5px] font-semibold",
               edad === e ? "border-ink bg-ink text-white" : "bg-white hover:bg-surface",
             )}
           >
+            <span aria-hidden="true" className={cn("size-2.5 rounded-full", TINTA_EDAD[e].punto, edad === e && "ring-2 ring-white")} />
             {t(`edadCorta.${e}`)}
           </button>
         ))}

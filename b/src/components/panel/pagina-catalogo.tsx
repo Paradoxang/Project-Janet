@@ -137,7 +137,12 @@ export function PaginaCatalogo({ base }: { base: Producto[] }) {
                     {tr(`edadCorta.${p.ageGroup}`)} · {tr(`categoria.${p.category}`)} · {t("vistas", { n })}
                   </p>
                   <p className="mt-1 flex flex-wrap gap-1.5 text-[11px] font-bold">
-                    <span className={cn("rounded-chip px-2 py-0.5", oculto ? "bg-surface text-muted-ink" : "bg-stock/15 text-stock")}>
+                    <span
+                      className={cn(
+                        "rounded-chip px-2 py-0.5",
+                        oculto ? "bg-surface text-muted-ink" : "bg-tint-menta text-tinta-menta",
+                      )}
+                    >
                       {oculto ? t("estado.oculto") : t("estado.publicado")}
                     </span>
                     {nuevo ? <span className="rounded-chip bg-brand/10 px-2 py-0.5 text-ink">{t("estado.nuevo")}</span> : null}

@@ -40,7 +40,7 @@ export function MenuMovil({
         </SheetHeader>
         <nav className="grid gap-5 p-3 pb-8">
           <div>
-            <p className="px-3 pb-1 text-xs font-bold tracking-wide text-muted-ink uppercase">{t("nav.edad")}</p>
+            <p className="px-3 pb-1 text-[13px] font-bold text-muted-ink">{t("nav.edad")}</p>
             {edades.map((e) => (
               <Link key={e} href={{ pathname: "/search", query: { edad: e } }} onClick={cerrar} className={enlace}>
                 {t(`edad.${e}`)}
@@ -48,7 +48,7 @@ export function MenuMovil({
             ))}
           </div>
           <div>
-            <p className="px-3 pb-1 text-xs font-bold tracking-wide text-muted-ink uppercase">
+            <p className="px-3 pb-1 text-[13px] font-bold text-muted-ink">
               {t("nav.categorias")}
             </p>
             {categorias.map((c) => (
@@ -58,7 +58,7 @@ export function MenuMovil({
             ))}
           </div>
           <div>
-            <p className="px-3 pb-1 text-xs font-bold tracking-wide text-muted-ink uppercase">
+            <p className="px-3 pb-1 text-[13px] font-bold text-muted-ink">
               {t("nav.ocasiones")}
             </p>
             {ocasiones.map((o) => (

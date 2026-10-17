@@ -198,7 +198,7 @@ export function PaginaPanel({ panel, tiendas }: { panel: Panel; tiendas: Tienda[
             const { clase, Icono } = ESTILO_AVISO[a.severity];
             return (
               <li key={a.id} className={cn("grid gap-1.5 rounded-card border p-4", clase)}>
-                <p className="flex items-center gap-1.5 text-xs font-extrabold tracking-wide uppercase">
+                <p className="flex items-center gap-1.5 text-[13px] font-bold">
                   <Icono className="size-4" aria-hidden="true" />
                   {t(`prioridad.${a.severity}`)}
                 </p>
@@ -309,7 +309,8 @@ export function PaginaPanel({ panel, tiendas }: { panel: Panel; tiendas: Tienda[
               <span className="size-3 rounded-sm bg-stock" aria-hidden="true" /> {t("bien")}
             </li>
           </ul>
-          <div className="overflow-x-auto">
+          {/* En el celular la tabla se desliza: la zona recibe el foco para poder moverla con el teclado. */}
+          <div className="overflow-x-auto rounded-md" tabIndex={0} role="region" aria-labelledby="titulo-stock">
             <table className="w-full min-w-[620px] border-separate border-spacing-0.5 text-[13px] tabular-nums" data-testid="tabla-stock">
               <thead>
                 <tr className="text-left text-muted-ink">
