@@ -1,6 +1,8 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { PorVariante } from "@/components/por-variante";
 import { claseIlustracion, FotoIA } from "@/components/producto/foto-ia";
+import { enLaTiendaBlanca } from "@/lib/fotos-ia";
 import type { Ocasion, ProductoLigero } from "@/lib/tipos";
 
 const DIBUJO: Record<Ocasion, string> = {
@@ -24,7 +26,9 @@ export function Momentos({ catalogo, ocasiones }: { catalogo: ProductoLigero[]; 
   return (
     <ul className="relative -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-5 md:px-0 [&::-webkit-scrollbar]:hidden">
       {ocasiones.map((o) => {
-        const n = catalogo.filter((p) => p.occasions.includes(o)).length;
+        const deLaOcasion = catalogo.filter((p) => p.occasions.includes(o));
+        const n = deLaOcasion.length;
+        const nBlanca = deLaOcasion.filter(enLaTiendaBlanca).length;
         return (
           <li key={o} className="w-[56vw] max-w-[240px] shrink-0 snap-start md:w-auto md:max-w-none">
             <Link href={{ pathname: "/search", query: { ocasion: o } }} className="group flex h-full flex-col gap-2.5">
@@ -46,7 +50,8 @@ export function Momentos({ catalogo, ocasiones }: { catalogo: ProductoLigero[]; 
                   {t(`inicio.momentos.${o}`)}
                 </span>
                 <span className="text-[13px] text-muted-ink">
-                  {t(`ocasion.${o}`)} · {t("inicio.productos", { n })}
+                  {t(`ocasion.${o}`)} ·{" "}
+                  <PorVariante blanca={t("inicio.productos", { n: nBlanca })} color={t("inicio.productos", { n })} />
                 </span>
               </span>
             </Link>

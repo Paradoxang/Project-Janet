@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { PackageX, TriangleAlert } from "lucide-react";
 import { RegistroVistaProducto } from "@/components/efectos/registro-actividad";
-import { useCatalogo } from "@/components/proveedor-catalogo";
+import { useCatalogoDeLaTienda } from "@/components/proveedor-catalogo";
 import { Button } from "@/components/ui/button";
 import { useHidratado } from "@/hooks/use-hidratado";
 import { Link } from "@/i18n/navigation";
@@ -254,7 +254,7 @@ export function FichaNueva({ tiendas }: { tiendas: Tienda[] }) {
   const [id, setId] = useState<string | null>(null);
   const nuevos = useCatalogoLocal((s) => s.nuevos);
   const ocultos = useCatalogoLocal((s) => s.ocultos);
-  const { productos } = useCatalogo();
+  const productos = useCatalogoDeLaTienda();
 
   // El id va en la dirección (?id=): se lee al cargar, sin pasar por la generación estática.
   useEffect(() => {

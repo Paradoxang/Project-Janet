@@ -75,5 +75,12 @@ export const FOTOS_IA = new Set<string>([
 
 export const tieneIlustracion = (illustration: string) => ILUSTRACIONES.has(illustration);
 
+/**
+ * ¿Sale en la tienda blanca? Solo lo dibujado y lo que trae foto de la dueña (Santiago, 17-10: «que la tienda blanca
+ * enseñe solo los 20 juguetes con ilustración y la colorida los 40»). Los del inventario largo, que solo tienen foto
+ * con IA, salen en la variante colorida.
+ */
+export const enLaTiendaBlanca = (p: { illustration: string; imagen?: string }) => !!p.imagen || tieneIlustracion(p.illustration);
+
 /** La foto con IA del juguete, si la hay. */
 export const fotoIA = (illustration: string) => (FOTOS_IA.has(illustration) ? `/productos-ia/${illustration}.webp` : null);

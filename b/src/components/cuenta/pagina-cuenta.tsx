@@ -5,7 +5,7 @@ import { LayoutDashboard, RotateCcw, UserRound } from "lucide-react";
 import { AvisosCorreo } from "@/components/cuenta/avisos-correo";
 import { DatosCuenta } from "@/components/cuenta/datos-cuenta";
 import { FormularioAcceso } from "@/components/cuenta/formulario-acceso";
-import { useCatalogo } from "@/components/proveedor-catalogo";
+import { useCatalogo, useCatalogoDeLaTienda } from "@/components/proveedor-catalogo";
 import { FilaProductos } from "@/components/producto/fila-productos";
 import { TarjetaProducto } from "@/components/producto/tarjeta-producto";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
@@ -43,7 +43,9 @@ export function PaginaCuenta() {
   const locale = useLocale() as Idioma;
   const router = useRouter();
   const hidratado = useHidratado();
-  const { porId, productos } = useCatalogo();
+  const { porId } = useCatalogo();
+  // Se recomienda de la tienda que se ve: en la blanca, solo lo dibujado (ver enLaTiendaBlanca).
+  const tienda = useCatalogoDeLaTienda();
   const usuario = useCuenta((s) => s.usuario);
   const salir = useCuenta((s) => s.salir);
   const alternarDeseo = useCuenta((s) => s.alternarDeseo);
@@ -93,7 +95,7 @@ export function PaginaCuenta() {
 
   const pedidos = todos.filter((p) => p.cuenta === usuario.correo);
   const comprados = pedidos.flatMap((p) => p.lineas.map((l) => l.id));
-  const recomendados = recomendar(productos, [...deseos, ...comprados], 8);
+  const recomendados = recomendar(tienda, [...deseos, ...comprados], 8);
 
   return (
     <div className="mx-auto max-w-5xl px-4 pt-5 md:px-6">

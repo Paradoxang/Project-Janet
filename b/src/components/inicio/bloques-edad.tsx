@@ -1,6 +1,8 @@
 import { useTranslations } from "next-intl";
 import { FONDO_EDAD, TINTA_EDAD } from "@/lib/constantes";
+import { PorVariante } from "@/components/por-variante";
 import { Link } from "@/i18n/navigation";
+import { enLaTiendaBlanca, tieneIlustracion } from "@/lib/fotos-ia";
 import type { GrupoEdad, ProductoLigero } from "@/lib/tipos";
 
 const NUMERO: Record<GrupoEdad, { n: string; unidad: "meses" | "anios" }> = {
@@ -21,7 +23,9 @@ export function BloquesEdad({ catalogo, edades }: { catalogo: ProductoLigero[]; 
     <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:gap-3 lg:grid-cols-5">
       {edades.map((edad, i) => {
         const delGrupo = catalogo.filter((p) => p.ageGroup === edad);
-        const rep = delGrupo.find((p) => p.bestSeller) ?? delGrupo[0];
+        // El juguete que asoma en la tienda blanca es un dibujo: se elige entre los que lo tienen.
+        const dibujados = delGrupo.filter((p) => tieneIlustracion(p.illustration));
+        const rep = dibujados.find((p) => p.bestSeller) ?? dibujados[0];
         return (
           <li key={edad} className={i === 4 ? "col-span-2 sm:col-span-1" : undefined}>
             <Link
@@ -36,7 +40,10 @@ export function BloquesEdad({ catalogo, edades }: { catalogo: ProductoLigero[]; 
               </span>
               <span className="relative z-10 max-w-[58%] text-[13.5px] leading-tight font-bold text-ink md:text-[15px]">
                 {t(`inicio.${NUMERO[edad].unidad}`)}
-                <span className="block font-medium text-ink/70">{t("inicio.productos", { n: delGrupo.length })}</span>
+                <span className="block font-medium text-ink/70"><PorVariante
+                    blanca={t("inicio.productos", { n: delGrupo.filter(enLaTiendaBlanca).length })}
+                    color={t("inicio.productos", { n: delGrupo.length })}
+                  /></span>
               </span>
               {rep ? (
                 // eslint-disable-next-line @next/next/no-img-element

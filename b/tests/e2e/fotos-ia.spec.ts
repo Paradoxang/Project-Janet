@@ -27,11 +27,40 @@ test("fotos con IA: en la variante colorida, los 40 juguetes del buscador enseñ
   await expect(tarjetas.getByTestId("foto-ia-producto")).toHaveCount(40);
   await expect(tarjetas.locator('img[src^="/productos/"]:visible')).toHaveCount(0);
 
-  // En la tienda blanca, un juguete del inventario nuevo (sin ilustración propia) enseña su foto.
+  // La tienda blanca enseña solo los 20 dibujados (Santiago, 17-10): los del inventario nuevo no salen.
   await page.goto("/en/search/?variante=base");
-  const nuevo = tarjetas.filter({ hasText: "Marble Run" });
-  await expect(nuevo.getByTestId("foto-ia-producto")).toBeVisible();
-  await expect(nuevo.locator('img[src="/productos-ia/marble-run.webp"]')).toBeVisible();
+  await expect(page.getByTestId("cuenta-resultados")).toHaveText("20 results");
+  await expect(tarjetas).toHaveCount(20);
+  await expect(tarjetas.locator('img[src^="/productos/"]:visible')).toHaveCount(20);
+  await expect(tarjetas.filter({ hasText: "Marble Run" })).toHaveCount(0);
+});
+
+test("tienda blanca: el interruptor cambia el buscador al momento, de 20 a 40 y de vuelta", async ({ page }) => {
+  // Buscar «marble» en la tienda blanca no trae el circuito de canicas (solo tiene foto): el buscador tolera errores y
+  // trae otros parecidos, todos dibujados.
+  await page.goto("/en/search/?q=marble");
+  await expect(page.getByTestId("cuenta-resultados")).toBeVisible();
+  await expect(page.getByTestId("tarjeta-producto").filter({ hasText: "Marble Run" })).toHaveCount(0);
+  await page.goto("/en/search/");
+  await expect(page.getByTestId("tarjeta-producto")).toHaveCount(20);
+  await page.getByTestId("interruptor-variante").click();
+  await expect(page.getByTestId("tarjeta-producto")).toHaveCount(40);
+  await expect(page.getByTestId("cuenta-resultados")).toHaveText("40 results");
+  await page.getByTestId("interruptor-variante").click();
+  await expect(page.getByTestId("tarjeta-producto")).toHaveCount(20);
+});
+
+test("tienda blanca: en la portada, las cuentas y la fila de «menos de $25» siguen a la variante", async ({ page }) => {
+  await page.goto("/en/?variante=base");
+  // 5 a 7 años: 5 dibujados en la tienda blanca, 8 con los nuevos
+  await expect(page.getByTestId("edad-5-7")).toContainText("5 toys", { useInnerText: true });
+  const nuevoBarato = page.getByTestId("tarjeta-producto").filter({ hasText: "Plush Puppy" });
+  await expect(nuevoBarato.locator("visible=true")).toHaveCount(0);
+
+  await page.goto("/en/?variante=color");
+  await expect(page.getByTestId("edad-5-7")).toContainText("8 toys", { useInnerText: true });
+  await nuevoBarato.first().scrollIntoViewIfNeeded();
+  await expect(nuevoBarato.first()).toBeVisible();
 });
 
 test("fotos con IA: en la ficha, las miniaturas y la vista de medidas también son la foto en la variante colorida", async ({

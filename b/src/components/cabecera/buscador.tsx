@@ -8,7 +8,7 @@ import { buscar, crearIndice } from "@/lib/buscar";
 import { rutaProducto, srcProducto } from "@/lib/catalogo";
 import type { Idioma } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
-import { useCatalogo } from "@/components/proveedor-catalogo";
+import { useCatalogoDeLaTienda } from "@/components/proveedor-catalogo";
 import { Precio } from "@/components/producto/precio";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
 import { registrarActividad } from "@/stores/actividad";
@@ -18,7 +18,7 @@ export function Buscador({ className }: { className?: string }) {
   const t = useTranslations("cabecera");
   const locale = useLocale() as Idioma;
   const router = useRouter();
-  const { productos } = useCatalogo();
+  const productos = useCatalogoDeLaTienda();
   const indice = useMemo(() => crearIndice(productos), [productos]);
   const [q, setQ] = useState("");
   const [abierto, setAbierto] = useState(false);

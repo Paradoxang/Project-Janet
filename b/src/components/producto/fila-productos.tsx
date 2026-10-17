@@ -2,7 +2,9 @@
 
 import { useCatalogo } from "@/components/proveedor-catalogo";
 import { esNuevo } from "@/lib/catalogo";
+import { enLaTiendaBlanca } from "@/lib/fotos-ia";
 import type { ProductoLigero } from "@/lib/tipos";
+import { cn } from "@/lib/utils";
 import { TarjetaProducto } from "./tarjeta-producto";
 
 /** Fila horizontal deslizable de productos (en móvil se desliza con el dedo, como en Amazon). */
@@ -15,7 +17,14 @@ export function FilaProductos({ productos, ranking = false }: { productos: Produ
     <div className="relative -mx-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden">
       <ul className="flex snap-x snap-mandatory gap-3.5 md:grid md:grid-cols-4 md:gap-x-5 md:gap-y-8 lg:grid-cols-5">
         {lista.map((p, i) => (
-          <li key={p.id} className="w-[44vw] max-w-[220px] shrink-0 snap-start py-1 md:w-auto md:max-w-none">
+          // Lo que solo tiene foto con IA sale en la variante colorida (ver enLaTiendaBlanca); el CSS lo esconde antes de pintar.
+          <li
+            key={p.id}
+            className={cn(
+              "w-[44vw] max-w-[220px] shrink-0 snap-start py-1 md:w-auto md:max-w-none",
+              !enLaTiendaBlanca(p) && "solo-variante-color",
+            )}
+          >
             <TarjetaProducto p={p} puesto={ranking ? i + 1 : undefined} />
           </li>
         ))}

@@ -3,6 +3,8 @@
 import { createContext, useContext, useMemo } from "react";
 import { useHidratado } from "@/hooks/use-hidratado";
 import { catalogoVisible } from "@/lib/catalogo";
+import { enLaTiendaBlanca } from "@/lib/fotos-ia";
+import { useVariante } from "@/marca/use-variante";
 import type { ProductoLigero } from "@/lib/tipos";
 import { useCatalogoLocal } from "@/stores/catalogo";
 
@@ -40,4 +42,15 @@ export function useCatalogo(): Catalogo {
   const c = useContext(ContextoCatalogo);
   if (!c) throw new Error("useCatalogo fuera de ProveedorCatalogo");
   return c;
+}
+
+/**
+ * Los productos que se ofrecen en la tienda que se ve: en la tienda blanca, solo los dibujados (o con foto de la dueña);
+ * en la colorida, todos (ver enLaTiendaBlanca). Para buscar y sugerir. El carrito, el pago, la lista de deseos y el
+ * panel siguen con useCatalogo(), que los tiene todos.
+ */
+export function useCatalogoDeLaTienda(): ProductoLigero[] {
+  const { productos } = useCatalogo();
+  const variante = useVariante();
+  return useMemo(() => (variante === "color" ? productos : productos.filter(enLaTiendaBlanca)), [productos, variante]);
 }

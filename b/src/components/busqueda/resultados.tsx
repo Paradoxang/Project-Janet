@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { X } from "lucide-react";
-import { useCatalogo } from "@/components/proveedor-catalogo";
+import { useCatalogoDeLaTienda } from "@/components/proveedor-catalogo";
 import { TarjetaProducto } from "@/components/producto/tarjeta-producto";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { buscar, crearIndice } from "@/lib/buscar";
@@ -21,7 +21,7 @@ export function ResultadosBusqueda() {
   const params = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const { productos } = useCatalogo();
+  const productos = useCatalogoDeLaTienda();
   const indice = useMemo(() => crearIndice(productos), [productos]);
 
   const q = params.get("q")?.trim() ?? "";

@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
 import { FilaCatalogo } from "@/components/producto/fila-productos";
 import { claseIlustracion, FotoIA } from "@/components/producto/foto-ia";
+import { enLaTiendaBlanca } from "@/lib/fotos-ia";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
 import { FranjaConfianza } from "@/components/inicio/franja-confianza";
 import { JugueteSemana } from "@/components/inicio/juguete-semana";
@@ -96,7 +97,8 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
         </Titulo>
         <ul className="grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-4 md:gap-x-4">
           {CATEGORIAS.map((c) => {
-            const delGrupo = catalogo.filter((p) => p.category === c);
+            // El que representa la categoría sale en las dos tiendas: se elige entre los de la tienda blanca.
+            const delGrupo = catalogo.filter((p) => p.category === c && enLaTiendaBlanca(p));
             const rep = delGrupo.find((p) => p.bestSeller) ?? delGrupo[0];
             return (
               <li key={c}>
