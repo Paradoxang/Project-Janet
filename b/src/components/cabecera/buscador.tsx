@@ -57,7 +57,7 @@ export function Buscador({ className }: { className?: string }) {
         else irABusqueda();
       }}
     >
-      <div className="flex h-11 items-center overflow-hidden rounded-btn border-2 border-ink bg-white focus-within:ring-3 focus-within:ring-ring/40">
+      <div className="flex h-12 items-center overflow-hidden rounded-chip border-[1.5px] border-ink bg-white p-1 focus-within:ring-3 focus-within:ring-ring/40">
         <input
           ref={entrada}
           type="search"
@@ -96,7 +96,7 @@ export function Buscador({ className }: { className?: string }) {
         <button
           type="submit"
           aria-label={t("buscarBoton")}
-          className="grid h-full w-14 place-items-center bg-brand text-brand-ink hover:brightness-95"
+          className="grid aspect-square h-full place-items-center rounded-full bg-brand text-brand-ink hover:brightness-110"
         >
           <Search className="size-5" strokeWidth={2.5} />
         </button>

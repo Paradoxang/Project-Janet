@@ -14,18 +14,14 @@ export function JugueteSemana({ p }: { p: Producto }) {
   // Las viñetas empiezan con una idea corta antes de los dos puntos: esa idea es la razón.
   const razones = p.bullets[locale].slice(0, 3).map((b) => b.split(":")[0]);
   return (
-    <section
-      data-revelar
-      aria-labelledby="semana"
-      className="grid overflow-hidden rounded-card bg-white shadow-tarjeta md:grid-cols-2"
-    >
+    <section data-revelar aria-labelledby="semana" className="grid items-center gap-5 md:grid-cols-2 md:gap-12">
       <Link
         href={`/p/${p.slug}`}
         tabIndex={-1}
         aria-hidden="true"
-        className={`textura-puntos relative grid min-h-[260px] place-items-center p-6 ${FONDO_TINTE[p.tint]}`}
+        className={`relative grid min-h-[280px] place-items-center overflow-hidden rounded-card p-6 md:min-h-[420px] ${FONDO_TINTE[p.tint]}`}
       >
-        <span className="absolute top-4 left-4 rounded-chip bg-ink px-3 py-1 text-[11.5px] font-extrabold tracking-wide text-white uppercase">
+        <span className="absolute top-4 left-4 rounded-chip bg-white px-3 py-1 text-[13px] font-bold text-ink">
           {t("inicio.semana")}
         </span>
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -39,8 +35,8 @@ export function JugueteSemana({ p }: { p: Producto }) {
           {t("producto.imagenIlustrativa")}
         </span>
       </Link>
-      <div className="grid content-center gap-3 p-5 md:p-8">
-        <h2 id="semana" className="text-[24px] leading-tight md:text-[30px]">
+      <div className="grid content-center gap-3 md:pr-8">
+        <h2 id="semana" className="text-[26px] leading-tight md:text-[40px] md:leading-[1.05]">
           <Link href={`/p/${p.slug}`} className="hover:underline">
             {p.title[locale]}
           </Link>
@@ -49,7 +45,7 @@ export function JugueteSemana({ p }: { p: Producto }) {
           <Estrellas valor={p.rating} className="text-[15px]" />
           <span className="font-bold text-ink">{p.rating.toFixed(1)}</span>({p.reviewCount.toLocaleString("en-US")})
         </p>
-        <p className="mt-1 text-xs font-extrabold tracking-wide text-muted-ink uppercase">{t("inicio.semanaPor")}</p>
+        <p className="mt-2 text-[15px] font-bold">{t("inicio.semanaPor")}</p>
         <ul className="grid gap-1.5 text-[15px]">
           {razones.map((r) => (
             <li key={r} className="flex items-start gap-2">
@@ -58,8 +54,8 @@ export function JugueteSemana({ p }: { p: Producto }) {
             </li>
           ))}
         </ul>
-        <div className="mt-2 flex flex-wrap items-center gap-4">
-          <Precio usd={p.price} className="text-[32px]" />
+        <div className="mt-3 flex flex-wrap items-center gap-5">
+          <Precio usd={p.price} className="text-[36px]" />
           <div className="w-44">
             <BotonAgregar id={p.id} />
           </div>

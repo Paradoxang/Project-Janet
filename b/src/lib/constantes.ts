@@ -13,3 +13,12 @@ export const FONDO_EDAD: Record<GrupoEdad, string> = {
   "5-7": "bg-tint-durazno",
   "8+": "bg-tint-limon",
 };
+
+/** El mismo tono de cada edad, oscuro: para textos (AA) y para el punto de color del menú. */
+export const TINTA_EDAD: Record<GrupoEdad, { texto: string; punto: string }> = {
+  "0-12m": { texto: "text-tinta-cielo", punto: "bg-tinta-cielo" },
+  "1-2": { texto: "text-tinta-menta", punto: "bg-tinta-menta" },
+  "3-4": { texto: "text-tinta-lila", punto: "bg-tinta-lila" },
+  "5-7": { texto: "text-tinta-durazno", punto: "bg-tinta-durazno" },
+  "8+": { texto: "text-tinta-limon", punto: "bg-tinta-limon" },
+};

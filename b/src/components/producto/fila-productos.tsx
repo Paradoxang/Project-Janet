@@ -13,7 +13,7 @@ export function FilaProductos({ productos, ranking = false }: { productos: Produ
   if (lista.length === 0) return null;
   return (
     <div className="relative -mx-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden">
-      <ul className="flex snap-x snap-mandatory gap-3 md:grid md:grid-cols-4 md:gap-4 lg:grid-cols-5">
+      <ul className="flex snap-x snap-mandatory gap-3.5 md:grid md:grid-cols-4 md:gap-x-5 md:gap-y-8 lg:grid-cols-5">
         {lista.map((p, i) => (
           <li key={p.id} className="w-[44vw] max-w-[220px] shrink-0 snap-start py-1 md:w-auto md:max-w-none">
             <TarjetaProducto p={p} puesto={ranking ? i + 1 : undefined} />

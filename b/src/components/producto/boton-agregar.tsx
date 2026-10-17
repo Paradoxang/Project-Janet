@@ -34,7 +34,7 @@ export function BotonAgregar({
     <Button
       type="button"
       variant="cta"
-      size={compacto ? "sm" : "xl"}
+      size={compacto ? "lg" : "xl"}
       disabled={deshabilitado}
       data-testid="agregar"
       className={cn("w-full", className)}

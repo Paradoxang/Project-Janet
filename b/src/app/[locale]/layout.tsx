@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Gabarito, Hanken_Grotesk } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -17,6 +18,10 @@ import { routing } from "@/i18n/routing";
 import { getCatalogoLigero } from "@/lib/data";
 import { scriptModoPanel } from "@/lib/modo-panel";
 import { ICONOS, MARCA_INICIAL, scriptMarca } from "@/marca/script-marca";
+
+// Letra de la versión neutra (OFL, servida desde la propia web por next/font). Brinco usa la suya (ver /b/marca).
+const gabarito = Gabarito({ subsets: ["latin", "latin-ext"], variable: "--font-gabarito", display: "swap" });
+const hanken = Hanken_Grotesk({ subsets: ["latin", "latin-ext"], variable: "--font-hanken", display: "swap" });
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -46,7 +51,12 @@ export default async function LayoutIdioma({
   const catalogo = await getCatalogoLigero();
 
   return (
-    <html lang={locale} data-marca={MARCA_INICIAL} suppressHydrationWarning>
+    <html
+      lang={locale}
+      data-marca={MARCA_INICIAL}
+      className={`${gabarito.variable} ${hanken.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: scriptMarca() }} />
         <script dangerouslySetInnerHTML={{ __html: scriptModoPanel() }} />

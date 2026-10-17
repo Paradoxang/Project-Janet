@@ -26,16 +26,17 @@ export function Momentos({ catalogo, ocasiones }: { catalogo: ProductoLigero[]; 
         const n = catalogo.filter((p) => p.occasions.includes(o)).length;
         return (
           <li key={o} className="w-[56vw] max-w-[240px] shrink-0 snap-start md:w-auto md:max-w-none">
-            <Link
-              href={{ pathname: "/search", query: { ocasion: o } }}
-              className={`group flex h-full flex-col overflow-hidden rounded-card transition-transform duration-200 hover:-translate-y-1 ${FONDO[o]}`}
-            >
-              <span className="grid aspect-[4/3] place-items-center">
+            <Link href={{ pathname: "/search", query: { ocasion: o } }} className="group flex h-full flex-col gap-2.5">
+              <span
+                className={`grid aspect-[4/3] place-items-center rounded-card transition-transform duration-200 group-hover:-translate-y-1 ${FONDO[o]}`}
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/productos/${DIBUJO[o]}.svg`} alt="" className="menear-al-pasar h-[80%]" loading="lazy" />
+                <img src={`/productos/${DIBUJO[o]}.svg`} alt="" className="menear-al-pasar h-[78%]" loading="lazy" />
               </span>
-              <span className="px-4 pb-4">
-                <span className="block font-display text-[18px] leading-tight">{t(`inicio.momentos.${o}`)}</span>
+              <span className="px-0.5">
+                <span className="block font-display text-[19px] leading-tight group-hover:underline">
+                  {t(`inicio.momentos.${o}`)}
+                </span>
                 <span className="text-[13px] text-muted-ink">
                   {t(`ocasion.${o}`)} · {t("inicio.productos", { n })}
                 </span>
