@@ -24,7 +24,7 @@ test("filtros de búsqueda: «Todos» quita la edad sin tener que desmarcarla", 
   await todos.click();
   await expect(page).toHaveURL(/\/es\/search\/?$/);
   await expect(todos).toHaveAttribute("aria-pressed", "true");
-  await expect(page.getByTestId("cuenta-resultados")).toHaveText("20 resultados");
+  await expect(page.getByTestId("cuenta-resultados")).toHaveText("40 resultados");
 });
 
 test("lista de deseos sin cuenta: el corazón de la cabecera cuenta y lleva a la lista", async ({ page }) => {

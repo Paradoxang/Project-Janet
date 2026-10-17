@@ -18,14 +18,20 @@ test("fotos con IA: la variante colorida enseña la foto marcada y la tienda bla
   await expect(tarjeta.getByText("Illustrative image", { exact: true })).toBeVisible();
 });
 
-test("fotos con IA: en la variante colorida, los 20 juguetes del buscador enseñan su foto y ninguno su ilustración", async ({
+test("fotos con IA: en la variante colorida, los 40 juguetes del buscador enseñan su foto y ninguno su ilustración", async ({
   page,
 }) => {
   await page.goto("/en/search/?variante=color");
   const tarjetas = page.getByTestId("tarjeta-producto");
-  await expect(tarjetas).toHaveCount(20);
-  await expect(tarjetas.getByTestId("foto-ia-producto")).toHaveCount(20);
+  await expect(tarjetas).toHaveCount(40);
+  await expect(tarjetas.getByTestId("foto-ia-producto")).toHaveCount(40);
   await expect(tarjetas.locator('img[src^="/productos/"]:visible')).toHaveCount(0);
+
+  // En la tienda blanca, un juguete del inventario nuevo (sin ilustración propia) enseña su foto.
+  await page.goto("/en/search/?variante=base");
+  const nuevo = tarjetas.filter({ hasText: "Marble Run" });
+  await expect(nuevo.getByTestId("foto-ia-producto")).toBeVisible();
+  await expect(nuevo.locator('img[src="/productos-ia/marble-run.webp"]')).toBeVisible();
 });
 
 test("fotos con IA: en la ficha, las miniaturas y la vista de medidas también son la foto en la variante colorida", async ({

@@ -7,7 +7,7 @@ test("la dueña crea un juguete con foto y aparece en la tienda; se puede compra
   await entrarComoDuena(page);
   await page.getByTestId("pestana-productos").click();
   await expect(page).toHaveURL(/\/es\/panel\/catalogo\/?$/);
-  await expect(page.getByTestId("fila-producto")).toHaveCount(20);
+  await expect(page.getByTestId("fila-producto")).toHaveCount(40);
 
   await page.getByTestId("nuevo-producto").click();
   const formulario = page.getByTestId("formulario-producto");
@@ -28,7 +28,7 @@ test("la dueña crea un juguete con foto y aparece en la tienda; se puede compra
   await page.keyboard.type("Incluye 6 utensilios");
   await formulario.getByTestId("guardar-producto").click();
   await expect(formulario).toBeHidden();
-  await expect(page.getByTestId("fila-producto")).toHaveCount(21);
+  await expect(page.getByTestId("fila-producto")).toHaveCount(41);
   await expect(page.getByTestId("fila-producto").first()).toContainText("Cocinita de madera con horno");
 
   // En la portada, «Recién llegados»
@@ -80,10 +80,10 @@ test("editar el precio de un juguete de ejemplo cambia en toda la tienda; oculta
   await page.goto("/es/panel/catalogo/");
   await page.getByTestId("fila-producto").filter({ hasText: "Tren de madera" }).getByTestId("borrar-producto").click();
   await page.getByTestId("confirmar-borrar").click();
-  await expect(page.getByTestId("fila-producto")).toHaveCount(19);
+  await expect(page.getByTestId("fila-producto")).toHaveCount(39);
   await page.getByTestId("restaurar-catalogo").click();
   await page.getByTestId("confirmar-restaurar").click();
-  await expect(page.getByTestId("fila-producto")).toHaveCount(20);
+  await expect(page.getByTestId("fila-producto")).toHaveCount(40);
   await page.goto("/es/p/plush-teddy-bear/");
   await expect(page.getByTestId("titulo-producto")).toContainText("Oso de peluche");
 });

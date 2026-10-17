@@ -125,7 +125,7 @@ describe("catálogo con los cambios de la dueña", () => {
     expect(con({ piezas: "12" })).toEqual([]);
   });
 
-  it("editar un juguete de ejemplo sin tocar nada lo deja idéntico (los 20)", async () => {
+  it("editar un juguete de ejemplo sin tocar nada lo deja idéntico (los 40)", async () => {
     for (const p of await getProducts()) {
       expect(productoDesdeDatos(datosDesdeProducto(p), p)).toEqual(p);
     }

@@ -64,7 +64,7 @@ describe("detalles del producto: medidas, peso y materiales", () => {
     expect(leerMateriales({ es: "Pintura a base de agua, madera", en: "Water-based paint, wood" })).toBeNull();
   });
 
-  it("las medidas y el peso de los 20 juguetes de ejemplo se leen y se reescriben idénticos", async () => {
+  it("las medidas y el peso de los 40 juguetes de ejemplo se leen y se reescriben idénticos", async () => {
     for (const p of await getProducts()) {
       const medidas = leerMedidas(p.specs.dimensions);
       const peso = leerPeso(p.specs.weight);

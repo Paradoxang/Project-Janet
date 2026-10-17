@@ -73,7 +73,7 @@ test("las fichas por edad filtran el catálogo", async ({ page }) => {
   await page.goto("/en/");
   await page.getByTestId("edad-5-7").click();
   await expect(page.getByTestId("titulo-busqueda")).toHaveText("5–7 years");
-  await expect(page.getByTestId("cuenta-resultados")).toHaveText("5 results");
+  await expect(page.getByTestId("cuenta-resultados")).toHaveText("8 results");
 });
 
 test("en el celular nada se sale de la pantalla", async ({ page }) => {

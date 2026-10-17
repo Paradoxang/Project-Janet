@@ -50,10 +50,10 @@ test.describe("tarjetas holográficas", () => {
     await expect(page).toHaveURL(/\/en\/p\/[a-z-]+\/?$/);
   });
 
-  test("con 20 productos en pantalla nunca hay más de 8 a la vez", async ({ page }) => {
+  test("con 40 productos en pantalla nunca hay más de 8 a la vez", async ({ page }) => {
     await conGpu(page);
     await page.goto("/en/search/");
-    await expect(page.getByTestId("tarjeta-producto")).toHaveCount(20);
+    await expect(page.getByTestId("tarjeta-producto")).toHaveCount(40);
     await expect(page.locator(".holo-card[data-ready]").first()).toBeVisible({ timeout: 15_000 });
     let maximo = 0;
     for (let i = 0; i < 8; i++) {
@@ -94,7 +94,7 @@ test.describe("tarjetas holográficas", () => {
 
   test("sin GPU (WebGL por software, como PageSpeed) se queda la imagen de siempre", async ({ page }) => {
     await page.goto("/en/search/");
-    await expect(page.getByTestId("tarjeta-producto")).toHaveCount(20);
+    await expect(page.getByTestId("tarjeta-producto")).toHaveCount(40);
     await page.waitForTimeout(1500);
     await expect(page.locator(".holo-card")).toHaveCount(0);
   });
@@ -113,7 +113,7 @@ test.describe("tarjetas holográficas", () => {
     // Pasó de verdad: en Chrome --headless=new se montaba por software y Lighthouse marcó 160 s de bloqueo.
     await sinAvisoDeSoftware(page);
     await page.goto("/en/search/");
-    await expect(page.getByTestId("tarjeta-producto")).toHaveCount(20);
+    await expect(page.getByTestId("tarjeta-producto")).toHaveCount(40);
     await page.waitForTimeout(1500);
     await expect(page.locator(".holo-card")).toHaveCount(0);
   });

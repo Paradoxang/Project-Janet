@@ -8,10 +8,10 @@ const panel = await getPanel();
 const impuestos = await getTaxRates();
 
 describe("paquete de datos", () => {
-  it("tiene 20 productos completos en inglés y español", () => {
-    expect(productos).toHaveLength(20);
-    expect(new Set(productos.map((p) => p.id)).size).toBe(20);
-    expect(new Set(productos.map((p) => p.slug)).size).toBe(20);
+  it("tiene 40 productos completos en inglés y español", () => {
+    expect(productos).toHaveLength(40);
+    expect(new Set(productos.map((p) => p.id)).size).toBe(40);
+    expect(new Set(productos.map((p) => p.slug)).size).toBe(40);
     for (const p of productos) {
       expect(p.title.en && p.title.es, p.id).toBeTruthy();
       expect(p.bullets.en.length, p.id).toBeGreaterThanOrEqual(4);
