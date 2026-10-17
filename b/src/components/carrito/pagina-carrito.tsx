@@ -30,7 +30,13 @@ function Linea({ linea }: { linea: LineaCarrito }) {
   const accion = "text-[13px] font-bold text-link hover:underline";
   return (
     <li className="flex gap-3 border-b py-4 last:border-b-0" data-testid="linea-carrito">
-      <Link href={rutaProducto(p)} className={cn("grid size-24 shrink-0 place-items-center rounded-card md:size-32", FONDO_TINTE[p.tint])}>
+      {/* La foto repite el enlace del título: fuera del orden del teclado y de los lectores de pantalla. */}
+      <Link
+        href={rutaProducto(p)}
+        tabIndex={-1}
+        aria-hidden="true"
+        className={cn("grid size-24 shrink-0 place-items-center rounded-card md:size-32", FONDO_TINTE[p.tint])}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={srcProducto(p)} alt="" className="size-[85%]" />
       </Link>

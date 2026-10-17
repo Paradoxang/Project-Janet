@@ -17,7 +17,7 @@ export function SelectorIdioma({ oscuro = false }: { oscuro?: boolean }) {
       lang={otro}
       hrefLang={otro}
       data-testid="selector-idioma"
-      aria-label={t("otroIdioma")}
+      aria-label={`${t("otroIdiomaCorto")} · ${t("otroIdioma")}`}
       onClick={(e) => {
         e.preventDefault();
         const query = Object.fromEntries(new URLSearchParams(window.location.search));

@@ -24,7 +24,6 @@ export function BloquesEdad({ catalogo, edades }: { catalogo: ProductoLigero[]; 
             <Link
               href={{ pathname: "/search", query: { edad } }}
               data-testid={`edad-${edad}`}
-              aria-label={`${t(`edad.${edad}`)} · ${t("inicio.productos", { n: delGrupo.length })}`}
               className={`group relative flex h-full min-h-[118px] flex-col justify-between overflow-hidden rounded-card p-3.5 shadow-[inset_0_-5px_0_0_rgb(0_0_0/0.06)] transition-transform duration-200 hover:-translate-y-1 md:min-h-[188px] md:p-5 ${FONDO_EDAD[edad]}`}
             >
               <span

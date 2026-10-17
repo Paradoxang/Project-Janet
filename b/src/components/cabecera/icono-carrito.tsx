@@ -22,7 +22,7 @@ export function IconoCarrito() {
     <Link
       href="/cart"
       data-testid="icono-carrito"
-      aria-label={`${t("carrito")} (${n})`}
+      aria-label={`${t("carrito")}: ${n}`}
       className="relative grid size-10 place-items-center rounded-md text-ink hover:bg-surface"
     >
       <ShoppingCart className="size-6" aria-hidden="true" />

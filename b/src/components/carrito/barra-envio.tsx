@@ -21,16 +21,18 @@ export function BarraEnvio({ subtotal }: { subtotal: number }) {
     if (faltaAntes.current > 0 && falta === 0) setDisparo((d) => d + 1);
     faltaAntes.current = falta;
   }, [falta]);
+  const mensaje = falta === 0 ? t("gratisLogrado") : t("faltan", { monto: precio(aDolares(falta), locale) });
   return (
     <div className="relative grid gap-1.5" data-testid="barra-envio">
       <Confeti disparo={disparo} />
       <p className={`flex items-center gap-2 text-sm font-bold ${falta === 0 ? "text-stock" : "text-ink"}`}>
         <Truck className="size-4 shrink-0" aria-hidden="true" />
-        {falta === 0 ? t("gratisLogrado") : t("faltan", { monto: precio(aDolares(falta), locale) })}
+        {mensaje}
       </p>
       <div
         className="h-2 overflow-hidden rounded-full bg-surface"
         role="progressbar"
+        aria-label={mensaje}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={pct}
