@@ -191,7 +191,8 @@
     "yaNoDisponibleTexto": "The store may have taken it down. Take a look at similar toys.",
     "verOtros": "See toys",
     "verEnMapa": "see on map",
-    "imagenIlustrativaIA": "Illustrative image (AI)"
+    "imagenIlustrativaIA": "Illustrative image (AI)",
+    "ampliar": "Enlarge image {n} of {total}"
   },
   "busqueda": {
     "titulo": "Results for “{q}”",
@@ -804,5 +805,16 @@
       "games": "Family game week: for 2 to 6 players.",
       "plush": "Plush week: bedtime buddies."
     }
+  },
+  "visor": {
+    "titulo": "Enlarged image: {producto}",
+    "ayuda": "Zoom with the wheel, a pinch, a double click or the + and − keys. When zoomed, drag or use the arrow keys to move. When not zoomed, the arrows change the image. Esc closes.",
+    "contador": "{n} of {total}",
+    "acercar": "Zoom in",
+    "alejar": "Zoom out",
+    "ajustar": "Fit to screen",
+    "cerrar": "Close",
+    "anterior": "Previous image",
+    "siguiente": "Next image"
   }
 }

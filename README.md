@@ -38,6 +38,7 @@ desarrollo real solo empieza si ella firma.
 | Tienda | Inicio, buscador que tolera errores, ficha de producto, carrito (panel y página), pago simulado con confirmación, dónde comprar (mapa con 6 tiendas DEMO y ZIP), lista de deseos (`/wishlist`, también sin cuenta), FAQ |
 | Variante colorida (16-10) | Interruptor «Variante colorida» en la franja de demo, o `?variante=color`. Tintes más vivos, banner azul y fotos de niños jugando hechas con IA, marcadas «Imagen ilustrativa (IA)», en `b/public/variante/`. La tienda blanca sale por defecto. También: promoción de la semana por categoría (DEMO), país y moneda de muestra en el pie y, en la portada, la cabecera sin fichas de edad |
 | Fotos de producto con IA (17-10) | Preparado y aún sin fotos. Cada foto va a `b/public/productos-ia/<ilustración>.webp` y a `FOTOS_IA` en `src/lib/fotos-ia.ts`. La variante colorida enseña la foto, marcada «Imagen ilustrativa (IA)»; la tienda blanca sigue con la ilustración. Un juguete sin ilustración enseña siempre su foto |
+| Visor ampliado (17-10) | En la ficha, pulsar una imagen la abre en el centro de la pantalla (`components/producto/visor-imagenes.tsx`, sobre el Dialog de Radix). Zoom con rueda, pellizco, doble clic o doble toque, + y − y 0 para ajustar. Con zoom se arrastra o se mueve con las flechas; sin zoom, las flechas y el deslizar cambian de imagen. Esc, ✕ o el fondo lo cierran y el foco vuelve a la imagen |
 | Review de usuario (16-10) | La cabecera se esconde al bajar y vuelve al subir. Hay «Todos» en los filtros de edad, un corazón de la lista en la cabecera y tarjetas de tienda que se pulsan enteras. El mapa hace zoom con Ctrl + rueda y cada tienda de la ficha lleva al mapa. La dirección va en dos líneas, con teléfono opcional. En el pie, el logo lleva al inicio, se cambia el idioma y está «Conócenos» (próximamente) |
 | Marca | Dos versiones a la par: **neutra** (con marcadores «Your logo») y **Brinco** (la propuesta). Se cambia con el interruptor de la franja de demo o con `?marca=` |
 | Efectos | Tarjetas de producto holográficas (HoloCard de React Bits), con créditos en el pie |
@@ -190,10 +191,11 @@ b/                       la maqueta B (Next.js estático)
 
 - **Unitarias (53, `tests/unit`):** sesión, catálogo, detalles, búsqueda, totales, ZIP, formato de precios y fechas,
   recomendaciones, actividad, turnos, modo panel y la integridad de `/datos`.
-- **E2E (41 pruebas × 2 perfiles = 82, `tests/e2e`):**
+- **E2E (56 pruebas × 2 perfiles = 112, `tests/e2e`):**
   - el recorrido de la demo (`paso2` a `paso4`);
   - cuentas, panel, gestión de productos y panel a pantalla completa;
   - las tarjetas holográficas;
+  - la review de usuario y sus propuestas, y el visor ampliado de la ficha;
   - un recorrido completo: la dueña sube un juguete, una compradora lo compra y la dueña lo ve en vivo.
 - **El fixture** espera en cada `goto` a que la página esté hidratada: `html.js-revelar`, salvo con «reducir movimiento».
 - **Para escritorio** se usa `page.setViewportSize` dentro de la prueba.

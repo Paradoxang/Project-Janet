@@ -191,7 +191,8 @@
     "yaNoDisponibleTexto": "Puede que la tienda lo haya retirado. Mira otros juguetes parecidos.",
     "verOtros": "Ver juguetes",
     "verEnMapa": "ver en el mapa",
-    "imagenIlustrativaIA": "Imagen ilustrativa (IA)"
+    "imagenIlustrativaIA": "Imagen ilustrativa (IA)",
+    "ampliar": "Ampliar la imagen {n} de {total}"
   },
   "busqueda": {
     "titulo": "Resultados para «{q}»",
@@ -804,5 +805,16 @@
       "games": "Semana de juegos en familia: de 2 a 6 jugadores.",
       "plush": "Semana de peluches: compañeros para la hora de dormir."
     }
+  },
+  "visor": {
+    "titulo": "Imagen ampliada: {producto}",
+    "ayuda": "Acerca con la rueda, pellizcando, con doble clic o con las teclas + y −. Con zoom, arrastra o usa las flechas para moverte. Sin zoom, las flechas cambian de imagen. Esc cierra.",
+    "contador": "{n} de {total}",
+    "acercar": "Acercar",
+    "alejar": "Alejar",
+    "ajustar": "Ajustar a la pantalla",
+    "cerrar": "Cerrar",
+    "anterior": "Imagen anterior",
+    "siguiente": "Imagen siguiente"
   }
 }

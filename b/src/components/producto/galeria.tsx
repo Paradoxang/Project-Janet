@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Ruler } from "lucide-react";
+import { Ruler, ZoomIn } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import { srcProducto } from "@/lib/catalogo";
 import type { Tinte } from "@/lib/tipos";
@@ -10,6 +10,10 @@ import { cn } from "@/lib/utils";
 import { fotoIA, tieneIlustracion } from "@/lib/fotos-ia";
 import { claseIlustracion } from "./foto-ia";
 import { FONDO_TINTE, ImagenProducto } from "./imagen-producto";
+import { VisorImagenes, type VistaVisor } from "./visor-imagenes";
+
+/** Las mismas tres vistas en el visor: la de detalle se abre ya acercada. */
+const VISTAS_VISOR: VistaVisor[] = [{ tipo: "imagen" }, { tipo: "imagen", zoom: 1.7 }, { tipo: "medidas" }];
 
 const ROTULO =
   "pointer-events-none absolute bottom-2 left-2 rounded-md bg-white/90 px-1.5 py-0.5 text-[11px] font-bold text-muted-ink";
@@ -35,6 +39,13 @@ export function Galeria({
   const conIlustracion = imagen ? undefined : claseIlustracion(illustration);
   const [api, setApi] = useState<CarouselApi>();
   const [actual, setActual] = useState(0);
+  const [visor, setVisorEstado] = useState<number | null>(null);
+  const disparadores = useRef<(HTMLButtonElement | null)[]>([]);
+  const abiertoDesde = useRef(0);
+  const setVisor = (i: number | null) => {
+    if (i !== null) abiertoDesde.current = i;
+    setVisorEstado(i);
+  };
 
   useEffect(() => {
     if (!api) return;
@@ -71,11 +82,30 @@ export function Galeria({
           <CarouselContent>
             {vistas.map((v, i) => (
               <CarouselItem key={i} aria-label={t("imagen", { n: i + 1, total: vistas.length })}>
-                {v}
+                {/* Pulsar la vista la abre en el visor ampliado, en el centro de la pantalla y con zoom. */}
+                <button
+                  type="button"
+                  ref={(el) => {
+                    disparadores.current[i] = el;
+                  }}
+                  onClick={() => setVisor(i)}
+                  aria-label={t("ampliar", { n: i + 1, total: vistas.length })}
+                  aria-haspopup="dialog"
+                  className="block w-full cursor-zoom-in rounded-card focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:outline-none"
+                  data-testid={`ampliar-${i + 1}`}
+                >
+                  {v}
+                </button>
               </CarouselItem>
             ))}
           </CarouselContent>
         </Carousel>
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute top-2 right-2 grid size-9 place-items-center rounded-full bg-white/90 text-ink"
+        >
+          <ZoomIn className="size-5" />
+        </span>
         {/* El rótulo es para nuestras ilustraciones y fotos con IA; la foto que sube la dueña es la del producto. */}
         {imagen ? null : (
           <>
@@ -114,6 +144,24 @@ export function Galeria({
           </button>
         ))}
       </div>
+      <VisorImagenes
+        abierto={visor !== null}
+        alCerrar={() => setVisor(null)}
+        inicio={visor ?? 0}
+        vistas={VISTAS_VISOR}
+        illustration={illustration}
+        imagen={imagen}
+        tint={tint}
+        titulo={alt}
+        medidas={medidas}
+        edades={edades}
+        alVolver={() => {
+          // El foco vuelve a la vista que abrió el visor, y el carrusel la enseña.
+          const i = abiertoDesde.current;
+          api?.scrollTo(i, true);
+          disparadores.current[i]?.focus();
+        }}
+      />
     </div>
   );
 }
