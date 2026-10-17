@@ -35,7 +35,8 @@ desarrollo real solo empieza si ella firma.
 
 | Área | Qué hace |
 |---|---|
-| Tienda | Inicio, buscador que tolera errores, ficha de producto, carrito (panel y página), pago simulado con confirmación, dónde comprar (mapa con 6 tiendas DEMO y ZIP), FAQ |
+| Tienda | Inicio, buscador que tolera errores, ficha de producto, carrito (panel y página), pago simulado con confirmación, dónde comprar (mapa con 6 tiendas DEMO y ZIP), lista de deseos (`/wishlist`, también sin cuenta), FAQ |
+| Review de usuario (16-10) | La cabecera se esconde al bajar y vuelve al subir. Hay «Todos» en los filtros de edad, un corazón de la lista en la cabecera y tarjetas de tienda que se pulsan enteras. El mapa hace zoom con Ctrl + rueda y cada tienda de la ficha lleva al mapa. La dirección va en dos líneas, con teléfono opcional. En el pie, el logo lleva al inicio, se cambia el idioma y está «Conócenos» (próximamente) |
 | Marca | Dos versiones a la par: **neutra** (con marcadores «Your logo») y **Brinco** (la propuesta). Se cambia con el interruptor de la franja de demo o con `?marca=` |
 | Efectos | Tarjetas de producto holográficas (HoloCard de React Bits), con créditos en el pie |
 | Cuentas | Login con dos roles. La compradora tiene contraseña, favoritos, pedidos, recomendaciones y avisos por correo simulados. La administración entra al panel |
