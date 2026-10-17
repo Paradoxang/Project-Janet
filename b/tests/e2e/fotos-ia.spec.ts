@@ -18,11 +18,14 @@ test("fotos con IA: la variante colorida enseña la foto marcada y la tienda bla
   await expect(tarjeta.getByText("Illustrative image", { exact: true })).toBeVisible();
 });
 
-test("fotos con IA: un juguete sin foto sigue con su ilustración en la variante colorida", async ({ page }) => {
+test("fotos con IA: en la variante colorida, los 20 juguetes del buscador enseñan su foto y ninguno su ilustración", async ({
+  page,
+}) => {
   await page.goto("/en/search/?variante=color");
-  const tarjeta = page.getByTestId("tarjeta-producto").filter({ hasText: "USA Map Floor Puzzle" });
-  await expect(tarjeta.getByTestId("foto-ia-producto")).toHaveCount(0);
-  await expect(tarjeta.locator('img[src="/productos/map-puzzle.svg"]')).toBeVisible();
+  const tarjetas = page.getByTestId("tarjeta-producto");
+  await expect(tarjetas).toHaveCount(20);
+  await expect(tarjetas.getByTestId("foto-ia-producto")).toHaveCount(20);
+  await expect(tarjetas.locator('img[src^="/productos/"]:visible')).toHaveCount(0);
 });
 
 test("fotos con IA: en la ficha, las miniaturas y la vista de medidas también son la foto en la variante colorida", async ({

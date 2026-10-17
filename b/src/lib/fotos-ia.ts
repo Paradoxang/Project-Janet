@@ -37,6 +37,7 @@ export const FOTOS_IA = new Set<string>([
   "board-game",
   "dinosaurs",
   "magnetic-tiles",
+  "map-puzzle",
   "pull-duck",
   "rainbow-stacker",
   "rc-car",
