@@ -144,7 +144,9 @@ export function CapaHolo({ src, preset = "stars" }: { src: string; preset?: Holo
 
   // Con turno, compone el arte con el fondo de ahora; si cambia la marca (otros colores), lo recompone.
   useEffect(() => {
-    const fondo = ref.current?.parentElement;
+    // Un envoltorio sin caja (display: contents, p. ej. el de la foto con IA) no tiene fondo: manda el de fuera.
+    let fondo = ref.current?.parentElement;
+    while (fondo && getComputedStyle(fondo).display === "contents") fondo = fondo.parentElement;
     if (!turno || !fondo) return;
     let vigente = true;
     const componer = () => {

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Clock, LocateFixed, MapPin, Navigation, Phone, X } from "lucide-react";
 import { useCatalogo } from "@/components/proveedor-catalogo";
+import { srcProducto } from "@/lib/catalogo";
 import { enlaceComoLlegar } from "@/components/producto/disponibilidad-tienda";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -151,7 +152,7 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
       {producto ? (
         <div className="mt-4 flex flex-wrap items-center gap-3 rounded-card bg-warm p-3" data-testid="filtro-producto">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`/productos/${producto.illustration}.svg`} alt="" className="size-12" />
+          <img src={srcProducto(producto)} alt="" className="size-12" />
           <p className="flex-1 text-sm font-bold">{t("disponibilidadDe", { producto: producto.title[locale] })}</p>
           <button
             type="button"

@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Lightbulb, SearchX } from "lucide-react";
 import { useCatalogo } from "@/components/proveedor-catalogo";
+import { srcProducto } from "@/lib/catalogo";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
 import type { Idioma, Panel } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
@@ -88,7 +89,7 @@ export function JugueteEstrella({ panel }: { panel: Panel }) {
       <div className="flex items-center gap-4" data-testid="juguete-estrella">
         <span className={cn("grid size-24 shrink-0 place-items-center rounded-card", FONDO_TINTE[p.tint])}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`/productos/${p.illustration}.svg`} alt="" className="size-20" />
+          <img src={srcProducto(p)} alt="" className="size-20" />
         </span>
         <div className="grid gap-1">
           <p className="font-display text-lg leading-snug">{p.title[locale]}</p>

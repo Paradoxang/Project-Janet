@@ -37,6 +37,7 @@ desarrollo real solo empieza si ella firma.
 |---|---|
 | Tienda | Inicio, buscador que tolera errores, ficha de producto, carrito (panel y página), pago simulado con confirmación, dónde comprar (mapa con 6 tiendas DEMO y ZIP), lista de deseos (`/wishlist`, también sin cuenta), FAQ |
 | Variante colorida (16-10) | Interruptor «Variante colorida» en la franja de demo, o `?variante=color`. Tintes más vivos, banner azul y fotos de niños jugando hechas con IA, marcadas «Imagen ilustrativa (IA)», en `b/public/variante/`. La tienda blanca sale por defecto. También: promoción de la semana por categoría (DEMO), país y moneda de muestra en el pie y, en la portada, la cabecera sin fichas de edad |
+| Fotos de producto con IA (17-10) | Preparado y aún sin fotos. Cada foto va a `b/public/productos-ia/<ilustración>.webp` y a `FOTOS_IA` en `src/lib/fotos-ia.ts`. La variante colorida enseña la foto, marcada «Imagen ilustrativa (IA)»; la tienda blanca sigue con la ilustración. Un juguete sin ilustración enseña siempre su foto |
 | Review de usuario (16-10) | La cabecera se esconde al bajar y vuelve al subir. Hay «Todos» en los filtros de edad, un corazón de la lista en la cabecera y tarjetas de tienda que se pulsan enteras. El mapa hace zoom con Ctrl + rueda y cada tienda de la ficha lleva al mapa. La dirección va en dos líneas, con teléfono opcional. En el pie, el logo lleva al inicio, se cambia el idioma y está «Conócenos» (próximamente) |
 | Marca | Dos versiones a la par: **neutra** (con marcadores «Your logo») y **Brinco** (la propuesta). Se cambia con el interruptor de la franja de demo o con `?marca=` |
 | Efectos | Tarjetas de producto holográficas (HoloCard de React Bits), con créditos en el pie |
@@ -132,7 +133,8 @@ b/                       la maqueta B (Next.js estático)
 |---|---|
 | `data.ts` | **Única entrada de datos** (`getProducts`, `getStores`, `getPanel`…). Hoy lee `/datos`; mañana leerá la API |
 | `constantes.ts` | Listas sin datos (edades, categorías, ocasiones, colores por edad), seguras para el navegador |
-| `catalogo.ts` | Catálogo = el de ejemplo más los cambios de la dueña; formulario ↔ producto (`DatosProducto`) |
+| `catalogo.ts` | Catálogo = el de ejemplo más los cambios de la dueña; formulario ↔ producto (`DatosProducto`). `srcProducto()` da la imagen de un producto |
+| `fotos-ia.ts` | Qué juguetes tienen ilustración propia (`ILUSTRACIONES`) y cuáles foto con IA (`FOTOS_IA`). La foto la pinta `components/producto/foto-ia.tsx` |
 | `detalles.ts` | Unidades (cm, m, in; kg, lb), lista de materiales y advertencias comunes |
 | `sesion.ts` | Cuentas: huella PBKDF2 de la contraseña y la lista de `ADMINISTRACION` |
 | `modo-panel.ts` | Script antes de pintar que recoge la cabecera en el panel |

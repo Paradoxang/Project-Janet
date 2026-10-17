@@ -190,7 +190,8 @@
     "yaNoDisponible": "Este juguete ya no está disponible",
     "yaNoDisponibleTexto": "Puede que la tienda lo haya retirado. Mira otros juguetes parecidos.",
     "verOtros": "Ver juguetes",
-    "verEnMapa": "ver en el mapa"
+    "verEnMapa": "ver en el mapa",
+    "imagenIlustrativaIA": "Imagen ilustrativa (IA)"
   },
   "busqueda": {
     "titulo": "Resultados para «{q}»",

@@ -2,7 +2,10 @@ import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, Check } from "lucide-react";
 import { BotonAgregar } from "@/components/producto/boton-agregar";
 import { Estrellas } from "@/components/producto/estrellas";
+import { claseIlustracion, FotoIA } from "@/components/producto/foto-ia";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
+import { srcProducto } from "@/lib/catalogo";
+import { cn } from "@/lib/utils";
 import { Precio } from "@/components/producto/precio";
 import { Link } from "@/i18n/navigation";
 import type { Idioma, Producto } from "@/lib/tipos";
@@ -21,19 +24,30 @@ export function JugueteSemana({ p }: { p: Producto }) {
         aria-hidden="true"
         className={`relative grid min-h-[280px] place-items-center overflow-hidden rounded-card p-6 md:min-h-[420px] ${FONDO_TINTE[p.tint]}`}
       >
-        <span className="absolute top-4 left-4 rounded-chip bg-white px-3 py-1 text-[13px] font-bold text-ink">
+        <span className="absolute top-4 left-4 z-10 rounded-chip bg-white px-3 py-1 text-[13px] font-bold text-ink">
           {t("inicio.semana")}
         </span>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`/productos/${p.illustration}.svg`}
-          alt=""
-          className="flotar w-[74%] max-w-[320px]"
-          style={{ "--giro": "-3deg" } as React.CSSProperties}
-        />
-        <span className="absolute bottom-2 left-3 rounded-md bg-white/90 px-1.5 py-0.5 text-[10px] font-bold text-muted-ink">
-          {t("producto.imagenIlustrativa")}
-        </span>
+        {/* La ilustración propia (en la variante colorida, la foto con IA: ver components/producto/foto-ia.tsx). */}
+        {claseIlustracion(p.illustration) !== null ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={srcProducto(p)}
+              alt=""
+              className={cn("flotar w-[74%] max-w-[320px]", claseIlustracion(p.illustration))}
+              style={{ "--giro": "-3deg" } as React.CSSProperties}
+            />
+            <span
+              className={cn(
+                "absolute bottom-2 left-3 rounded-md bg-white/90 px-1.5 py-0.5 text-[10px] font-bold text-muted-ink",
+                claseIlustracion(p.illustration),
+              )}
+            >
+              {t("producto.imagenIlustrativa")}
+            </span>
+          </>
+        ) : null}
+        <FotoIA illustration={p.illustration} />
       </Link>
       <div className="grid content-center gap-3 md:pr-8">
         <h2 id="semana" className="text-[26px] leading-tight md:text-[40px] md:leading-[1.05]">

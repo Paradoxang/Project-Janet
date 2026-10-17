@@ -190,7 +190,8 @@
     "yaNoDisponible": "This toy is no longer available",
     "yaNoDisponibleTexto": "The store may have taken it down. Take a look at similar toys.",
     "verOtros": "See toys",
-    "verEnMapa": "see on map"
+    "verEnMapa": "see on map",
+    "imagenIlustrativaIA": "Illustrative image (AI)"
   },
   "busqueda": {
     "titulo": "Results for “{q}”",

@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
 import { FilaCatalogo } from "@/components/producto/fila-productos";
+import { claseIlustracion, FotoIA } from "@/components/producto/foto-ia";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
 import { FranjaConfianza } from "@/components/inicio/franja-confianza";
 import { JugueteSemana } from "@/components/inicio/juguete-semana";
@@ -9,6 +10,7 @@ import { Novedades } from "@/components/inicio/novedades";
 import { Portada } from "@/components/inicio/portada";
 import { PromoTiendas } from "@/components/inicio/promo-tiendas";
 import { Link } from "@/i18n/navigation";
+import { srcProducto } from "@/lib/catalogo";
 import { CATEGORIAS, GRUPOS_EDAD, OCASIONES, getCatalogoLigero, getProduct } from "@/lib/data";
 
 function Titulo({
@@ -101,15 +103,18 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
                 <Link href={{ pathname: "/search", query: { categoria: c } }} className="group flex h-full flex-col gap-2">
                   {rep ? (
                     <span
-                      className={`grid aspect-[4/3] place-items-center rounded-card transition-transform duration-200 group-hover:-translate-y-1 ${FONDO_TINTE[rep.tint]}`}
+                      className={`relative grid aspect-[4/3] place-items-center overflow-hidden rounded-card transition-transform duration-200 group-hover:-translate-y-1 ${FONDO_TINTE[rep.tint]}`}
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={`/productos/${rep.illustration}.svg`}
-                        alt=""
-                        className="menear-al-pasar h-[78%]"
-                        loading="lazy"
-                      />
+                      {claseIlustracion(rep.illustration) !== null ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={srcProducto(rep)}
+                          alt=""
+                          className={`menear-al-pasar h-[78%] ${claseIlustracion(rep.illustration) ?? ""}`}
+                          loading="lazy"
+                        />
+                      ) : null}
+                      <FotoIA illustration={rep.illustration} />
                     </span>
                   ) : null}
                   <span className="px-0.5 text-[15px] leading-tight font-bold group-hover:underline">

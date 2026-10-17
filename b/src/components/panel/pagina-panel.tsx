@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { CircleAlert, Clock, TriangleAlert } from "lucide-react";
 import { useCatalogo } from "@/components/proveedor-catalogo";
+import { srcProducto } from "@/lib/catalogo";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
 import { useHidratado } from "@/hooks/use-hidratado";
 import type { AvisoPanel, Idioma, Panel, Tienda } from "@/lib/tipos";
@@ -246,7 +247,7 @@ export function PaginaPanel({ panel, tiendas }: { panel: Panel; tiendas: Tienda[
                     <span className="w-4 text-sm font-bold text-muted-ink">{i + 1}</span>
                     <span className={cn("grid size-11 shrink-0 place-items-center rounded-md", FONDO_TINTE[p.tint])}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={`/productos/${p.illustration}.svg`} alt="" className="size-9" />
+                      <img src={srcProducto(p)} alt="" className="size-9" />
                     </span>
                     <span className="grid flex-1 gap-1">
                       <span className="line-clamp-1 text-sm font-semibold">{p.title[locale]}</span>

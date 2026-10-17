@@ -7,7 +7,12 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/com
 import { srcProducto } from "@/lib/catalogo";
 import type { Tinte } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
+import { fotoIA, tieneIlustracion } from "@/lib/fotos-ia";
+import { claseIlustracion } from "./foto-ia";
 import { FONDO_TINTE, ImagenProducto } from "./imagen-producto";
+
+const ROTULO =
+  "pointer-events-none absolute bottom-2 left-2 rounded-md bg-white/90 px-1.5 py-0.5 text-[11px] font-bold text-muted-ink";
 
 /** Galería deslizable: foto principal, detalle ampliado y medidas. */
 export function Galeria({
@@ -27,6 +32,7 @@ export function Galeria({
 }) {
   const t = useTranslations("producto");
   const src = srcProducto({ illustration, imagen });
+  const conIlustracion = imagen ? undefined : claseIlustracion(illustration);
   const [api, setApi] = useState<CarouselApi>();
   const [actual, setActual] = useState(0);
 
@@ -70,11 +76,18 @@ export function Galeria({
             ))}
           </CarouselContent>
         </Carousel>
-        {/* El rótulo es para nuestras ilustraciones; la foto que sube la dueña es la del producto. */}
+        {/* El rótulo es para nuestras ilustraciones y fotos con IA; la foto que sube la dueña es la del producto. */}
         {imagen ? null : (
-          <span className="pointer-events-none absolute bottom-2 left-2 rounded-md bg-white/90 px-1.5 py-0.5 text-[11px] font-bold text-muted-ink">
-            {t("imagenIlustrativa")}
-          </span>
+          <>
+            {conIlustracion !== null ? (
+              <span className={cn(ROTULO, conIlustracion)}>{t("imagenIlustrativa")}</span>
+            ) : null}
+            {fotoIA(illustration) ? (
+              <span className={cn(ROTULO, tieneIlustracion(illustration) && "solo-variante-color")}>
+                {t("imagenIlustrativaIA")}
+              </span>
+            ) : null}
+          </>
         )}
       </div>
       <div className="flex justify-center gap-2">

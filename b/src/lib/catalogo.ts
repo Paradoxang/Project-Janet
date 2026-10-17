@@ -13,6 +13,7 @@ import {
   type Medidas,
   type Peso,
 } from "./detalles";
+import { fotoIA, tieneIlustracion } from "./fotos-ia";
 import type { Categoria, GrupoEdad, Lista, Ocasion, Producto, ProductoLigero, Texto, Tinte } from "./tipos";
 
 export interface CambiosCatalogo {
@@ -71,8 +72,12 @@ export function catalogoCompleto(base: Producto[], c: CambiosCatalogo): Producto
   return [...c.nuevos, ...base.filter((p) => !borrados.has(p.id)).map((p) => ({ ...p, ...c.ediciones[p.id] }))];
 }
 
+/**
+ * Una sola imagen del juguete (carrito, buscador, panel): la foto de la dueña, si no la ilustración propia y, si no
+ * tiene ilustración (los del inventario largo), su foto con IA.
+ */
 export const srcProducto = (p: { illustration: string; imagen?: string }) =>
-  p.imagen || `/productos/${p.illustration}.svg`;
+  p.imagen || (!tieneIlustracion(p.illustration) && fotoIA(p.illustration)) || `/productos/${p.illustration}.svg`;
 
 /** Enlace a la ficha. Los productos nuevos no tienen página propia: usan /p/nuevo/?id=…. */
 export const rutaProducto = (p: { id: string; slug: string }) =>
