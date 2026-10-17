@@ -34,7 +34,8 @@
     "sugerencias": "Suggestions",
     "verTodos": "See all results for “{q}”",
     "cuentaDe": "Your account: {nombre}",
-    "panel": "Admin dashboard"
+    "panel": "Admin dashboard",
+    "deseos": "Wish list"
   },
   "nav": {
     "edad": "Shop by age",
@@ -182,7 +183,8 @@
     "sinResenasTexto": "This toy doesn’t have reviews yet.",
     "yaNoDisponible": "This toy is no longer available",
     "yaNoDisponibleTexto": "The store may have taken it down. Take a look at similar toys.",
-    "verOtros": "See toys"
+    "verOtros": "See toys",
+    "verEnMapa": "see on map"
   },
   "busqueda": {
     "titulo": "Results for “{q}”",
@@ -190,7 +192,8 @@
     "resultados": "{n, plural, =0 {No results} one {# result} other {# results}}",
     "sinResultados": "We couldn’t find toys for “{q}”.",
     "sinResultadosTexto": "Try another word or browse by age.",
-    "filtros": "Filters"
+    "filtros": "Filters",
+    "todasEdades": "All"
   },
   "pie": {
     "productos": "Products",
@@ -203,7 +206,13 @@
     "derechos": "Demo mockup with sample data. No real orders or payments.",
     "arriba": "Back to top",
     "cierre": "Made for little hands and busy parents.",
-    "creditos": "Credits: holographic cards adapted from <holo>HoloCard by React Bits</holo> (David Haz) · UI components from <shadcn>shadcn/ui</shadcn> · icons by <lucide>Lucide</lucide>."
+    "creditos": "Credits: holographic cards adapted from <holo>HoloCard by React Bits</holo> (David Haz) · UI components from <shadcn>shadcn/ui</shadcn> · icons by <lucide>Lucide</lucide>.",
+    "irAlInicio": "Go to home page",
+    "conocenos": "Get to know us",
+    "sobreNosotros": "About us",
+    "trabaja": "Careers",
+    "blog": "Blog",
+    "proximamente": "coming soon"
   },
   "catalogo": {
     "ordenar": "Sort by",
@@ -286,7 +295,10 @@
     "resumen": "Order summary",
     "cuentaEntrar": "Sign in or create an account",
     "comprandoComo": "Checking out as {nombre} ({correo})",
-    "entraPrimero": "Sign in to your account or choose guest checkout."
+    "entraPrimero": "Sign in to your account or choose guest checkout.",
+    "direccion2": "Apt, suite or unit (optional)",
+    "telefono": "Phone (optional, for delivery updates only)",
+    "telefonoInvalido": "Enter a 10-digit US phone number."
   },
   "cuenta": {
     "titulo": "Your account",
@@ -425,7 +437,8 @@
     "mapa": "Map of stores in the United States",
     "desde": "Distances from {lugar}",
     "tuUbicacion": "your location",
-    "productosEnTienda": "{n, plural, one {# toy} other {# toys}} in stock"
+    "productosEnTienda": "{n, plural, one {# toy} other {# toys}} in stock",
+    "zoomConTecla": "Hold Ctrl (or ⌘) and scroll to zoom the map"
   },
   "panel": {
     "titulo": "How’s my business?",
@@ -756,5 +769,15 @@
         "piezas": "Enter a whole number of pieces (for example, 12)."
       }
     }
+  },
+  "deseos": {
+    "titulo": "Your wish list",
+    "conCuenta": "Saved to your account.",
+    "sinCuenta": "Saved in this browser, no account needed. Sign in and it moves to your account.",
+    "entrar": "Sign in or create an account",
+    "vacia": "Your list is empty",
+    "vaciaTexto": "Tap the heart on a toy’s page to save it here.",
+    "verJuguetes": "See all toys",
+    "quitar": "Remove from list"
   }
 }

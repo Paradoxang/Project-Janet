@@ -67,6 +67,19 @@ export function ResultadosBusqueda() {
       </p>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
+        {/* «Todos» (review de usuario, 16-10): para volver a ver todo sin tener que desmarcar la edad elegida. */}
+        <button
+          type="button"
+          aria-pressed={!edad}
+          onClick={() => cambiar("edad", null)}
+          data-testid="filtro-todas-edades"
+          className={cn(
+            "inline-flex h-9 items-center rounded-chip border px-3.5 text-[13.5px] font-semibold",
+            !edad ? "border-ink bg-ink text-white" : "bg-white hover:bg-surface",
+          )}
+        >
+          {t("busqueda.todasEdades")}
+        </button>
         {EDADES.map((e) => (
           <button
             key={e}

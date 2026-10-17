@@ -111,6 +111,22 @@
   display: none;
 }
 
+/* La cabecera pegada que se esconde al bajar y vuelve al subir (ver components/cabecera/cabecera-flotante.tsx). Debajo
+   de la franja de demo (z-50), que nunca se esconde. Con el foco dentro, se queda a la vista. */
+.cabecera-flotante {
+  position: sticky;
+  z-index: 40;
+  transition: transform 200ms ease;
+}
+.cabecera-flotante[data-oculta]:not(:focus-within) {
+  transform: translateY(-100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cabecera-flotante {
+    transition: none;
+  }
+}
+
 @theme inline {
   --color-page: var(--m-page);
   --color-trazo: var(--m-trazo);

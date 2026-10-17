@@ -6,6 +6,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import "@fontsource-variable/fredoka";
 import "@fontsource-variable/nunito-sans";
 import { Cabecera } from "@/components/cabecera/cabecera";
+import { CabeceraFlotante } from "@/components/cabecera/cabecera-flotante";
 import { PanelCarrito } from "@/components/carrito/panel-carrito";
 import { ObservadorRevelar } from "@/components/efectos/observador-revelar";
 import { RegistroVisitas } from "@/components/efectos/registro-actividad";
@@ -65,7 +66,9 @@ export default async function LayoutIdioma({
         <NextIntlClientProvider>
           <ProveedorCatalogo productos={catalogo}>
             <FranjaDemo />
-            <Cabecera />
+            <CabeceraFlotante>
+              <Cabecera />
+            </CabeceraFlotante>
             <main className="min-h-[60vh]">{children}</main>
             <Pie />
             <PanelCarrito />

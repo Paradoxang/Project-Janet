@@ -6,6 +6,7 @@ import { CATEGORIAS, GRUPOS_EDAD, OCASIONES } from "@/lib/data";
 import { Logo } from "@/marca/marca";
 import { Buscador } from "./buscador";
 import { EnlaceCuenta } from "./enlace-cuenta";
+import { EnlaceDeseos } from "./enlace-deseos";
 import { IconoCarrito } from "./icono-carrito";
 import { MenuMovil } from "./menu-movil";
 import { SelectorIdioma } from "./selector-idioma";
@@ -29,6 +30,7 @@ export function Cabecera() {
         <div className="ml-auto flex items-center gap-1 md:ml-0">
           <SelectorIdioma />
           <EnlaceCuenta />
+          <EnlaceDeseos />
           <IconoCarrito />
         </div>
       </div>

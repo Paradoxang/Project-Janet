@@ -36,9 +36,15 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
   const [ubicando, setUbicando] = useState(false);
   const [foco, setFoco] = useState<string | null>(null);
   const [sinFiltro, setSinFiltro] = useState(false);
-  // ?producto=… se lee al montar: así la página sale completa en el HTML estático (sin saltos).
+  // ?producto=… y ?tienda=… se leen al montar: así la página sale completa en el HTML estático (sin saltos). La tienda
+  // llega desde la ficha de producto y se enfoca en el mapa.
   const [slugUrl, setSlugUrl] = useState<string | null>(null);
-  useEffect(() => setSlugUrl(new URLSearchParams(window.location.search).get("producto")), []);
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    setSlugUrl(q.get("producto"));
+    const tienda = q.get("tienda");
+    if (tienda && tiendas.some((ti) => ti.id === tienda)) setFoco(tienda);
+  }, [tiendas]);
 
   const slug = sinFiltro ? null : slugUrl;
   const producto = slug ? productos.find((p) => p.slug === slug) : undefined;
@@ -111,6 +117,9 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
           setGps(null);
           setError(null);
           setBorrador(null);
+          // Buscar suelta la tienda enfocada: el mapa vuelve a enseñarlas todas (en la review de usuario del 16-10,
+          // «Buscar» dejaba el mapa quieto en la última tienda pulsada).
+          setFoco(null);
         }}
       >
         <label className="sr-only" htmlFor="zip-tiendas">
@@ -158,7 +167,7 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
       <div className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1fr)_400px]">
         <div className="h-[340px] overflow-hidden rounded-card shadow-tarjeta md:h-[520px]" data-testid="mapa">
           {hidratado ? (
-            <MapaTiendas puntos={puntos} foco={foco} etiqueta={t("mapa")} alElegir={setFoco} />
+            <MapaTiendas puntos={puntos} foco={foco} etiqueta={t("mapa")} avisoZoom={t("zoomConTecla")} alElegir={setFoco} />
           ) : (
             <div className="h-full w-full animate-pulse bg-surface" />
           )}
@@ -171,7 +180,13 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
               <li
                 key={ti.id}
                 data-testid={`ficha-${ti.id}`}
-                className={cn("rounded-card bg-white p-4 shadow-tarjeta", destacada && "ring-2 ring-stock", foco === ti.id && "bg-surface")}
+                className={cn(
+                  // Toda la ficha se pulsa para verla en el mapa, y se levanta un poco al pasar por encima, como los
+                  // bloques de edad de la portada (review de usuario, 16-10).
+                  "relative cursor-pointer rounded-card bg-white p-4 shadow-tarjeta transition-transform duration-200 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0",
+                  destacada && "ring-2 ring-stock",
+                  foco === ti.id && "bg-surface",
+                )}
               >
                 {destacada ? (
                   <p className="mb-1 text-[13px] font-bold text-stock">{t("masCercana")}</p>
@@ -179,7 +194,18 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
                 <div className="flex items-start justify-between gap-2">
                   <h2 className="flex items-center gap-2 text-lg">
                     <MapPin className="size-4" aria-hidden="true" />
-                    {t("tienda", { ciudad: ti.city })}
+                    <button
+                      type="button"
+                      aria-pressed={foco === ti.id}
+                      onClick={() => {
+                        setFoco(ti.id);
+                        document.querySelector('[data-testid="mapa"]')?.scrollIntoView({ behavior: "smooth", block: "center" });
+                      }}
+                      className="text-left after:absolute after:inset-0 after:rounded-card after:content-[''] focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-ink"
+                    >
+                      {t("tienda", { ciudad: ti.city })}
+                      <span className="sr-only"> · {t("verEnMapa")}</span>
+                    </button>
                     <span className="rounded border bg-surface px-1 font-sans text-[10px] font-extrabold text-muted-ink">
                       DEMO
                     </span>
@@ -205,25 +231,16 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
                   {ti.phone}
                 </p>
                 <div className="mt-2 flex flex-wrap gap-4">
+                  {/* Encima de la ficha pulsable: «Cómo llegar» sigue abriendo Google Maps. */}
                   <a
                     href={enlaceComoLlegar(ti.lat, ti.lng)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-sm font-bold text-link hover:underline"
+                    className="relative z-10 inline-flex items-center gap-1 text-sm font-bold text-link hover:underline"
                   >
                     <Navigation className="size-3.5" aria-hidden="true" />
                     {t("comoLlegar")}
                   </a>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setFoco(ti.id);
-                      document.querySelector('[data-testid="mapa"]')?.scrollIntoView({ behavior: "smooth", block: "center" });
-                    }}
-                    className="text-sm font-bold text-link hover:underline"
-                  >
-                    {t("verEnMapa")}
-                  </button>
                 </div>
               </li>
             );

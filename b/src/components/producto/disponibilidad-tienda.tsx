@@ -44,21 +44,28 @@ export function DisponibilidadTienda({ tiendas, slug }: { tiendas: TiendaProduct
         <MapPin className="size-5" aria-hidden="true" />
         {t("disponibilidad")}
       </h2>
-      <ul className="mt-3 grid gap-2 text-sm">
+      {/* Cada tienda lleva al mapa con ella enfocada (review de usuario, 16-10: «4 disponibles… clic… ver mapa»). */}
+      <ul className="mt-3 grid gap-1 text-sm">
         {lista.map((ti) => (
-          <li key={ti.id} className="flex items-center gap-2" data-testid={`tienda-${ti.id}`}>
-            <span
-              className={`size-2.5 shrink-0 rounded-full ${ti.unidades > 0 ? "bg-stock" : "bg-out"}`}
-              aria-hidden="true"
-            />
-            <span className="font-semibold">{ti.city}</span>
-            <span className="rounded border bg-surface px-1 text-[10px] font-extrabold text-muted-ink">
-              {t("tiendaDemo")}
-            </span>
-            <span className="text-muted-ink">· {t("millas", { n: Math.round(ti.millas).toLocaleString("en-US") })}</span>
-            <span className={`ml-auto font-bold ${ti.unidades > 0 ? "text-stock" : "text-out"}`}>
-              {ti.unidades > 0 ? t("enTienda", { n: ti.unidades }) : t("agotadoEnTienda")}
-            </span>
+          <li key={ti.id} data-testid={`tienda-${ti.id}`}>
+            <Link
+              href={{ pathname: "/where-to-buy", query: { producto: slug, tienda: ti.id } }}
+              className="-mx-2 flex items-center gap-2 rounded-md px-2 py-1 hover:bg-surface"
+            >
+              <span
+                className={`size-2.5 shrink-0 rounded-full ${ti.unidades > 0 ? "bg-stock" : "bg-out"}`}
+                aria-hidden="true"
+              />
+              <span className="font-semibold">{ti.city}</span>
+              <span className="rounded border bg-surface px-1 text-[10px] font-extrabold text-muted-ink">
+                {t("tiendaDemo")}
+              </span>
+              <span className="text-muted-ink">· {t("millas", { n: Math.round(ti.millas).toLocaleString("en-US") })}</span>
+              <span className={`ml-auto font-bold ${ti.unidades > 0 ? "text-stock" : "text-out"}`}>
+                {ti.unidades > 0 ? t("enTienda", { n: ti.unidades }) : t("agotadoEnTienda")}
+              </span>
+              <span className="sr-only"> · {t("verEnMapa")}</span>
+            </Link>
           </li>
         ))}
       </ul>

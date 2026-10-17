@@ -31,15 +31,22 @@ import { usePedidos } from "@/stores/pedidos";
 import { usePreferencias } from "@/stores/preferencias";
 
 type Pago = "tarjeta" | "apple" | "google" | "paypal" | "cuotas";
-type Campo = "correo" | "nombre" | "direccion" | "ciudad" | "estado" | "zip";
+type Campo = "correo" | "nombre" | "direccion" | "direccion2" | "ciudad" | "estado" | "zip" | "telefono";
 
+// La dirección va en dos líneas (calle y número; apartamento o unidad) y el teléfono es para avisos de la entrega, como
+// en Amazon (review de usuario, 16-10). Esos dos no son obligatorios.
+const OPCIONALES: Campo[] = ["direccion2", "telefono"];
+
+// 555-0100 a 555-0199: números reservados para ficción en EE. UU.
 const EJEMPLO: Record<Campo, string> = {
   correo: "maria@example.com",
   nombre: "Maria Sample",
-  direccion: "1200 Demo Ave, Apt 4",
+  direccion: "1200 Demo Ave",
+  direccion2: "Apt 4",
   ciudad: "Seattle",
   estado: "WA",
   zip: "98101",
+  telefono: "(206) 555-0123",
 };
 
 export function Checkout({ impuestos }: { impuestos: Impuestos }) {
@@ -58,9 +65,11 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
     correo: usuario?.correo ?? "",
     nombre: usuario?.nombre ?? "",
     direccion: "",
+    direccion2: "",
     ciudad: "",
     estado: "",
     zip: "",
+    telefono: "",
   }));
   const [errores, setErrores] = useState<Partial<Record<Campo, string>>>({});
   const [sinCuenta, setSinCuenta] = useState(false);
@@ -105,9 +114,14 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
       return false;
     }
     const e: Partial<Record<Campo, string>> = {};
-    for (const c of Object.keys(datos) as Campo[]) if (!datos[c].trim()) e[c] = t("pago.obligatorio");
+    for (const c of Object.keys(datos) as Campo[]) if (!OPCIONALES.includes(c) && !datos[c].trim()) e[c] = t("pago.obligatorio");
     if (datos.correo && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(datos.correo)) e.correo = t("pago.correoInvalido");
     if (datos.zip && !zipValido(datos.zip)) e.zip = t("pago.zipInvalido");
+    // Un teléfono de EE. UU.: 10 cifras, o 11 con el 1 delante.
+    const cifras = datos.telefono.replace(/\D/g, "");
+    if (datos.telefono.trim() && !(cifras.length === 10 || (cifras.length === 11 && cifras.startsWith("1")))) {
+      e.telefono = t("pago.telefonoInvalido");
+    }
     setErrores(e);
     const primero = Object.keys(e)[0];
     if (primero) document.getElementById(`campo-${primero}`)?.focus();
@@ -136,7 +150,7 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
       metodoPago: nombresPago[pago],
       correo: datos.correo,
       nombre: datos.nombre,
-      direccion: `${datos.direccion}, ${datos.ciudad}, ${datos.estado} ${datos.zip}`,
+      direccion: [datos.direccion, datos.direccion2, datos.ciudad, `${datos.estado} ${datos.zip}`].filter((x) => x.trim()).join(", "),
       regalo,
       cuenta: modo === "cuenta" ? usuario?.correo : undefined,
     });
@@ -253,6 +267,7 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
             <div className="grid gap-3 md:grid-cols-2">
               <div className="md:col-span-2">{campo("nombre", t("pago.nombre"), { autoComplete: "off" })}</div>
               <div className="md:col-span-2">{campo("direccion", t("pago.direccion"), { autoComplete: "off" })}</div>
+              <div className="md:col-span-2">{campo("direccion2", t("pago.direccion2"), { autoComplete: "off" })}</div>
               {campo("ciudad", t("pago.ciudad"), { autoComplete: "off" })}
               <div className="grid grid-cols-2 gap-3">
                 <div className="grid gap-1.5">
@@ -274,6 +289,9 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
                   {errores.estado ? <p className="text-[13px] text-out">{errores.estado}</p> : null}
                 </div>
                 {campo("zip", t("pago.zip"), { inputMode: "numeric", maxLength: 5, autoComplete: "off" })}
+              </div>
+              <div className="md:col-span-2">
+                {campo("telefono", t("pago.telefono"), { type: "tel", inputMode: "tel", autoComplete: "off" })}
               </div>
             </div>
           </section>

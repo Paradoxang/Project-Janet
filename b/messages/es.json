@@ -34,7 +34,8 @@
     "sugerencias": "Sugerencias",
     "verTodos": "Ver todos los resultados de «{q}»",
     "cuentaDe": "Tu cuenta: {nombre}",
-    "panel": "Panel de administración"
+    "panel": "Panel de administración",
+    "deseos": "Lista de deseos"
   },
   "nav": {
     "edad": "Compra por edad",
@@ -182,7 +183,8 @@
     "sinResenasTexto": "Este juguete todavía no tiene reseñas.",
     "yaNoDisponible": "Este juguete ya no está disponible",
     "yaNoDisponibleTexto": "Puede que la tienda lo haya retirado. Mira otros juguetes parecidos.",
-    "verOtros": "Ver juguetes"
+    "verOtros": "Ver juguetes",
+    "verEnMapa": "ver en el mapa"
   },
   "busqueda": {
     "titulo": "Resultados para «{q}»",
@@ -190,7 +192,8 @@
     "resultados": "{n, plural, =0 {Sin resultados} one {# resultado} other {# resultados}}",
     "sinResultados": "No encontramos juguetes para «{q}».",
     "sinResultadosTexto": "Prueba con otra palabra o busca por edad.",
-    "filtros": "Filtros"
+    "filtros": "Filtros",
+    "todasEdades": "Todos"
   },
   "pie": {
     "productos": "Productos",
@@ -203,7 +206,13 @@
     "derechos": "Maqueta de demostración con datos de ejemplo. No hay pedidos ni pagos reales.",
     "arriba": "Volver arriba",
     "cierre": "Hecho para manos pequeñas y papás con poco tiempo.",
-    "creditos": "Créditos: tarjetas holográficas adaptadas de <holo>HoloCard de React Bits</holo> (David Haz) · componentes de interfaz de <shadcn>shadcn/ui</shadcn> · íconos de <lucide>Lucide</lucide>."
+    "creditos": "Créditos: tarjetas holográficas adaptadas de <holo>HoloCard de React Bits</holo> (David Haz) · componentes de interfaz de <shadcn>shadcn/ui</shadcn> · íconos de <lucide>Lucide</lucide>.",
+    "irAlInicio": "Ir al inicio",
+    "conocenos": "Conócenos",
+    "sobreNosotros": "Sobre nosotros",
+    "trabaja": "Trabaja con nosotros",
+    "blog": "Blog",
+    "proximamente": "próximamente"
   },
   "catalogo": {
     "ordenar": "Ordenar por",
@@ -253,7 +262,7 @@
     "correo": "Correo",
     "paso2": "2. Dirección de envío",
     "nombre": "Nombre completo",
-    "direccion": "Dirección",
+    "direccion": "Dirección (calle y número)",
     "ciudad": "Ciudad",
     "estado": "Estado",
     "zip": "Código postal",
@@ -286,7 +295,10 @@
     "resumen": "Resumen del pedido",
     "cuentaEntrar": "Entrar o crear una cuenta",
     "comprandoComo": "Comprando como {nombre} ({correo})",
-    "entraPrimero": "Entra en tu cuenta o elige pagar como invitado."
+    "entraPrimero": "Entra en tu cuenta o elige pagar como invitado.",
+    "direccion2": "Apartamento, suite o unidad (opcional)",
+    "telefono": "Teléfono (opcional, solo para avisos de la entrega)",
+    "telefonoInvalido": "Escribe un teléfono de EE. UU. de 10 cifras."
   },
   "cuenta": {
     "titulo": "Tu cuenta",
@@ -425,7 +437,8 @@
     "mapa": "Mapa de tiendas en Estados Unidos",
     "desde": "Distancias desde {lugar}",
     "tuUbicacion": "tu ubicación",
-    "productosEnTienda": "{n, plural, one {# juguete} other {# juguetes}} disponibles"
+    "productosEnTienda": "{n, plural, one {# juguete} other {# juguetes}} disponibles",
+    "zoomConTecla": "Mantén Ctrl (o ⌘) y gira la rueda para acercar el mapa"
   },
   "panel": {
     "titulo": "¿Cómo va mi negocio?",
@@ -756,5 +769,15 @@
         "piezas": "Escribe un número entero de piezas (por ejemplo, 12)."
       }
     }
+  },
+  "deseos": {
+    "titulo": "Tu lista de deseos",
+    "conCuenta": "Se guarda en tu cuenta.",
+    "sinCuenta": "Se guarda en este navegador, sin necesidad de cuenta. Si entras, pasa a tu cuenta.",
+    "entrar": "Entrar o crear una cuenta",
+    "vacia": "Tu lista está vacía",
+    "vaciaTexto": "Toca el corazón en la ficha de un juguete para guardarlo aquí.",
+    "verJuguetes": "Ver todos los juguetes",
+    "quitar": "Quitar de la lista"
   }
 }
