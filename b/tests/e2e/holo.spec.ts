@@ -41,8 +41,9 @@ test.describe("tarjetas holográficas", () => {
     await expect(holo).toBeVisible({ timeout: 15_000 });
     // pan-y (el original) no dejaba deslizar la fila en horizontal con el dedo
     await expect(holo).toHaveCSS("touch-action", "manipulation");
-    // el rótulo «Illustrative image» queda encima del holograma
-    const rotulo = fila.getByTestId("tarjeta-producto").first().getByText("Illustrative image");
+    // el rótulo «Illustrative image» queda encima del holograma (exacto: el de la foto con IA, escondido en la tienda
+    // blanca, dice «Illustrative image (AI)»)
+    const rotulo = fila.getByTestId("tarjeta-producto").first().getByText("Illustrative image", { exact: true });
     await expect(rotulo).toBeVisible();
 
     await holo.click();

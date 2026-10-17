@@ -30,7 +30,27 @@ export const ILUSTRACIONES = new Set([
 ]);
 
 /** Las fotos con IA que ya están en public/productos-ia/ (se añade cada lote al colocarlo). */
-export const FOTOS_IA = new Set<string>([]);
+export const FOTOS_IA = new Set<string>([
+  "abc-blocks",
+  "activity-cube",
+  "art-set",
+  "board-game",
+  "dinosaurs",
+  "magnetic-tiles",
+  "pull-duck",
+  "rainbow-stacker",
+  "rc-car",
+  "ring-stacker",
+  "robot-kit",
+  "rocket-launcher",
+  "science-kit",
+  "shape-sorter",
+  "tea-set",
+  "teddy-bear",
+  "telescope",
+  "train-set",
+  "xylophone",
+]);
 
 export const tieneIlustracion = (illustration: string) => ILUSTRACIONES.has(illustration);
 

@@ -4,11 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Ruler, ZoomIn } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
-import { srcProducto } from "@/lib/catalogo";
 import type { Tinte } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
 import { fotoIA, tieneIlustracion } from "@/lib/fotos-ia";
-import { claseIlustracion } from "./foto-ia";
+import { claseIlustracion, ImagenSuelta } from "./foto-ia";
 import { FONDO_TINTE, ImagenProducto } from "./imagen-producto";
 import { VisorImagenes, type VistaVisor } from "./visor-imagenes";
 
@@ -35,7 +34,6 @@ export function Galeria({
   edades: string;
 }) {
   const t = useTranslations("producto");
-  const src = srcProducto({ illustration, imagen });
   const conIlustracion = imagen ? undefined : claseIlustracion(illustration);
   const [api, setApi] = useState<CarouselApi>();
   const [actual, setActual] = useState(0);
@@ -62,8 +60,7 @@ export function Galeria({
     <ImagenProducto key="b" illustration={illustration} imagen={imagen} tint={tint} alt="" zoom={1.7} className="textura-puntos rounded-card" />,
     <div key="c" className={cn("relative grid aspect-square place-items-center rounded-card", FONDO_TINTE[tint])}>
       <div className="grid w-[70%] gap-4 text-center">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt="" className="mx-auto w-[62%]" />
+        <ImagenSuelta illustration={illustration} imagen={imagen} className="mx-auto w-[62%]" claseFoto="mx-auto w-[62%] rounded-xl" />
         {medidas ? (
           <div className="flex items-center justify-center gap-2 rounded-md bg-white/90 px-3 py-2 text-sm font-bold text-ink">
             <Ruler className="size-4" aria-hidden="true" />
@@ -134,11 +131,11 @@ export function Galeria({
               actual === i ? "border-ink" : "border-transparent opacity-70 hover:opacity-100",
             )}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={src}
-              alt=""
+            <ImagenSuelta
+              illustration={illustration}
+              imagen={imagen}
               className="size-11"
+              claseFoto="size-full object-cover"
               style={i === 1 ? { transform: "scale(1.7)" } : undefined}
             />
           </button>

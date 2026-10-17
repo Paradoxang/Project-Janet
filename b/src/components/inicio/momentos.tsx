@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { claseIlustracion, FotoIA } from "@/components/producto/foto-ia";
 import type { Ocasion, ProductoLigero } from "@/lib/tipos";
 
 const DIBUJO: Record<Ocasion, string> = {
@@ -28,10 +29,17 @@ export function Momentos({ catalogo, ocasiones }: { catalogo: ProductoLigero[]; 
           <li key={o} className="w-[56vw] max-w-[240px] shrink-0 snap-start md:w-auto md:max-w-none">
             <Link href={{ pathname: "/search", query: { ocasion: o } }} className="group flex h-full flex-col gap-2.5">
               <span
-                className={`grid aspect-[4/3] place-items-center rounded-card transition-transform duration-200 group-hover:-translate-y-1 ${FONDO[o]}`}
+                className={`relative grid aspect-[4/3] place-items-center overflow-hidden rounded-card transition-transform duration-200 group-hover:-translate-y-1 ${FONDO[o]}`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/productos/${DIBUJO[o]}.svg`} alt="" className="menear-al-pasar h-[78%]" loading="lazy" />
+                <img
+                  src={`/productos/${DIBUJO[o]}.svg`}
+                  alt=""
+                  className={`menear-al-pasar h-[78%] ${claseIlustracion(DIBUJO[o]) ?? ""}`}
+                  loading="lazy"
+                />
+                {/* Con foto con IA, la variante colorida enseña la foto (ver components/producto/foto-ia.tsx). */}
+                <FotoIA illustration={DIBUJO[o]} />
               </span>
               <span className="px-0.5">
                 <span className="block font-display text-[19px] leading-tight group-hover:underline">

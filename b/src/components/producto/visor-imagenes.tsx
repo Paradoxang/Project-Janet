@@ -4,11 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ChevronLeft, ChevronRight, Minus, Plus, Ruler, Scan, X } from "lucide-react";
 import { Dialog as DialogPrimitive } from "radix-ui";
-import { srcProducto } from "@/lib/catalogo";
 import { fotoIA, tieneIlustracion } from "@/lib/fotos-ia";
 import type { Tinte } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
-import { claseIlustracion } from "./foto-ia";
+import { claseIlustracion, ImagenSuelta } from "./foto-ia";
 import { FONDO_TINTE, ImagenProducto } from "./imagen-producto";
 
 const MIN = 1;
@@ -320,8 +319,7 @@ export function VisorImagenes({
               ) : (
                 <div className={cn("grid h-full w-full place-items-center rounded-card", FONDO_TINTE[tint])}>
                   <div className="grid w-[70%] gap-4 text-center">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={srcProducto({ illustration, imagen })} alt="" className="mx-auto w-[62%]" />
+                    <ImagenSuelta illustration={illustration} imagen={imagen} className="mx-auto w-[62%]" claseFoto="mx-auto w-[62%] rounded-xl" />
                     {medidas ? (
                       <div className="flex items-center justify-center gap-2 rounded-md bg-white/90 px-3 py-2 text-base font-bold text-ink">
                         <Ruler className="size-5" aria-hidden="true" />
