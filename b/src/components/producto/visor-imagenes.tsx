@@ -12,6 +12,11 @@ import { FONDO_TINTE, ImagenProducto } from "./imagen-producto";
 
 const MIN = 1;
 const MAX = 4;
+// El tope según la foto (Santiago, 17-10: «Si ponle al visor un tope»): una foto no se amplía a más de 2 píxeles de
+// pantalla por cada píxel suyo, que es cuando se empieza a ver blanda. Nunca baja de 200 %. Las ilustraciones son
+// vectores: llegan a MAX.
+const PIXELES_POR_PIXEL = 2;
+const TOPE_MINIMO = 2;
 const PASO = 1.4; // cada «+», «−» o golpe de rueda
 const DOBLE = 2.5; // a cuánto acerca el doble clic o el doble toque
 const MOVER = 60; // px que mueve cada flecha del teclado con zoom
@@ -23,7 +28,8 @@ export type VistaVisor = { tipo: "imagen"; zoom?: number } | { tipo: "medidas" }
  * imagen esta debería ponerse "en el centro de la pantalla" y dejar hacer zoom»). Un diálogo de Radix a pantalla completa
  * (foco atrapado, Esc, la página no se mueve detrás) con zoom por rueda, pellizco, doble clic o doble toque y botones
  * + y −; con zoom, la imagen se arrastra (o se mueve con las flechas). Sin zoom, las flechas y el deslizar cambian de
- * vista. El rótulo de la imagen («Imagen ilustrativa (IA)») queda fijo y siempre a la vista.
+ * vista. El rótulo de la imagen («Imagen ilustrativa (IA)») queda fijo y siempre a la vista. El zoom máximo depende de
+ * la foto que se ve: ver PIXELES_POR_PIXEL.
  */
 export function VisorImagenes({
   abierto,
@@ -57,8 +63,10 @@ export function VisorImagenes({
   const [escala, setEscala] = useState(1);
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [gesto, setGesto] = useState(false);
+  const [tope, setTope] = useState(MAX);
+  const topeActual = useRef(MAX);
   const escenario = useRef<HTMLDivElement | null>(null);
-  const marco = useRef<HTMLDivElement>(null);
+  const marco = useRef<HTMLDivElement | null>(null);
   const punteros = useRef(new Map<number, { x: number; y: number }>());
   const inicioGesto = useRef<{ escala: number; pos: { x: number; y: number }; dist: number; medio: { x: number; y: number }; x0: number; y0: number; movido: boolean } | null>(null);
   const ultimoToque = useRef(0);
@@ -101,7 +109,7 @@ export function VisorImagenes({
   const zoomEn = useCallback(
     (nueva: number, punto = { x: 0, y: 0 }) => {
       const { escala: vieja, pos: p } = actual.current;
-      const s = Math.min(MAX, Math.max(MIN, nueva));
+      const s = Math.min(topeActual.current, Math.max(MIN, nueva));
       const k = s / vieja;
       fijar(s, s === 1 ? { x: 0, y: 0 } : limitar({ x: punto.x - (punto.x - p.x) * k, y: punto.y - (punto.y - p.y) * k }, s));
     },
@@ -121,6 +129,55 @@ export function VisorImagenes({
     },
     [total, reiniciar],
   );
+
+  /** El zoom máximo para lo que se ve ahora: con una foto, según sus píxeles; con una ilustración, MAX. */
+  const medirTope = useCallback(() => {
+    const m = marco.current;
+    if (!m) return;
+    const dpr = window.devicePixelRatio || 1;
+    let nuevo = MAX;
+    for (const img of m.querySelectorAll("img")) {
+      // Solo la foto que se ve (la otra variante está con display: none) y ya cargada; un SVG no tiene tope.
+      if (img.getClientRects().length === 0 || !img.naturalWidth || /\.svg($|\?)/.test(img.currentSrc || img.src)) continue;
+      // El ancho de maqueta, sin el zoom del visor; con la escala propia de la imagen si la tiene (la vista de detalle).
+      const transformada = getComputedStyle(img).transform;
+      const propia = transformada && transformada !== "none" ? new DOMMatrixReadOnly(transformada).a : 1;
+      const ancho = img.offsetWidth * propia * dpr;
+      if (ancho > 0) nuevo = Math.min(nuevo, (PIXELES_POR_PIXEL * img.naturalWidth) / ancho);
+    }
+    nuevo = Math.min(MAX, Math.max(TOPE_MINIMO, nuevo));
+    topeActual.current = nuevo;
+    setTope(nuevo);
+    if (actual.current.escala > nuevo) fijar(nuevo, limitar(actual.current.pos, nuevo));
+  }, [fijar, limitar]);
+
+  // El marco aparece dentro del portal del diálogo: se mide al montarse, al cargar cada imagen y al cambiar de tamaño.
+  const quitarMarco = useRef<(() => void) | null>(null);
+  const refMarco = useCallback(
+    (el: HTMLDivElement | null) => {
+      quitarMarco.current?.();
+      quitarMarco.current = null;
+      marco.current = el;
+      if (!el) return;
+      const alCargar = () => medirTope();
+      el.addEventListener("load", alCargar, true);
+      const tamano = new ResizeObserver(() => medirTope());
+      tamano.observe(el);
+      medirTope();
+      quitarMarco.current = () => {
+        el.removeEventListener("load", alCargar, true);
+        tamano.disconnect();
+      };
+    },
+    [medirTope],
+  );
+
+  // Al cambiar de vista, la imagen nueva puede venir ya cargada (sin «load»): se mide después de pintarla.
+  useEffect(() => {
+    if (!abierto) return;
+    const marcoPintado = requestAnimationFrame(() => medirTope());
+    return () => cancelAnimationFrame(marcoPintado);
+  }, [abierto, indice, medirTope]);
 
   // La rueda acerca y aleja sin mover la página: el listener no es pasivo. Va en una ref de función porque el escenario
   // aparece dentro del portal del diálogo después de abrirlo, no en el mismo render.
@@ -174,7 +231,7 @@ export function VisorImagenes({
       // Pellizco: la escala sigue a la distancia entre los dedos y la imagen sigue al punto medio.
       const dist = Math.hypot(ps[0].x - ps[1].x, ps[0].y - ps[1].y);
       const medio = { x: (ps[0].x + ps[1].x) / 2, y: (ps[0].y + ps[1].y) / 2 };
-      const s = Math.min(MAX, Math.max(MIN, (g.escala * dist) / g.dist));
+      const s = Math.min(topeActual.current, Math.max(MIN, (g.escala * dist) / g.dist));
       const p = relativo(g.medio.x, g.medio.y);
       const base = { x: p.x - (p.x - g.pos.x) * (s / g.escala), y: p.y - (p.y - g.pos.y) * (s / g.escala) };
       fijar(s, s === 1 ? { x: 0, y: 0 } : limitar({ x: base.x + medio.x - g.medio.x, y: base.y + medio.y - g.medio.y }, s));
@@ -274,7 +331,7 @@ export function VisorImagenes({
               <span className="w-14 text-center text-sm font-bold tabular-nums" data-testid="visor-zoom">
                 {Math.round(escala * 100)} %
               </span>
-              <button type="button" className={boton} onClick={() => zoomEn(escala * PASO)} disabled={escala >= MAX} aria-label={t("acercar")} data-testid="visor-acercar">
+              <button type="button" className={boton} onClick={() => zoomEn(escala * PASO)} disabled={escala >= tope - 0.001} aria-label={t("acercar")} data-testid="visor-acercar">
                 <Plus className="size-5" aria-hidden="true" />
               </button>
               <button type="button" className={boton} onClick={() => zoomEn(1)} disabled={escala === 1} aria-label={t("ajustar")}>
@@ -303,10 +360,11 @@ export function VisorImagenes({
               if (!dentro) alCerrar();
             }}
             data-escala={escala.toFixed(2)}
+            data-tope={tope.toFixed(2)}
             data-testid="visor-escenario"
           >
             <div
-              ref={marco}
+              ref={refMarco}
               className={cn(
                 "aspect-square w-[min(94vw,calc(100dvh-10.5rem))] max-w-[860px]",
                 escala > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-zoom-in",

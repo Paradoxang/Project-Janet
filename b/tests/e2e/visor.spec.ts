@@ -54,6 +54,51 @@ test("visor: sin zoom, las flechas y los botones cambian de imagen; la de detall
   await expect(page.getByTestId("visor-contador")).toHaveText("2 of 3");
 });
 
+// El tope según la foto (Santiago, 17-10: «Si ponle al visor un tope»): una foto no pasa de 2 píxeles de pantalla por
+// píxel suyo, nunca menos de 200 %; las ilustraciones (vectores) llegan a 400 %.
+const tope = async (page: import("@playwright/test").Page) =>
+  Number(await page.getByTestId("visor-escenario").getAttribute("data-tope"));
+
+async function acercarHastaElFinal(page: import("@playwright/test").Page) {
+  const mas = page.getByTestId("visor-acercar");
+  for (let i = 0; i < 8 && (await mas.isEnabled()); i++) await mas.click();
+  await expect(mas).toBeDisabled();
+}
+
+test("visor: con una foto de 1024 px el zoom se para en su tope; con la ilustración llega a 400 %", async ({ page }) => {
+  await page.goto("/en/p/magnetic-tiles/?variante=color");
+  await page.getByTestId("ampliar-1").click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await expect.poll(() => tope(page)).toBeLessThan(4);
+  const foto = await tope(page);
+  expect(foto).toBeGreaterThanOrEqual(2);
+  await acercarHastaElFinal(page);
+  await expect.poll(() => escala(page)).toBeCloseTo(foto, 2);
+  await expect(page.getByTestId("visor-zoom")).toHaveText(`${Math.round(foto * 100)} %`);
+  // La rueda tampoco pasa del tope
+  const caja = (await page.getByTestId("visor-escenario").boundingBox())!;
+  await page.mouse.move(caja.x + caja.width / 2, caja.y + caja.height / 2);
+  await page.mouse.wheel(0, -600);
+  await expect.poll(() => escala(page)).toBeCloseTo(foto, 2);
+
+  await page.goto("/en/p/magnetic-tiles/?variante=base");
+  await page.getByTestId("ampliar-1").click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await expect.poll(() => tope(page)).toBe(4);
+  await acercarHastaElFinal(page);
+  await expect.poll(() => escala(page)).toBe(4);
+});
+
+test("visor: una foto que viene de 2048 px (el oso) aguanta más zoom que una de 1024", async ({ page }) => {
+  await page.goto("/en/p/magnetic-tiles/?variante=color");
+  await page.getByTestId("ampliar-1").click();
+  await expect.poll(() => tope(page)).toBeLessThan(4);
+  const de1024 = await tope(page);
+  await page.goto("/en/p/plush-teddy-bear/?variante=color");
+  await page.getByTestId("ampliar-1").click();
+  await expect.poll(() => tope(page)).toBeGreaterThan(de1024);
+});
+
 test("visor: Esc, ✕ y un clic en el fondo lo cierran, y el foco vuelve a la imagen", async ({ page }) => {
   await page.goto("/en/p/magnetic-tiles/");
   const imagen = page.getByTestId("ampliar-1");
