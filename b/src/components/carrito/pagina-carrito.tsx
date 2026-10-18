@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useHidratado } from "@/hooks/use-hidratado";
 import { Link } from "@/i18n/navigation";
-import { rutaProducto, srcProducto } from "@/lib/catalogo";
+import { rutaProducto } from "@/lib/catalogo";
 import { calcularTotales } from "@/lib/totales";
 import type { Idioma, Impuestos } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
@@ -19,6 +19,7 @@ import { MAX_QTY, useCarrito, type LineaCarrito } from "@/stores/carrito";
 import { usePreferencias, ZIP_INICIAL } from "@/stores/preferencias";
 import { BarraEnvio } from "./barra-envio";
 import { Resumen } from "./resumen";
+import { ImagenSuelta } from "@/components/producto/foto-ia";
 
 function Linea({ linea }: { linea: LineaCarrito }) {
   const t = useTranslations();
@@ -35,10 +36,9 @@ function Linea({ linea }: { linea: LineaCarrito }) {
         href={rutaProducto(p)}
         tabIndex={-1}
         aria-hidden="true"
-        className={cn("grid size-24 shrink-0 place-items-center rounded-card md:size-32", FONDO_TINTE[p.tint])}
+        className={cn("grid size-24 shrink-0 place-items-center overflow-hidden rounded-card md:size-32", FONDO_TINTE[p.tint])}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={srcProducto(p)} alt="" className="size-[85%]" />
+        <ImagenSuelta illustration={p.illustration} imagen={p.imagen} className="size-[85%]" claseFoto="size-full object-cover" />
       </Link>
       <div className="grid flex-1 content-start gap-1">
         <Link href={rutaProducto(p)} className="line-clamp-2 text-[15px] leading-snug font-semibold hover:underline">

@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Clock, LocateFixed, MapPin, Navigation, Phone, X } from "lucide-react";
 import { useCatalogo } from "@/components/proveedor-catalogo";
-import { srcProducto } from "@/lib/catalogo";
 import { enlaceComoLlegar } from "@/components/producto/disponibilidad-tienda";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { coordenadasDeZip, distanciaMillas, lugarDeZip, zipValido, type Coordenadas } from "@/lib/zip";
 import { usePreferencias, ZIP_INICIAL } from "@/stores/preferencias";
 import type { PuntoMapa } from "./mapa-tiendas";
+import { ImagenSuelta } from "@/components/producto/foto-ia";
 
 const MapaTiendas = dynamic(() => import("./mapa-tiendas"), {
   ssr: false,
@@ -151,8 +151,7 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
 
       {producto ? (
         <div className="mt-4 flex flex-wrap items-center gap-3 rounded-card bg-warm p-3" data-testid="filtro-producto">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={srcProducto(producto)} alt="" className="size-12" />
+          <ImagenSuelta illustration={producto.illustration} imagen={producto.imagen} className="size-12" claseFoto="size-12 rounded-md object-cover" />
           <p className="flex-1 text-sm font-bold">{t("disponibilidadDe", { producto: producto.title[locale] })}</p>
           <button
             type="button"

@@ -5,13 +5,14 @@ import { useLocale, useTranslations } from "next-intl";
 import { Search } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { buscar, crearIndice } from "@/lib/buscar";
-import { rutaProducto, srcProducto } from "@/lib/catalogo";
+import { rutaProducto } from "@/lib/catalogo";
 import type { Idioma } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
 import { useCatalogoDeLaTienda } from "@/components/proveedor-catalogo";
 import { Precio } from "@/components/producto/precio";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
 import { registrarActividad } from "@/stores/actividad";
+import { ImagenSuelta } from "@/components/producto/foto-ia";
 
 /** Buscador con sugerencias desde la 2.ª letra (patrón combobox accesible). */
 export function Buscador({ className }: { className?: string }) {
@@ -124,9 +125,8 @@ export function Buscador({ className }: { className?: string }) {
                   i === activo ? "bg-surface" : "hover:bg-surface",
                 )}
               >
-                <span className={cn("grid size-11 shrink-0 place-items-center rounded-md", FONDO_TINTE[p.tint])}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={srcProducto(p)} alt="" className="size-9" />
+                <span className={cn("grid size-11 shrink-0 place-items-center overflow-hidden rounded-md", FONDO_TINTE[p.tint])}>
+                  <ImagenSuelta illustration={p.illustration} imagen={p.imagen} className="size-9" claseFoto="size-full object-cover" />
                 </span>
                 <span className="line-clamp-2 flex-1 text-sm leading-snug">{p.title[locale]}</span>
                 <Precio usd={p.price} className="text-base" />

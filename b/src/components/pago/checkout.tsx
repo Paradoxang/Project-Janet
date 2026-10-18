@@ -12,7 +12,6 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useHidratado } from "@/hooks/use-hidratado";
 import { Link, useRouter } from "@/i18n/navigation";
-import { srcProducto } from "@/lib/catalogo";
 import { aCentavos, aDolares, fechaLarga, precio, sumarDiasHabiles } from "@/lib/formato";
 import {
   calcularTotales,
@@ -29,6 +28,7 @@ import { useCarrito } from "@/stores/carrito";
 import { useCuenta } from "@/stores/cuenta";
 import { usePedidos } from "@/stores/pedidos";
 import { usePreferencias } from "@/stores/preferencias";
+import { ImagenSuelta } from "@/components/producto/foto-ia";
 
 type Pago = "tarjeta" | "apple" | "google" | "paypal" | "cuotas";
 type Campo = "correo" | "nombre" | "direccion" | "direccion2" | "ciudad" | "estado" | "zip" | "telefono";
@@ -365,9 +365,8 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
               const p = porId.get(l.id)!;
               return (
                 <li key={l.id} className="flex items-center gap-3 text-sm">
-                  <span className={cn("grid size-12 shrink-0 place-items-center rounded-md", FONDO_TINTE[p.tint])}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={srcProducto(p)} alt="" className="size-10" />
+                  <span className={cn("grid size-12 shrink-0 place-items-center overflow-hidden rounded-md", FONDO_TINTE[p.tint])}>
+                    <ImagenSuelta illustration={p.illustration} imagen={p.imagen} className="size-10" claseFoto="size-full object-cover" />
                   </span>
                   <span className="line-clamp-2 flex-1">{p.title[locale]}</span>
                   <span className="text-muted-ink">×{l.qty}</span>

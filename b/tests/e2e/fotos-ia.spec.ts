@@ -78,6 +78,26 @@ test("fotos con IA: en la ficha, las miniaturas y la vista de medidas también s
   await expect(galeria.getByRole("button", { name: "Show image 1" }).locator('img[src="/productos/magnetic-tiles.svg"]')).toBeVisible();
 });
 
+test("fotos con IA: en el carrito, un juguete dibujado sale con su foto en la variante colorida y con su dibujo en la blanca", async ({
+  page,
+}) => {
+  // Santiago, 17-10: «En el carrito cuando añado los productos que estan dibujados no se les pone su imagen nueva con IA».
+  await page.goto("/en/p/magnetic-tiles/?variante=color");
+  await page.getByTestId("caja-compra").getByTestId("agregar").click();
+  const panel = page.getByTestId("panel-carrito");
+  await expect(panel.getByTestId("foto-ia-suelta").first()).toBeVisible();
+  await expect(panel.locator('img[src="/productos/magnetic-tiles.svg"]:visible')).toHaveCount(0);
+
+  await page.goto("/en/cart/");
+  const linea = page.getByTestId("linea-carrito").filter({ hasText: "Magnetic Building Tiles" });
+  await expect(linea.locator('img[src="/productos-ia/magnetic-tiles.webp"]')).toBeVisible();
+  await expect(linea.locator('img[src="/productos/magnetic-tiles.svg"]')).toBeHidden();
+
+  await page.goto("/en/cart/?variante=base");
+  await expect(linea.locator('img[src="/productos/magnetic-tiles.svg"]')).toBeVisible();
+  await expect(linea.locator('img[src="/productos-ia/magnetic-tiles.webp"]')).toBeHidden();
+});
+
 test("fotos con IA: «Shop by occasion» también enseña la foto en la variante colorida", async ({ page }) => {
   await page.goto("/en/?variante=color");
   const ocasion = page.getByRole("link", { name: /Birthday/ }).filter({ has: page.getByTestId("foto-ia-producto") }).first();
