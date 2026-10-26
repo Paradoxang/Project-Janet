@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { ArrowRight, Leaf } from "lucide-react";
+import { IconoHoja } from "@/components/cuento/iconos";
+import { Cielo, Orbitas } from "@/components/cuento/cielo";
+import { TituloCuento } from "@/components/cuento/titulo-cuento";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIAS_SALUDABLES, PUBLICOS_SALUDABLES } from "@/lib/secciones";
 
@@ -15,92 +17,107 @@ export async function generateMetadata({
 }
 
 /**
- * La sección saludable (rediseño del 26-10). Hoy no hay productos saludables en el catálogo de ejemplo: la página
- * enseña cómo se separa de los juguetes (su color aqua, su barra lateral y sus categorías) con marcadores honestos, igual
- * que el logo neutro. Es una propuesta: la separación sigue abierta con la clienta.
+ * La sección saludable, con el canon (rediseño del 26-10): el mismo cielo y las mismas piezas que la juguetería, con el
+ * aqua como acento. Hoy no hay productos saludables en el catálogo de ejemplo, así que cada categoría enseña portadas
+ * marcador («Tu producto aquí»), igual que el logo neutro. Es una propuesta: la separación sigue abierta con la clienta.
  */
 export default async function PaginaSaludable({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("saludable");
   return (
-    <div className="mx-auto grid max-w-7xl gap-12 px-4 pt-4 pb-6 md:gap-16 md:px-6 md:pt-6">
-      <section
-        aria-labelledby="saludable-titulo"
-        className="bg-tint-cielo relative overflow-hidden rounded-[28px] p-6 md:p-12"
-      >
-        <span aria-hidden="true" className="chispa absolute top-8 right-10 text-[18px]" />
-        <span
-          aria-hidden="true"
-          className="chispa absolute right-[22%] bottom-10 hidden text-[11px] md:block"
-        />
-        <p className="cejilla text-aqua-tinta">{t("cejilla")}</p>
-        <h1
-          id="saludable-titulo"
-          className="font-magia mt-3 max-w-3xl text-[30px] leading-[1.14] font-bold md:text-[50px]"
-        >
-          {t("titulo")}
-        </h1>
-        <p className="text-ink/85 mt-4 max-w-2xl text-[16px] leading-relaxed md:text-[17.5px]">
-          {t("texto")}
-        </p>
-        <ul className="mt-6 flex flex-wrap gap-2">
-          {PUBLICOS_SALUDABLES.map((p) => (
-            <li key={p}>
-              <a
-                href={`#${p}`}
-                className="rounded-chip font-display hover:bg-aqua hover:text-noche inline-flex h-10 items-center bg-white px-4 text-[14px] font-semibold"
-              >
-                {t(`publico.${p}`)}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {CATEGORIAS_SALUDABLES.map((c, i) => (
-        <section key={c} id={c} aria-labelledby={`saludable-${c}`} className="scroll-mt-28">
-          <div className="mb-5 flex flex-wrap items-baseline justify-between gap-2">
-            <h2
-              id={`saludable-${c}`}
-              className="font-magia text-[24px] leading-tight font-bold md:text-[32px]"
-            >
-              {t(`categoria.${c}`)}
-            </h2>
-            <span className="rounded-chip border-aqua-tinta/30 text-aqua-tinta border bg-white px-3 py-1 text-[12px] font-bold">
-              {t("proximamente")}
-            </span>
-          </div>
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:grid-cols-4">
-            {Array.from({ length: 4 }, (_, n) => (
-              <li
-                key={n}
-                className={`rounded-card border-aqua-tinta/30 grid aspect-[5/4] content-end gap-1 border-2 border-dashed p-4 ${n % 2 === i % 2 ? "bg-white/70" : "bg-tint-menta/60"}`}
-              >
-                <Leaf aria-hidden="true" className="text-aqua-tinta/60 mb-auto size-7" />
-                <span className="font-display text-[15px] font-semibold">{t("tarjeta")}</span>
-                <span className="text-muted-ink text-[13px]">{t("tarjetaTexto")}</span>
+    <>
+      <section aria-labelledby="saludable-titulo" className="noche relative overflow-hidden">
+        <Cielo cantidad={70} semilla={83} />
+        <Orbitas className="top-1/2 left-[80%] hidden w-[600px] -translate-x-1/2 -translate-y-1/2 opacity-60 md:block" />
+        <div className="envoltura relative py-16 md:py-24">
+          <p className="cejilla text-aqua flex items-center gap-2">
+            <span aria-hidden="true" className="chispa bg-aqua text-[10px]" />
+            {t("cejilla")}
+          </p>
+          <h1 id="saludable-titulo" className="titulo-cuento text-crema mt-4 max-w-3xl">
+            {t("titulo")}
+          </h1>
+          <p className="text-crema/80 mt-5 max-w-2xl text-[17px] leading-relaxed">{t("texto")}</p>
+          <ul className="mt-8 flex flex-wrap gap-2.5">
+            {PUBLICOS_SALUDABLES.map((p) => (
+              <li key={p}>
+                <a href={`#${p}`} className="pildora">
+                  {t(`publico.${p}`)}
+                </a>
+              </li>
+            ))}
+            {CATEGORIAS_SALUDABLES.map((c) => (
+              <li key={c}>
+                <a href={`#${c}`} className="pildora">
+                  {t(`categoria.${c}`)}
+                </a>
               </li>
             ))}
           </ul>
-        </section>
-      ))}
-
-      {/* Anclas para «Para niños» y «Para adultos»: hoy llevan a la misma nota, porque aún no hay productos. */}
-      <section
-        aria-labelledby="saludable-vacio"
-        className="noche rounded-card grid gap-3 p-6 md:p-10"
-      >
-        <span id="ninos" className="scroll-mt-28" />
-        <span id="adultos" className="scroll-mt-28" />
-        <h2 id="saludable-vacio" className="font-display text-[24px] font-semibold md:text-[30px]">
-          {t("vacioTitulo")}
-        </h2>
-        <p className="text-crema/80 max-w-2xl">{t("vacioTexto")}</p>
-        <Link href="/search" className="placa mt-2 justify-self-start">
-          {t("volverJuguetes")} <ArrowRight aria-hidden="true" className="size-4" />
-        </Link>
+        </div>
       </section>
-    </div>
+
+      <div className="papel-pintado">
+        {CATEGORIAS_SALUDABLES.map((c, i) => (
+          <section
+            key={c}
+            id={c}
+            aria-labelledby={`saludable-${c}`}
+            className="scroll-mt-28"
+            data-revelar
+          >
+            <div className="envoltura pt-16 md:pt-24">
+              <TituloCuento id={`saludable-${c}`} cejilla={`0${i + 1} · ${t("proximamente")}`}>
+                {t(`categoria.${c}`)}
+              </TituloCuento>
+              <ul className="grid grid-cols-2 gap-x-4 gap-y-8 md:gap-x-[30px] lg:grid-cols-4">
+                {Array.from({ length: 4 }, (_, n) => (
+                  <li key={n} className="grid gap-3">
+                    <span
+                      aria-hidden="true"
+                      className={`border-aqua-tinta/35 grid aspect-[4/5] place-items-center rounded-[12px] border-2 border-dashed ${n % 2 === i % 2 ? "bg-white/80" : "bg-tint-cielo"}`}
+                    >
+                      <IconoHoja className="text-aqua-tinta/60 size-10" />
+                    </span>
+                    <span className="font-display text-[17px] font-semibold">{t("tarjeta")}</span>
+                    <span className="text-muted-ink -mt-2 text-[14px] italic">
+                      {t("tarjetaTexto")}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        ))}
+
+        {/* Anclas para «Para niños» y «Para adultos»: hoy llevan a la misma nota, porque aún no hay productos. */}
+        <div className="envoltura seccion">
+          <section
+            aria-labelledby="saludable-vacio"
+            className="noche relative grid gap-4 overflow-hidden rounded-[18px] p-8 md:p-12"
+          >
+            <Cielo cantidad={24} semilla={97} />
+            <span id="ninos" className="scroll-mt-28" />
+            <span id="adultos" className="scroll-mt-28" />
+            <h2
+              id="saludable-vacio"
+              className="font-display text-crema relative text-[26px] font-bold md:text-[32px]"
+            >
+              {t("vacioTitulo")}
+            </h2>
+            <p className="text-crema/80 relative max-w-2xl text-[17px] leading-relaxed">
+              {t("vacioTexto")}
+            </p>
+            <Link href="/search" className="placa relative mt-2 justify-self-start">
+              {t("volverJuguetes")}{" "}
+              <span aria-hidden="true" className="size-4">
+                →
+              </span>
+            </Link>
+          </section>
+        </div>
+      </div>
+    </>
   );
 }

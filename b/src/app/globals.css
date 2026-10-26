@@ -400,10 +400,12 @@
   }
 }
 
-/* ——— Piezas del canon (rediseño del 26-10) ——— */
-/* En la capa de componentes: así las utilidades de Tailwind (hidden, md:block…) les ganan. */
+/* ——— Piezas del canon (rediseño del 26-10) ———
+   DESIGN.md es la plantilla de toda la tienda: estas son sus piezas, con nombres nuestros. Van en la capa de
+   componentes para que las utilidades de Tailwind (hidden, md:block…) les ganen. Todo lo que se mueve se para con
+   «reducir movimiento» (al final), que en el canon estaba escrito pero apagado. */
 @layer components {
-  /* Superficie azul noche con los mismos lavados pintados, un poco más fuertes. */
+  /* Superficie azul noche con los lavados pintados, un poco más fuertes que los del papel. */
   .noche {
     background-color: var(--m-noche);
     background-image:
@@ -413,27 +415,69 @@
     color: var(--m-crema);
   }
 
-  /* Cejilla: la etiqueta pequeña en mayúsculas que va sobre los títulos. */
+  /* El papel pintado del canon, para las secciones que tienen que tapar lo de debajo (paneles apilados). */
+  .papel-pintado {
+    background-color: var(--m-papel);
+    background-image:
+      radial-gradient(circle at 8% 4%, rgb(244 185 46 / 0.09), transparent 34rem),
+      radial-gradient(circle at 96% 28%, rgb(31 182 196 / 0.07), transparent 38rem),
+      radial-gradient(circle at 20% 78%, rgb(255 106 43 / 0.05), transparent 36rem);
+  }
+
+  /* El envoltorio del canon: 1240 px, con 20 px a los lados en el celular y 32 desde 768. */
+  .envoltura {
+    width: 100%;
+    max-width: calc(1240px + 64px);
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+  /* Las secciones respiran 96 px arriba y abajo (64 en el celular). */
+  .seccion {
+    padding-block: 64px;
+  }
+  @media (min-width: 768px) {
+    .envoltura {
+      padding-inline: 32px;
+    }
+    .seccion {
+      padding-block: 96px;
+    }
+  }
+
+  /* Tipografía del canon: display (Cinzel Decorative), subdisplay (Fredoka grande), cejilla y botón. */
+  .titulo-cuento {
+    font-family: var(--m-font-magia);
+    font-size: clamp(1.9rem, 5vw, 4.3rem);
+    font-weight: 700;
+    line-height: 1.16;
+    letter-spacing: 0.012em;
+  }
+  .subdisplay {
+    font-family: var(--m-font-display);
+    font-size: clamp(2.2rem, 4.4vw, 3.6rem);
+    font-weight: 700;
+    line-height: 0.95;
+  }
   .cejilla {
     font-family: var(--m-font-display);
-    font-size: 0.74rem;
-    font-weight: 600;
-    letter-spacing: 0.24em;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
   }
 
-  /* Placa: el botón cuadrado (5 px) con su filete de oro grabado. Mandarina con letra azul noche, o azul noche con letra
-     crema. Al pasar sube 2 px; con «reducir movimiento», no. */
+  /* Placa: el botón cuadrado (5 px) con su filete de oro grabado. Mandarina con letra azul noche (el crema del canon
+     da 2,5:1), o azul noche con letra crema. Al pasar sube 3 px. */
   .placa {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.6rem;
     min-height: 2.9rem;
-    padding: 0.8rem 1.5rem;
+    padding: 14px 26px;
     border-radius: var(--m-radius-btn);
     font-family: var(--m-font-display);
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -444,16 +488,16 @@
       inset 0 0 0 1.5px var(--m-hilo-oro),
       0 10px 26px rgb(255 106 43 / 0.3);
     transition:
-      transform 0.25s var(--ease-cuento),
+      transform 0.3s var(--ease-cuento),
       background-color 0.2s,
-      box-shadow 0.25s;
+      box-shadow 0.3s;
   }
   .placa:hover {
     background: var(--m-mandarina-hover);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     box-shadow:
       inset 0 0 0 1.5px var(--m-hilo-oro),
-      0 14px 30px rgb(255 106 43 / 0.38);
+      0 14px 32px rgb(255 106 43 / 0.4);
   }
   .placa-noche {
     background: var(--m-noche);
@@ -468,15 +512,44 @@
       inset 0 0 0 1.5px var(--m-hilo-oro),
       0 14px 28px rgb(22 24 58 / 0.3);
   }
-  /* Placa de contorno: transparente, con el filete del color del texto. */
+  /* Botón de texto del canon: transparente, con el filete del color del texto y una chispa delante. */
+  .placa-texto,
   .placa-contorno {
+    padding: 13px 22px;
     background: transparent;
     color: currentColor;
-    box-shadow: inset 0 0 0 1.5px currentColor;
+    box-shadow: inset 0 0 0 1px currentColor;
   }
+  .placa-texto:hover,
   .placa-contorno:hover {
-    background: rgb(246 239 224 / 0.1);
-    box-shadow: inset 0 0 0 1.5px currentColor;
+    background: rgb(246 239 224 / 0.08);
+    box-shadow: inset 0 0 0 1px currentColor;
+  }
+
+  /* Píldora: crema con tinta; al pasar, aqua; la elegida, mandarina. */
+  .pildora {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.6rem;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--m-crema);
+    color: var(--m-ink);
+    font-family: var(--m-font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+  }
+  .pildora:hover {
+    background: var(--m-aqua);
+    color: var(--m-noche);
+  }
+  .pildora[aria-pressed="true"],
+  .pildora[aria-current] {
+    background: var(--m-mandarina);
+    color: var(--m-noche);
   }
 
   /* Chispa: la estrella de cuatro puntas del canon, hecha con clip-path. */
@@ -488,11 +561,56 @@
     clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
   }
 
-  /* Hero: las diapositivas pasan solas con un fundido lento, y cada una se acerca despacio (como un vídeo). La que se ve
-     lleva data-activa. Las órbitas giran de fondo. Todo se para con «reducir movimiento» o con el botón de pausa. */
+  /* El cielo del hero: degradado de respaldo, nebulosas aqua y mandarina y las estrellas que titilan (6 s). */
+  .cielo {
+    background:
+      radial-gradient(ellipse at 22% 30%, rgb(31 182 196 / 0.18), transparent 45%),
+      radial-gradient(ellipse at 80% 70%, rgb(255 106 43 / 0.16), transparent 45%),
+      radial-gradient(circle at 50% 42%, #1e2356 0%, #16183a 72%);
+  }
+  .estrella {
+    position: absolute;
+    border-radius: 999px;
+    background: var(--m-crema);
+    animation: titilar 6s ease-in-out infinite;
+  }
+  @keyframes titilar {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  /* Las órbitas: anillos punteados que giran (64, 44 al revés y 30 s) con su planeta. */
+  .orbita {
+    position: absolute;
+    border-radius: 999px;
+    border: 1.5px dashed rgb(246 239 224 / 0.3);
+    animation: girar var(--vuelta, 60s) linear infinite;
+  }
+  .orbita > i {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--color, var(--m-calendula));
+    box-shadow: 0 0 22px var(--color, var(--m-calendula));
+  }
+  @keyframes girar {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Hero: las diapositivas (nuestro «vídeo») pasan con un fundido lento y cada una se acerca despacio. */
   .diapositiva {
     opacity: 0;
-    transition: opacity 1.2s var(--ease-cuento);
+    transition: opacity 1.4s var(--ease-cuento);
   }
   .diapositiva[data-activa] {
     opacity: 1;
@@ -502,38 +620,167 @@
       transform: scale(1);
     }
     to {
-      transform: scale(1.12);
+      transform: scale(1.1);
     }
   }
   .diapositiva[data-activa] .acercar {
     animation: acercar 9s ease-out both;
   }
-  [data-pausado] .diapositiva .acercar {
+  [data-pausado] .acercar,
+  [data-pausado] .orbita,
+  [data-pausado] .estrella {
     animation-play-state: paused;
   }
-  @keyframes girar {
+  /* Los titulares suben línea a línea (de 116 % a 0, 1 s) y lo demás aparece después, escalonado. */
+  .linea {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em;
+  }
+  .linea > span {
+    display: inline-block;
+    animation: subir 1s var(--ease-cuento) both;
+    animation-delay: var(--retraso, 0s);
+  }
+  @keyframes subir {
+    from {
+      transform: translateY(116%);
+    }
     to {
-      transform: rotate(360deg);
+      transform: none;
     }
   }
-  .orbita {
-    position: absolute;
-    border-radius: 999px;
-    border: 1.5px dashed rgb(246 239 224 / 0.22);
-    animation: girar var(--vuelta, 60s) linear infinite;
+  .entrar {
+    animation: entrar 0.9s var(--ease-cuento) both;
+    animation-delay: var(--retraso, 0.6s);
   }
-  .orbita > i {
-    position: absolute;
-    top: -7px;
-    left: 50%;
-    width: 14px;
-    height: 14px;
-    border-radius: 999px;
-    background: var(--color, var(--m-calendula));
-    box-shadow: 0 0 18px var(--color, var(--m-calendula));
+  @keyframes entrar {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
-  [data-pausado] .orbita {
-    animation-play-state: paused;
+  /* La señal de bajar: bota 7 px cada 2,4 s. */
+  .botar {
+    animation: botar 2.4s ease-in-out infinite;
+  }
+  @keyframes botar {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(7px);
+    }
+  }
+
+  /* El estante: se inclina hacia el cursor (--rx, --ry los pone EstanteInclinado) y cada portada se adelanta al pasar. */
+  .estante {
+    perspective: 1500px;
+  }
+  .estante-plano {
+    transform-style: preserve-3d;
+    transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform 0.3s var(--ease-cuento);
+  }
+  /* Los hijos del estante (tarjetas o <li>) siguen en 3D para que la portada pueda adelantarse. */
+  .estante-plano > * {
+    transform-style: preserve-3d;
+  }
+  .portada {
+    transition:
+      transform 0.3s var(--ease-cuento),
+      box-shadow 0.3s;
+  }
+  .tarjeta-cuento:hover .portada,
+  .tarjeta-cuento:focus-within .portada {
+    transform: translateZ(50px) scale(1.02);
+  }
+  /* La «mirada» de la tarjeta: un velo azul noche con el texto, al pasar o con el foco. */
+  .asomar {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .tarjeta-cuento:hover .asomar,
+  .tarjeta-cuento:focus-within .asomar {
+    opacity: 1;
+  }
+
+  /* Paneles apilados: cada uno se queda pegado, se encoge un 4 % y el siguiente entra desenfocado hasta asentarse
+     (--escala y --desenfoque los pone PanelesApilados). Desde 768 px; en el celular van uno tras otro. */
+  @media (min-width: 768px) {
+    .panel-apilado {
+      position: sticky;
+      top: var(--alto-arriba, 0px);
+      min-height: calc(100svh - var(--alto-arriba, 0px));
+      transform: scale(var(--escala, 1));
+      transform-origin: 50% 0;
+      filter: blur(var(--desenfoque, 0px));
+    }
+  }
+
+  /* La línea de tiempo: la espina punteada se dibuja al llegar (de 0 a 1 en vertical). */
+  .espina {
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 1.8s var(--ease-cuento);
+  }
+  [data-visto] .espina,
+  :root:not(.js-revelar) .espina {
+    transform: scaleY(1);
+  }
+
+  /* Cortina: los títulos de sección se descubren de izquierda a derecha al llegar. */
+  .js-revelar [data-revelar] .cortina {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 1.1s var(--ease-cuento);
+  }
+  .js-revelar [data-revelar][data-visto] .cortina {
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* El campo del boletín: transparente, con la línea de abajo; al enfocarlo, caléndula. Se usa para el correo del pie
+     y para el ZIP del mapa. */
+  .campo-boletin {
+    width: 100%;
+    min-height: 3.2rem;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid rgb(246 239 224 / 0.45);
+    border-radius: 0;
+    color: var(--m-crema);
+    font-family: var(--m-font-display);
+    font-size: 1.15rem;
+    font-weight: 500;
+    outline: none;
+  }
+  .campo-boletin::placeholder {
+    color: rgb(246 239 224 / 0.7);
+  }
+  .campo-boletin:focus-visible {
+    border-bottom: 3px solid var(--m-calendula);
+  }
+  /* El mismo campo sobre el papel: tinta y línea de tinta. */
+  .campo-boletin-papel {
+    color: var(--m-ink);
+    border-bottom-color: rgb(26 27 51 / 0.45);
+  }
+  .campo-boletin-papel::placeholder {
+    color: var(--m-muted-ink);
+  }
+  .campo-boletin-papel:focus-visible {
+    border-bottom-color: var(--m-mandarina-tinta);
+  }
+
+  /* Tarjeta de evento: blanca, 18 px, sombra azulada suave. */
+  .tarjeta-evento {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgb(22 24 58 / 0.1);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -542,12 +789,113 @@
       transition: none;
       transform: none;
     }
-    .diapositiva {
+    .diapositiva,
+    .portada,
+    .estante-plano,
+    .asomar,
+    .espina,
+    .js-revelar [data-revelar] .cortina {
       transition: none;
     }
     .diapositiva[data-activa] .acercar,
-    .orbita {
+    .orbita,
+    .estrella,
+    .botar,
+    .linea > span,
+    .entrar {
       animation: none;
     }
+    .tarjeta-cuento:hover .portada,
+    .tarjeta-cuento:focus-within .portada {
+      transform: none;
+    }
+    .estante-plano {
+      transform: none;
+    }
+    .js-revelar [data-revelar] .cortina {
+      clip-path: none;
+    }
+    .espina {
+      transform: scaleY(1);
+    }
+    .panel-apilado {
+      transform: none;
+      filter: none;
+    }
   }
+}
+
+/* El cajón del menú va en azul noche: su ✕ (de shadcn) también, sin el fondo claro que trae al abrirse. */
+.cajon-noche > button:last-child {
+  background: transparent !important;
+  color: var(--m-crema);
+  opacity: 0.9;
+}
+
+/* UPDATE 2 del rediseño: lo que queda de interfaz, con piezas del canon. */
+@layer components {
+  /* El chip redondo de los iconos sociales del canon: crema al 12 %, y caléndula al pasar. Es el de la cabecera. */
+  .chip-icono {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    background: rgb(246 239 224 / 0.12);
+    color: var(--m-crema);
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+  .chip-icono:hover {
+    background: var(--m-calendula);
+    color: var(--m-noche);
+  }
+}
+
+/* Los controles del mapa (Leaflet): el zoom en chips azul noche, la ventanita en crema de 12 px y la atribución en papel.
+   Van fuera de capa para ganarle al CSS de Leaflet. */
+.mapa-cuento .leaflet-bar {
+  border: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgb(22 24 58 / 0.25);
+}
+.mapa-cuento .leaflet-bar a,
+.mapa-cuento .leaflet-bar a:hover {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  background: var(--m-noche);
+  color: var(--m-crema);
+  border-bottom: 1px solid rgb(246 239 224 / 0.2);
+  font-family: var(--m-font-display);
+  font-size: 20px;
+}
+.mapa-cuento .leaflet-bar a:hover,
+.mapa-cuento .leaflet-bar a:focus-visible {
+  background: var(--m-calendula);
+  color: var(--m-noche);
+}
+.mapa-cuento .leaflet-popup-content-wrapper,
+.mapa-cuento .leaflet-popup-tip {
+  background: var(--m-crema);
+  color: var(--m-ink);
+}
+.mapa-cuento .leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgb(22 24 58 / 0.25);
+  font-family: var(--m-font-body);
+}
+.mapa-cuento .leaflet-popup-content b {
+  font-family: var(--m-font-display);
+}
+.mapa-cuento .leaflet-control-attribution {
+  background: rgb(246 239 224 / 0.92);
+  color: var(--m-ink);
+  font-family: var(--m-font-body);
+  border-top-left-radius: 8px;
+}
+.mapa-cuento .leaflet-control-attribution a {
+  color: var(--m-aqua-tinta);
 }

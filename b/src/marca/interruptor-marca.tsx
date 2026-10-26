@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Sparkles } from "lucide-react";
 import { ICONOS, type MarcaId } from "./script-marca";
 
 function marcaActual(): MarcaId {
@@ -36,12 +35,12 @@ export function InterruptorMarca() {
       aria-label={t("propuestaMarca")}
       title={t("propuestaMarca")}
       data-testid="interruptor-marca"
-      className="inline-flex items-center gap-2 rounded-full px-2 py-0.5 font-bold text-white/90 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:outline-none"
+      className="inline-flex items-center gap-2 rounded-full px-2 py-0.5 font-semibold text-crema/90 hover:bg-crema/10 focus-visible:ring-2 focus-visible:ring-calendula focus-visible:outline-none"
     >
-      <Sparkles className="size-3.5" aria-hidden="true" />
+      <span aria-hidden="true">✦</span>
       <span className="hidden sm:inline">{t("propuestaMarca")}</span>
       <span
-        className={`relative h-4 w-7 rounded-full transition-colors ${activa ? "bg-[#f2753a]" : "bg-white/30"}`}
+        className={`relative h-4 w-7 rounded-full transition-colors ${activa ? "bg-calendula" : "bg-crema/30"}`}
         aria-hidden="true"
       >
         <span

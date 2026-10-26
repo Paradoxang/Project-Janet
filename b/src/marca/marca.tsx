@@ -4,6 +4,7 @@ import logoBrinco from "@marca/logo.svg";
 import logoBrincoNegativo from "@marca/logo-negativo.svg";
 import mascotaBrinco from "@marca/mascota.svg";
 import simboloBrinco from "@marca/simbolo.svg";
+import { PuntoLogo } from "@/components/cuento/iconos";
 import { cn } from "@/lib/utils";
 
 /*
@@ -34,13 +35,18 @@ export function Logo({ className, negativo = false }: { className?: string; nega
         alt="Brinco"
         className="solo-brinco h-full w-auto"
       />
+      {/* Sin marca (rediseño del 26-10): el punto del logo del canon y el nombre en Fredoka, subrayado a trazos para que se
+          lea como lo que es, un marcador. */}
       <span
         className={cn(
-          "solo-neutra inline-flex h-full items-center rounded-md border-2 border-dashed px-2.5 text-[11px] font-bold tracking-widest uppercase",
-          negativo ? "border-white/50 text-white" : "border-muted-ink/40 text-muted-ink",
+          "solo-neutra inline-flex h-full items-center gap-2.5 font-display text-[19px] leading-none font-semibold whitespace-nowrap",
+          negativo ? "text-crema" : "text-ink",
         )}
       >
-        {t("tuLogo")}
+        <PuntoLogo claro={negativo} />
+        <span className="underline decoration-current/40 decoration-dashed decoration-1 underline-offset-[6px]">
+          {t("tuLogo")}
+        </span>
       </span>
     </span>
   );

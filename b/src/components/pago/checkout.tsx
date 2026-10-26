@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ChevronDown, CreditCard, Lock, ShieldAlert } from "lucide-react";
+import { IconoAviso, IconoCandado, IconoTarjeta } from "@/components/cuento/iconos";
 import { useCatalogo } from "@/components/proveedor-catalogo";
 import { Resumen } from "@/components/carrito/resumen";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
@@ -29,6 +29,7 @@ import { useCuenta } from "@/stores/cuenta";
 import { usePedidos } from "@/stores/pedidos";
 import { usePreferencias } from "@/stores/preferencias";
 import { ImagenSuelta } from "@/components/producto/foto-ia";
+import { Cielo } from "@/components/cuento/cielo";
 
 type Pago = "tarjeta" | "apple" | "google" | "paypal" | "cuotas";
 type Campo =
@@ -201,23 +202,34 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
     router.push({ pathname: "/order", query: { id } });
   }
 
-  const seccion = "grid gap-3 border-t border-line pt-7 first:border-t-0 first:pt-0";
-  const titulo = "font-display text-[21px] font-semibold";
+  // Cada paso, una tarjeta de evento del canon (blanca, 18 px) con su número de paso en la cejilla.
+  const seccion = "tarjeta-evento grid gap-4 p-6 md:p-8";
+  const titulo = "font-display text-[23px] leading-tight font-bold";
+  const paso = (n: number) => (
+    <p className="cejilla text-mandarina-tinta -mb-2 flex items-center gap-2">
+      <span aria-hidden="true" className="chispa bg-mandarina text-[9px]" />
+      {t("pago.pasoDe", { n, total: 4 })}
+    </p>
+  );
   const opcion = (activa: boolean) =>
     cn(
       "-mt-px flex cursor-pointer items-center gap-3 border border-line bg-white px-4 py-3.5 first:mt-0 first:rounded-t-[14px] last:rounded-b-[14px]",
-      activa && "relative z-10 border-noche bg-tint-cielo/50",
+      activa && "relative z-10 border-mandarina-tinta bg-tint-durazno/40",
     );
   const campo = (c: Campo, etiqueta: string, props: React.ComponentProps<typeof Input> = {}) => (
     <div className="grid gap-1.5">
-      <Label htmlFor={`campo-${c}`}>{etiqueta}</Label>
+      <Label
+        htmlFor={`campo-${c}`}
+        className="cejilla text-ink/80 text-[0.68rem] tracking-[0.16em]"
+      >
+        {etiqueta}
+      </Label>
       <Input
         id={`campo-${c}`}
         value={datos[c]}
         aria-invalid={!!errores[c]}
         aria-describedby={errores[c] ? `error-${c}` : undefined}
         onChange={(e) => cambiar(c, e.target.value)}
-        className="h-12 rounded-[10px] bg-white text-[15px]"
         {...props}
       />
       {errores[c] ? (
@@ -265,34 +277,35 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
   return (
     <div className="lg:grid lg:min-h-[calc(100svh-120px)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
       {/* El resumen plegado arriba, en el celular (como Shopify): se ve el total sin bajar. */}
-      <details
-        className="group border-line border-b bg-[#efe6d1] lg:hidden"
-        data-testid="resumen-movil"
-      >
-        <summary className="mx-auto flex max-w-xl cursor-pointer list-none items-center justify-between gap-3 px-4 py-4 [&::-webkit-details-marker]:hidden">
-          <span className="text-link inline-flex items-center gap-1.5 text-[15px] font-semibold">
+      <details className="group noche lg:hidden" data-testid="resumen-movil">
+        <summary className="mx-auto flex max-w-xl cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 [&::-webkit-details-marker]:hidden">
+          <span className="text-aqua inline-flex items-center gap-1.5 text-[15px] font-semibold">
             <span className="group-open:hidden">{t("pago.verResumen")}</span>
             <span className="hidden group-open:inline">{t("pago.ocultarResumen")}</span>
-            <ChevronDown
+            <span
               aria-hidden="true"
               className="size-4 transition-transform group-open:rotate-180 motion-reduce:transition-none"
-            />
+            >
+              ▾
+            </span>
           </span>
-          <span className="font-display text-[18px] font-semibold">{total}</span>
+          <span className="font-display text-calendula text-[20px] font-bold">{total}</span>
         </summary>
-        <div className="mx-auto grid max-w-xl gap-5 px-4 pb-5">
-          {articulos}
-          <Resumen totales={totales} nombreEstado={nombreEstado} />
+        <div className="mx-auto max-w-xl px-4 pb-5">
+          <div className="tarjeta-evento text-ink grid gap-5 p-5">
+            {articulos}
+            <Resumen totales={totales} nombreEstado={nombreEstado} />
+          </div>
         </div>
       </details>
 
-      <div className="lg:border-line lg:flex lg:justify-end lg:border-r">
-        <div className="mx-auto grid w-full max-w-xl gap-7 px-4 py-7 md:px-8 lg:mx-0 lg:py-10 lg:pr-12">
+      <div className="lg:flex lg:justify-end">
+        <div className="mx-auto grid w-full max-w-xl gap-6 px-4 py-8 md:px-8 lg:mx-0 lg:py-12 lg:pr-12">
           <p
             className="border-low/30 bg-low/5 text-low flex items-start gap-2 rounded-[12px] border p-3 text-[13px] font-semibold"
             data-testid="aviso-demo"
           >
-            <ShieldAlert className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+            <IconoAviso className="mt-0.5 size-4 shrink-0" />
             {t("pago.aviso")}
           </p>
 
@@ -330,7 +343,8 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
             </p>
           </section>
 
-          <section className="grid gap-3" aria-labelledby="paso1">
+          <section className={seccion} aria-labelledby="paso1">
+            {paso(1)}
             <h2 id="paso1" className={titulo}>
               {t("pago.contacto")}
             </h2>
@@ -351,7 +365,7 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
                 }
               }}
               aria-label={t("pago.comoCompras")}
-              className="rounded-chip bg-surface grid grid-cols-2 gap-1 p-1"
+              className="rounded-chip bg-papel grid grid-cols-2 gap-1 p-1"
             >
               {(["invitado", "cuenta"] as const).map((m) => (
                 <Label
@@ -359,7 +373,9 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
                   htmlFor={`modo-${m}`}
                   className={cn(
                     "rounded-chip font-display has-[:focus-visible]:ring-aqua flex min-h-11 cursor-pointer items-center justify-center gap-2 px-3 text-center text-[14px] font-semibold has-[:focus-visible]:ring-3",
-                    modo === m ? "bg-noche text-crema" : "text-ink hover:bg-white/60",
+                    modo === m
+                      ? "bg-mandarina text-noche"
+                      : "text-ink hover:bg-aqua hover:text-noche",
                   )}
                 >
                   <RadioGroupItem
@@ -412,6 +428,7 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
           </section>
 
           <section className={seccion} aria-labelledby="paso2">
+            {paso(2)}
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h2 id="paso2" className={titulo}>
                 {t("pago.entrega")}
@@ -441,13 +458,18 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
               {campo("ciudad", t("pago.ciudad"), { autoComplete: "off" })}
               <div className="grid grid-cols-2 gap-3">
                 <div className="grid gap-1.5">
-                  <Label htmlFor="campo-estado">{t("pago.estado")}</Label>
+                  <Label
+                    htmlFor="campo-estado"
+                    className="cejilla text-ink/80 text-[0.68rem] tracking-[0.16em]"
+                  >
+                    {t("pago.estado")}
+                  </Label>
                   <select
                     id="campo-estado"
                     value={datos.estado}
                     aria-invalid={!!errores.estado}
                     onChange={(e) => cambiar("estado", e.target.value)}
-                    className="border-input aria-invalid:border-out h-12 rounded-[10px] border bg-white px-2 text-[15px]"
+                    className="aria-invalid:border-out border-ink/40 font-display focus-visible:border-mandarina-tinta h-12 rounded-none border-0 border-b-2 bg-transparent px-0.5 text-[1.05rem] font-medium focus-visible:border-b-[3px] focus-visible:outline-none"
                   >
                     <option value="" />
                     {Object.entries(impuestos.estados).map(([codigo]) => (
@@ -475,6 +497,7 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
           </section>
 
           <section className={seccion} aria-labelledby="paso3">
+            {paso(3)}
             <h2 id="paso3" className={titulo}>
               {t("pago.metodoEnvio")}
             </h2>
@@ -508,11 +531,12 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
           </section>
 
           <section className={seccion} aria-labelledby="paso4">
+            {paso(4)}
             <h2 id="paso4" className={titulo}>
               {t("pago.pago")}
             </h2>
             <p className="text-muted-ink -mt-1 flex items-center gap-1.5 text-[13px]">
-              <Lock aria-hidden="true" className="size-3.5" />
+              <IconoCandado className="size-3.5" />
               {t("pago.tarjetaNota")}
             </p>
             <RadioGroup
@@ -531,9 +555,7 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
               ).map(([m, texto]) => (
                 <Label key={m} htmlFor={`pago-${m}`} className={opcion(pago === m)}>
                   <RadioGroupItem id={`pago-${m}`} value={m} data-testid={`pago-${m}`} />
-                  {m === "tarjeta" ? (
-                    <CreditCard className="text-muted-ink size-5" aria-hidden="true" />
-                  ) : null}
+                  {m === "tarjeta" ? <IconoTarjeta className="text-muted-ink size-5" /> : null}
                   <span className="font-bold">{texto}</span>
                 </Label>
               ))}
@@ -560,13 +582,25 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
         </div>
       </div>
 
-      <aside className="hidden bg-[#efe6d1] lg:block" aria-labelledby="paso5">
-        <div className="sticky top-0 grid max-w-md gap-6 px-12 py-10">
-          <h2 id="paso5" className="sr-only">
-            {t("pago.resumen")}
-          </h2>
-          {articulos}
-          <Resumen totales={totales} nombreEstado={nombreEstado} />
+      {/* El resumen, a la derecha sobre el cielo azul noche: una tarjeta blanca con lo que se compra y el total en
+          caléndula, siempre a la vista. */}
+      <aside className="noche relative hidden overflow-hidden lg:block" aria-labelledby="paso5">
+        <Cielo cantidad={40} semilla={71} />
+        <div className="sticky top-0 grid max-w-md gap-6 px-12 py-12">
+          <div className="flex items-end justify-between gap-4">
+            <h2 id="paso5" className="font-display text-crema text-[24px] font-bold">
+              {t("pago.resumen")}
+            </h2>
+            <span className="subdisplay text-calendula text-[2.2rem]">{total}</span>
+          </div>
+          <div className="tarjeta-evento text-ink grid gap-6 p-7">
+            {articulos}
+            <Resumen totales={totales} nombreEstado={nombreEstado} />
+          </div>
+          <p className="text-crema/80 flex items-center gap-2 text-[13px]">
+            <IconoCandado className="text-calendula size-3.5" />
+            {t("pago.tarjetaNota")}
+          </p>
         </div>
       </aside>
     </div>

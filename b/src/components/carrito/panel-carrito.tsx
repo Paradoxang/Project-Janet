@@ -1,11 +1,16 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { CircleCheck } from "lucide-react";
 import { useCatalogo } from "@/components/proveedor-catalogo";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { Link } from "@/i18n/navigation";
 import { aCentavos, aDolares, precio } from "@/lib/formato";
 import type { Idioma } from "@/lib/tipos";
@@ -29,52 +34,86 @@ export function PanelCarrito() {
 
   return (
     <Sheet open={abierto} onOpenChange={(v) => (v ? null : cerrar())}>
-      <SheetContent side="right" className="w-[88vw] max-w-sm gap-0 overflow-y-auto p-0" data-testid="panel-carrito">
-        <SheetHeader className="border-b p-4">
-          <SheetTitle className="flex items-center gap-2 text-stock">
-            <CircleCheck className="size-5" aria-hidden="true" />
+      <SheetContent
+        side="right"
+        className="cajon-noche noche border-crema/10 bg-noche text-crema w-[88vw] max-w-sm gap-0 overflow-y-auto p-0"
+        data-testid="panel-carrito"
+      >
+        <SheetHeader className="border-crema/15 border-b p-5">
+          <SheetTitle className="font-display text-crema flex items-center gap-2 text-[20px] font-semibold">
+            <span aria-hidden="true" className="text-calendula">
+              ✓
+            </span>
             {t("agregadoTitulo")}
           </SheetTitle>
           <SheetDescription className="sr-only">{t("titulo")}</SheetDescription>
           {agregado ? (
             <div className="mt-2 flex items-center gap-3">
-              <span className={cn("grid size-16 shrink-0 place-items-center overflow-hidden rounded-md", FONDO_TINTE[agregado.tint])}>
-                <ImagenSuelta illustration={agregado.illustration} imagen={agregado.imagen} className="size-14" claseFoto="size-full object-cover" />
+              <span
+                className={cn(
+                  "border-papel grid size-16 shrink-0 place-items-center overflow-hidden rounded-full border-4",
+                  FONDO_TINTE[agregado.tint],
+                )}
+              >
+                <ImagenSuelta
+                  illustration={agregado.illustration}
+                  imagen={agregado.imagen}
+                  className="size-14"
+                  claseFoto="size-full object-cover"
+                />
               </span>
-              <span className="line-clamp-2 text-sm font-semibold">{agregado.title[locale]}</span>
+              <span className="font-display text-crema line-clamp-2 text-[15px]">
+                {agregado.title[locale]}
+              </span>
             </div>
           ) : null}
         </SheetHeader>
-        <div className="grid gap-4 p-4">
-          <p className="text-lg">
-            {t("subtotal", { n })}: <b>{precio(aDolares(subtotal), locale)}</b>
+        <div className="grid gap-5 p-5">
+          <p className="font-display text-crema flex items-baseline justify-between gap-3 text-[17px]">
+            {t("subtotal", { n })}
+            <b className="text-calendula text-[24px]">{precio(aDolares(subtotal), locale)}</b>
           </p>
-          <BarraEnvio subtotal={subtotal} />
+          <BarraEnvio subtotal={subtotal} noche />
           <div className="grid gap-2">
             <Button asChild variant="cta" size="lg" className="w-full">
               <Link href="/checkout" onClick={cerrar} data-testid="panel-pagar">
                 {t("pagar")}
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="w-full">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="text-crema hover:bg-crema/10 w-full"
+            >
               <Link href="/cart" onClick={cerrar} data-testid="panel-ir-carrito">
                 {t("irAlCarrito")}
               </Link>
             </Button>
           </div>
           {activas.length > 1 ? (
-            <ul className="grid gap-2 border-t pt-4">
+            <ul className="border-crema/15 grid gap-3 border-t pt-5">
               {activas
                 .filter((l) => l.id !== ultimo)
                 .map((l) => {
                   const p = porId.get(l.id)!;
                   return (
-                    <li key={l.id} className="flex items-center gap-3 text-sm">
-                      <span className={cn("grid size-11 shrink-0 place-items-center overflow-hidden rounded-md", FONDO_TINTE[p.tint])}>
-                        <ImagenSuelta illustration={p.illustration} imagen={p.imagen} className="size-9" claseFoto="size-full object-cover" />
+                    <li key={l.id} className="text-crema flex items-center gap-3 text-sm">
+                      <span
+                        className={cn(
+                          "border-papel grid size-11 shrink-0 place-items-center overflow-hidden rounded-full border-[3px]",
+                          FONDO_TINTE[p.tint],
+                        )}
+                      >
+                        <ImagenSuelta
+                          illustration={p.illustration}
+                          imagen={p.imagen}
+                          className="size-9"
+                          claseFoto="size-full object-cover"
+                        />
                       </span>
                       <span className="line-clamp-2 flex-1">{p.title[locale]}</span>
-                      <span className="text-muted-ink">×{l.qty}</span>
+                      <span className="text-crema/75">×{l.qty}</span>
                     </li>
                   );
                 })}

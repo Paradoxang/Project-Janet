@@ -2,7 +2,6 @@
 
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { CircleCheck } from "lucide-react";
 import { Confeti } from "@/components/efectos/confeti";
 import { useCatalogo } from "@/components/proveedor-catalogo";
 import { Button } from "@/components/ui/button";
@@ -33,24 +32,31 @@ export function Confirmacion() {
   }
   return (
     <div className="mx-auto max-w-3xl px-4 pt-6 md:px-6" data-testid="confirmacion">
-      <div className="textura-puntos relative flex flex-col items-center gap-4 rounded-card bg-tint-menta px-5 py-8 text-center">
+      <div className="textura-puntos rounded-card bg-tint-menta relative flex flex-col items-center gap-4 px-5 py-8 text-center">
         <Confeti disparo={1} cantidad={36} />
         <Mascota className="h-40 w-32" />
-        <h1 className="flex flex-col items-center gap-2 text-[28px] leading-tight text-balance text-tinta-menta md:text-4xl">
-          <CircleCheck className="size-8" aria-hidden="true" />
+        <h1 className="text-tinta-menta flex flex-col items-center gap-2 text-[28px] leading-tight text-balance md:text-4xl">
+          <span aria-hidden="true" className="size-8">
+            ✓
+          </span>
           {t("pago.confirmacionTitulo")}
         </h1>
         <p className="text-lg">
           <span className="solo-brinco">{t("pago.confirmacionBrinco")}</span>
           <span className="solo-neutra">{t("pago.confirmacionNeutra")}</span>
         </p>
-        <p className="text-sm text-muted-ink">
-          {t("pago.numero")}: <b className="text-ink" data-testid="numero-pedido">{pedido.id}</b>
+        <p className="text-muted-ink text-sm">
+          {t("pago.numero")}:{" "}
+          <b className="text-ink" data-testid="numero-pedido">
+            {pedido.id}
+          </b>
         </p>
       </div>
 
-      <div className="mt-5 grid gap-4 rounded-card bg-white p-4 shadow-tarjeta md:p-5">
-        <p className="text-lg font-bold text-stock">{t("pago.llega", { fecha: fechaLarga(new Date(pedido.llega), locale) })}</p>
+      <div className="rounded-card shadow-tarjeta mt-5 grid gap-4 bg-white p-4 md:p-5">
+        <p className="text-stock text-lg font-bold">
+          {t("pago.llega", { fecha: fechaLarga(new Date(pedido.llega), locale) })}
+        </p>
         <p className="text-sm">
           <b>{t("pago.enviadoA")}:</b> {pedido.nombre} · {pedido.direccion}
         </p>
@@ -69,8 +75,10 @@ export function Confirmacion() {
           <b>{t("carrito.total")}</b>
           <b>{precio(aDolares(pedido.total), locale)}</b>
         </p>
-        <p className="text-sm text-muted-ink">{t("pago.pagadoCon", { metodo: pedido.metodoPago })}</p>
-        <p className="text-sm text-muted-ink">{t("pago.recibo", { correo: pedido.correo })}</p>
+        <p className="text-muted-ink text-sm">
+          {t("pago.pagadoCon", { metodo: pedido.metodoPago })}
+        </p>
+        <p className="text-muted-ink text-sm">{t("pago.recibo", { correo: pedido.correo })}</p>
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
         <Button asChild variant="cta" size="lg">

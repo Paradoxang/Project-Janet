@@ -2,7 +2,7 @@
 
 import { useId, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Search } from "lucide-react";
+import { IconoLupa } from "@/components/cuento/iconos";
 import { useRouter } from "@/i18n/navigation";
 import { buscar, crearIndice } from "@/lib/buscar";
 import { rutaProducto } from "@/lib/catalogo";
@@ -58,7 +58,10 @@ export function Buscador({ className }: { className?: string }) {
         else irABusqueda();
       }}
     >
-      <div className="flex h-12 items-center overflow-hidden rounded-chip border-[1.5px] border-ink bg-white p-1 focus-within:ring-3 focus-within:ring-ring/40">
+      {/* Rediseño del 26-10: el campo del boletín del canon (transparente, con la línea abajo y caléndula al enfocar), con
+          la lupa sólida delante y la placa «Buscar ✦» detrás. */}
+      <div className="flex items-end gap-3">
+        <IconoLupa className="text-crema/80 mb-3 size-5" />
         <input
           ref={entrada}
           type="search"
@@ -92,23 +95,18 @@ export function Buscador({ className }: { className?: string }) {
               setAbierto(false);
             }
           }}
-          className="h-full min-w-0 flex-1 bg-transparent px-4 text-[15px] text-ink outline-none placeholder:text-muted-ink [&::-webkit-search-cancel-button]:hidden"
+          className="campo-boletin min-h-11 min-w-0 flex-1 text-[1.02rem] placeholder:font-sans placeholder:text-[0.95rem] [&::-webkit-search-cancel-button]:hidden"
         />
-        <button
-          type="submit"
-          aria-label={t("buscarBoton")}
-          className="grid aspect-square h-full place-items-center rounded-full bg-brand text-brand-ink hover:brightness-110"
-        >
-          <Search className="size-5" strokeWidth={2.5} />
+        <button type="submit" aria-label={t("buscarBoton")} className="placa min-h-10 px-4 py-2">
+          <span className="hidden sm:inline">{t("buscarBoton")}</span>
+          <span aria-hidden="true">✦</span>
         </button>
       </div>
 
       {visible ? (
-        <div className="absolute inset-x-0 top-full z-50 mt-1 overflow-hidden rounded-card border bg-white shadow-lg">
+        <div className="noche ring-crema/15 absolute inset-x-0 top-full z-50 mt-2 overflow-hidden rounded-[18px] shadow-[0_18px_40px_rgb(0_0_0/0.4)] ring-1">
           {sugerencias.length > 0 ? (
-            <p className="px-4 pt-2.5 pb-1 text-[13px] font-bold text-muted-ink">
-              {t("sugerencias")}
-            </p>
+            <p className="cejilla text-calendula px-5 pt-4 pb-2">{t("sugerencias")}</p>
           ) : null}
           <ul id={idLista} role="listbox" aria-label={t("sugerencias")}>
             {sugerencias.map((p, i) => (
@@ -121,23 +119,37 @@ export function Buscador({ className }: { className?: string }) {
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => irAProducto(p)}
                 className={cn(
-                  "flex cursor-pointer items-center gap-3 px-3 py-2",
-                  i === activo ? "bg-surface" : "hover:bg-surface",
+                  "flex cursor-pointer items-center gap-3 px-5 py-2.5",
+                  i === activo ? "bg-crema/10" : "hover:bg-crema/10",
                 )}
               >
-                <span className={cn("grid size-11 shrink-0 place-items-center overflow-hidden rounded-md", FONDO_TINTE[p.tint])}>
-                  <ImagenSuelta illustration={p.illustration} imagen={p.imagen} className="size-9" claseFoto="size-full object-cover" />
+                {/* El retrato redondo del canon, con su borde de papel. */}
+                <span
+                  className={cn(
+                    "border-papel grid size-12 shrink-0 place-items-center overflow-hidden rounded-full border-[3px]",
+                    FONDO_TINTE[p.tint],
+                  )}
+                >
+                  <ImagenSuelta
+                    illustration={p.illustration}
+                    imagen={p.imagen}
+                    className="size-9"
+                    claseFoto="size-full object-cover"
+                  />
                 </span>
-                <span className="line-clamp-2 flex-1 text-sm leading-snug">{p.title[locale]}</span>
-                <Precio usd={p.price} className="text-base" />
+                <span className="font-display text-crema line-clamp-2 flex-1 text-[15px] leading-snug">
+                  {p.title[locale]}
+                </span>
+                <Precio usd={p.price} className="text-calendula text-[18px]" />
               </li>
             ))}
           </ul>
           <button
             type="submit"
             onMouseDown={(e) => e.preventDefault()}
-            className="block w-full border-t px-4 py-2.5 text-left text-sm font-bold text-link hover:bg-surface"
+            className="border-crema/15 font-display text-calendula hover:bg-crema/10 flex w-full items-center gap-2 border-t px-5 py-3.5 text-left text-[14px] font-semibold"
           >
+            <span aria-hidden="true">✦</span>
             {t("verTodos", { q: q.trim() })}
           </button>
         </div>

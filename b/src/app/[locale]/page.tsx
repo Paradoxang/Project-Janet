@@ -1,70 +1,50 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { ArrowRight } from "lucide-react";
-import { FilaCatalogo } from "@/components/producto/fila-productos";
-import { claseIlustracion, FotoIA } from "@/components/producto/foto-ia";
-import { enLaTiendaBlanca } from "@/lib/fotos-ia";
-import { FONDO_TINTE } from "@/components/producto/imagen-producto";
+import { IconoHoja } from "@/components/cuento/iconos";
+import { Cielo } from "@/components/cuento/cielo";
+import { BuscarTiendaZip } from "@/components/cuento/buscar-tienda-zip";
+import { EstanteInicio } from "@/components/cuento/estante-inicio";
+import { LineaTiempo, type Hito } from "@/components/cuento/linea-tiempo";
+import { PanelesApilados } from "@/components/cuento/paneles-apilados";
+import { acento, TituloCuento } from "@/components/cuento/titulo-cuento";
 import { BloquesEdad } from "@/components/inicio/bloques-edad";
-import { DosMundos } from "@/components/inicio/dos-mundos";
-import { FranjaConfianza } from "@/components/inicio/franja-confianza";
 import { HeroCuento, type Diapositiva } from "@/components/inicio/hero-cuento";
-import { JugueteSemana } from "@/components/inicio/juguete-semana";
-import { Momentos } from "@/components/inicio/momentos";
-import { Novedades } from "@/components/inicio/novedades";
-import { PromoTiendas } from "@/components/inicio/promo-tiendas";
 import { Link } from "@/i18n/navigation";
-import { srcProducto } from "@/lib/catalogo";
-import { CATEGORIAS, GRUPOS_EDAD, OCASIONES, getCatalogoLigero, getProduct } from "@/lib/data";
+import { CATEGORIAS, GRUPOS_EDAD, getCatalogoLigero, getStores } from "@/lib/data";
+import { RUTA_SALUDABLE } from "@/lib/secciones";
 import type { Idioma } from "@/lib/tipos";
 
 /** Las diapositivas del hero: familias jugando con juguetes del catálogo (fotos con IA de la variante colorida). */
 const HERO = [
-  { id: "torre", src: "/variante/portada.webp", posicion: "70% 50%", slug: "magnetic-tiles" },
+  { id: "torre", src: "/variante/portada.webp", posicion: "62% 50%", slug: "magnetic-tiles" },
   {
     id: "cohete",
     src: "/variante/edad-5-7.webp",
-    posicion: "62% 40%",
+    posicion: "60% 40%",
     slug: "foam-rocket-launcher",
   },
-  { id: "aros", src: "/variante/edad-1-2.webp", posicion: "62% 50%", slug: "rainbow-ring-stacker" },
-  { id: "robot", src: "/variante/edad-8.webp", posicion: "58% 50%", slug: "robot-building-kit" },
+  { id: "aros", src: "/variante/edad-1-2.webp", posicion: "58% 45%", slug: "rainbow-ring-stacker" },
+  { id: "robot", src: "/variante/edad-8.webp", posicion: "56% 45%", slug: "robot-building-kit" },
 ] as const;
 
-function Titulo({
-  id,
-  children,
-  cejilla,
-  texto,
-  verTodo,
-}: {
-  id: string;
-  children: React.ReactNode;
-  cejilla?: string;
-  texto?: string;
-  verTodo?: React.ReactNode;
-}) {
-  return (
-    <div className="mb-5 flex items-end justify-between gap-4 md:mb-7">
-      <div>
-        {cejilla ? <p className="cejilla text-mandarina-tinta mb-2">{cejilla}</p> : null}
-        <h2 id={id} className="font-magia text-[26px] leading-[1.15] font-bold md:text-[38px]">
-          {children}
-        </h2>
-        {texto ? (
-          <p className="text-muted-ink mt-2 max-w-xl text-[15px] md:text-base">{texto}</p>
-        ) : null}
-      </div>
-      {verTodo}
-    </div>
-  );
-}
+/** Tres juguetes en abanico para el panel de la juguetería: portadas que flotan, como los libros del canon. */
+const ABANICO = [
+  { foto: "magnetic-tiles", giro: "-10deg", x: "0%", y: "10%" },
+  { foto: "plush-dragon", giro: "3deg", x: "30%", y: "0%" },
+  { foto: "rocket-launcher", giro: "12deg", x: "60%", y: "12%" },
+];
 
+/**
+ * El inicio, con la estructura del canon (rediseño del 26-10): el hero a pantalla completa, el estante sobre azul
+ * noche, cuatro paneles apilados (edades, juguetes, lo saludable y las tiendas), la línea de «cómo comprar» y el pie.
+ */
 export default async function Inicio({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations();
   const catalogo = await getCatalogoLigero();
-  const destacado = await getProduct("magnetic-tiles");
+  const tiendas = await getStores();
+  const conNota = catalogo.filter((p) => p.reviewCount > 0);
+  const nota = conNota.reduce((s, p) => s + p.rating, 0) / Math.max(1, conNota.length);
   const diapositivas: Diapositiva[] = HERO.map((h) => {
     const p = catalogo.find((x) => x.slug === h.slug);
     return {
@@ -76,121 +56,223 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
       producto: { slug: h.slug, titulo: p?.title[locale as Idioma] ?? "" },
     };
   });
-  const verTodo = (href: string | { pathname: string; query: Record<string, string> }) => (
-    <Link
-      href={href}
-      className="font-display text-link inline-flex shrink-0 items-center gap-1 pb-1 text-[14px] font-semibold hover:underline"
-    >
-      {t("inicio.verTodo")} <ArrowRight aria-hidden="true" className="size-4" />
-    </Link>
-  );
+  const foto = (illustration: string) => `/productos-ia/${illustration}.webp`;
+  const hitos: Hito[] = [
+    {
+      id: "edad",
+      numero: "01",
+      unidad: t("como.paso"),
+      color: "mandarina",
+      titulo: t("como.edadTitulo"),
+      texto: t("como.edadTexto"),
+      fotos: [foto("ring-stacker"), foto("teddy-bear")],
+    },
+    {
+      id: "tienda",
+      numero: "02",
+      unidad: t("como.paso"),
+      color: "aqua",
+      titulo: t("como.tiendaTitulo"),
+      texto: t("como.tiendaTexto", { n: tiendas.length }),
+      fotos: [foto("train-set"), foto("tea-set")],
+    },
+    {
+      id: "envio",
+      numero: "03",
+      unidad: t("como.paso"),
+      color: "calendula",
+      titulo: t("como.envioTitulo"),
+      texto: t("como.envioTexto"),
+      fotos: [foto("rc-car"), foto("science-kit")],
+    },
+    {
+      id: "devolver",
+      numero: "04",
+      unidad: t("como.paso"),
+      color: "mandarina",
+      titulo: t("como.devolverTitulo"),
+      texto: t("como.devolverTexto"),
+      fotos: [foto("plush-puppy")],
+    },
+  ];
 
   return (
-    <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] gap-14 px-4 pt-4 md:gap-20 md:px-6 md:pt-6">
-      <div className="grid gap-4 md:gap-5">
-        <HeroCuento diapositivas={diapositivas} />
-        <FranjaConfianza />
-      </div>
+    <>
+      <HeroCuento
+        diapositivas={diapositivas}
+        prueba={t("hero.prueba", {
+          nota: nota.toFixed(1),
+          juguetes: catalogo.length,
+          tiendas: tiendas.length,
+        })}
+      />
 
-      <section aria-labelledby="por-edad" id="edades" className="scroll-mt-28" data-revelar>
-        <Titulo id="por-edad" cejilla={t("inicio.edadesCejilla")} texto={t("inicio.edadesTexto")}>
-          {t("inicio.regalosPorEdad")}
-        </Titulo>
-        <BloquesEdad catalogo={catalogo} edades={GRUPOS_EDAD} />
-      </section>
+      <EstanteInicio />
 
-      <DosMundos />
-
-      <Novedades />
-
-      <section aria-labelledby="mas-vendidos" data-revelar>
-        <Titulo
-          id="mas-vendidos"
-          cejilla={t("inicio.masVendidosCejilla")}
-          texto={t("inicio.masVendidosTexto")}
-          verTodo={verTodo("/search")}
+      <PanelesApilados>
+        {/* 1 · Por edad, sobre el papel */}
+        <section
+          aria-labelledby="panel-edad"
+          className="panel-apilado papel-pintado overflow-hidden"
+          data-testid="panel-edad"
         >
-          {t("inicio.masVendidos")}
-        </Titulo>
-        <FilaCatalogo criterio="masVendidos" ranking />
-      </section>
+          <div className="envoltura grid min-h-[inherit] content-center gap-10 py-16 md:py-20">
+            <div className="flex flex-wrap items-end justify-between gap-6">
+              <div>
+                <p className="cejilla text-mandarina-tinta mb-3">01 · {t("paneles.edadCejilla")}</p>
+                <h2 id="panel-edad" className="titulo-cuento">
+                  {t.rich("paneles.edadTitulo", { acento: acento(false) })}
+                </h2>
+                <p className="text-ink/80 mt-4 max-w-md text-[17px] leading-relaxed">
+                  {t("inicio.edadesTexto")}
+                </p>
+              </div>
+              <Link href="/search" className="placa">
+                {t("paneles.edadBoton")}{" "}
+                <span aria-hidden="true" className="size-4">
+                  →
+                </span>
+              </Link>
+            </div>
+            <BloquesEdad catalogo={catalogo} edades={GRUPOS_EDAD} />
+          </div>
+        </section>
 
-      {destacado ? <JugueteSemana p={destacado} /> : null}
-
-      <section aria-labelledby="por-ocasion" data-revelar>
-        <Titulo id="por-ocasion" cejilla={t("inicio.ocasionCejilla")}>
-          {t("inicio.porOcasion")}
-        </Titulo>
-        <Momentos catalogo={catalogo} ocasiones={OCASIONES} />
-      </section>
-
-      <PromoTiendas />
-
-      <section aria-labelledby="menos-25" data-revelar>
-        <Titulo
-          id="menos-25"
-          cejilla={t("inicio.ofertasCejilla")}
-          texto={t("inicio.menosDe25Texto")}
-          verTodo={verTodo({ pathname: "/search", query: { max: "25" } })}
+        {/* 2 · La juguetería, en azul noche */}
+        <section
+          aria-labelledby="panel-juguetes"
+          className="panel-apilado noche relative overflow-hidden"
+          data-testid="panel-juguetes"
         >
-          {t("inicio.menosDe25")}
-        </Titulo>
-        <FilaCatalogo criterio="menosDe25" />
-      </section>
-
-      <section aria-labelledby="por-categoria" data-revelar>
-        {/* Cada categoría con su «promoción de la semana» (propuesta P4 de la review de usuario, aprobada el 16-10).
-            Son ejemplos marcados DEMO y sin descuentos: la dueña pondrá las suyas. */}
-        <Titulo id="por-categoria" cejilla={t("inicio.categoriaCejilla")} texto={t("promo.nota")}>
-          {t("inicio.porCategoria")}
-        </Titulo>
-        <ul className="grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-4 md:gap-x-4">
-          {CATEGORIAS.map((c) => {
-            // El que representa la categoría sale en las dos tiendas: se elige entre los de la tienda blanca.
-            const delGrupo = catalogo.filter((p) => p.category === c && enLaTiendaBlanca(p));
-            const rep = delGrupo.find((p) => p.bestSeller) ?? delGrupo[0];
-            return (
-              <li key={c}>
-                <Link
-                  href={{ pathname: "/search", query: { categoria: c } }}
-                  className="group flex h-full flex-col gap-2"
-                >
-                  {rep ? (
-                    <span
-                      className={`rounded-card relative grid aspect-[4/3] place-items-center overflow-hidden transition-transform duration-200 group-hover:-translate-y-1 ${FONDO_TINTE[rep.tint]}`}
+          <Cielo cantidad={36} semilla={41} />
+          <div className="envoltura relative grid min-h-[inherit] items-center gap-12 py-16 md:py-20 lg:grid-cols-2">
+            <div>
+              <p className="cejilla text-calendula mb-3">02 · {t("paneles.juguetesCejilla")}</p>
+              <h2 id="panel-juguetes" className="titulo-cuento text-crema">
+                {t.rich("paneles.juguetesTitulo", { acento: acento(true) })}
+              </h2>
+              <p className="text-crema/80 mt-4 max-w-md text-[17px] leading-relaxed">
+                {t("paneles.juguetesTexto")}
+              </p>
+              <ul className="mt-7 flex flex-wrap gap-2.5">
+                {CATEGORIAS.map((c) => (
+                  <li key={c}>
+                    <Link
+                      href={{ pathname: "/search", query: { categoria: c } }}
+                      className="pildora"
                     >
-                      {claseIlustracion(rep.illustration) !== null ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={srcProducto(rep)}
-                          alt=""
-                          className={`menear-al-pasar h-[78%] ${claseIlustracion(rep.illustration) ?? ""}`}
-                          loading="lazy"
-                        />
-                      ) : null}
-                      <FotoIA illustration={rep.illustration} />
-                    </span>
-                  ) : null}
-                  <span className="font-display px-0.5 text-[16px] leading-tight font-semibold group-hover:underline">
-                    {t(`categoria.${c}`)}
-                  </span>
-                  <span className="grid gap-1 px-0.5" data-testid="promo-semana">
-                    <span className="text-ink flex flex-wrap items-center gap-1.5 text-[11.5px] font-bold">
-                      {t("promo.etiqueta")}
-                      <span className="bg-surface text-muted-ink rounded border px-1 text-[10px] font-extrabold">
-                        DEMO
-                      </span>
-                    </span>
-                    <span className="text-muted-ink text-[13px] leading-snug">
-                      {t(`promo.textos.${c}`)}
-                    </span>
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+                      {t(`categoria.${c}`)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/search" className="placa mt-8">
+                {t("paneles.juguetesBoton")}{" "}
+                <span aria-hidden="true" className="size-4">
+                  →
+                </span>
+              </Link>
+            </div>
+            <div aria-hidden="true" className="relative mx-auto aspect-[5/4] w-full max-w-[520px]">
+              {ABANICO.map((a) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={a.foto}
+                  src={`/productos-ia/${a.foto}.webp`}
+                  alt=""
+                  loading="lazy"
+                  className="ring-crema/90 absolute aspect-[4/5] w-[40%] rounded-[12px] object-cover shadow-[0_14px_34px_rgb(0_0_0/0.45)] ring-4"
+                  style={{ left: a.x, top: a.y, transform: `rotate(${a.giro})` }}
+                />
+              ))}
+              <span className="absolute right-0 bottom-0 rounded bg-black/60 px-1.5 py-0.5 text-[10.5px] font-bold text-white">
+                {t("mundos.ia")}
+              </span>
+            </div>
+          </div>
+        </section>
+
+        {/* 3 · Lo saludable, en aqua (propuesta abierta) */}
+        <section
+          aria-labelledby="panel-saludable"
+          className="panel-apilado bg-tint-cielo overflow-hidden"
+          data-testid="panel-saludable"
+        >
+          <div className="envoltura grid min-h-[inherit] items-center gap-12 py-16 md:py-20 lg:grid-cols-2">
+            <div>
+              <p className="cejilla text-aqua-tinta mb-3">03 · {t("paneles.saludableCejilla")}</p>
+              <h2 id="panel-saludable" className="titulo-cuento">
+                {t.rich("paneles.saludableTitulo", {
+                  acento: (x) => <span className="text-aqua-tinta">{x}</span>,
+                })}
+              </h2>
+              <p className="text-ink/80 mt-4 max-w-md text-[17px] leading-relaxed">
+                {t("mundos.saludableTexto")}
+              </p>
+              <Link href={RUTA_SALUDABLE} className="placa placa-noche mt-8">
+                {t("mundos.saludableBoton")}{" "}
+                <span aria-hidden="true" className="size-4">
+                  →
+                </span>
+              </Link>
+            </div>
+            <div aria-hidden="true" className="mx-auto grid w-full max-w-[420px] grid-cols-2 gap-4">
+              {["bg-white", "bg-tint-menta", "bg-tint-limon", "bg-white"].map((fondo, i) => (
+                <span
+                  key={i}
+                  className={`border-aqua-tinta/40 grid aspect-square place-items-center rounded-[18px] border-2 border-dashed ${fondo}`}
+                >
+                  <IconoHoja className="text-aqua-tinta/70 size-9" />
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 4 · Las tiendas, en mandarina suave: el ZIP lleva al mapa */}
+        <section
+          aria-labelledby="panel-tiendas"
+          className="panel-apilado bg-tint-durazno overflow-hidden"
+          data-testid="panel-tiendas"
+        >
+          <div className="envoltura grid min-h-[inherit] items-center gap-12 py-16 md:py-20 lg:grid-cols-2">
+            <div>
+              <p className="cejilla text-mandarina-tinta mb-3">04 · {t("inicio.tiendasCejilla")}</p>
+              <h2 id="panel-tiendas" className="titulo-cuento">
+                {t.rich("paneles.tiendasTitulo", { acento: acento(false) })}
+              </h2>
+              <p className="text-ink/80 mt-4 mb-8 max-w-md text-[17px] leading-relaxed">
+                {t("inicio.tiendasTexto")}
+              </p>
+              <BuscarTiendaZip papel />
+            </div>
+            <div aria-hidden="true" className="relative mx-auto w-full max-w-[440px]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/productos/map-puzzle.svg"
+                alt=""
+                loading="lazy"
+                className="w-full drop-shadow-[0_14px_24px_rgb(22_24_58/0.25)]"
+              />
+              <span className="bg-noche text-crema absolute top-2 right-2 grid size-28 place-items-center rounded-full text-center shadow-[0_10px_26px_rgb(22_24_58/0.35)]">
+                <span>
+                  <span className="subdisplay text-calendula block">{tiendas.length}</span>
+                  <span className="cejilla text-[0.62rem]">{t("paneles.tiendasDemo")}</span>
+                </span>
+              </span>
+            </div>
+          </div>
+        </section>
+      </PanelesApilados>
+
+      <section aria-labelledby="como-titulo" className="papel-pintado relative" data-revelar>
+        <div className="envoltura seccion">
+          <TituloCuento id="como-titulo" cejilla={t("como.cejilla")} texto={t("como.texto")}>
+            {t.rich("como.titulo", { acento: acento(false) })}
+          </TituloCuento>
+          <LineaTiempo hitos={hitos} etiqueta={t("como.cejilla")} />
+        </div>
       </section>
-    </div>
+    </>
   );
 }

@@ -2,25 +2,23 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Menu } from "lucide-react";
+import { IconoMenu } from "@/components/cuento/iconos";
 import { BarraLateral } from "@/components/navegacion/barra-lateral";
 import { PestanasSeccion } from "@/components/navegacion/pestanas-seccion";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Link, usePathname } from "@/i18n/navigation";
-import { conBarraLateral } from "@/lib/secciones";
-import { cn } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
 import { Logo } from "@/marca/marca";
+import { SelectorIdioma } from "./selector-idioma";
 
 /**
- * El menú hamburguesa (pedido de la clienta): abre la misma barra lateral de categorías, con las dos
- * secciones arriba. En escritorio solo aparece en las páginas que no llevan la barra fija (ficha, mapa, carrito…).
+ * El menú hamburguesa (pedido de la clienta): abre el cajón con las dos secciones y todas las categorías. Con el canon
+ * no hay barra lateral fija en el escritorio (el catálogo se filtra con píldoras), así que el botón se ve siempre.
  */
 export function MenuMovil() {
   const t = useTranslations();
   const [abierto, setAbierto] = useState(false);
   const cerrar = () => setAbierto(false);
-  const fija = conBarraLateral(usePathname());
-  const enlace = "block rounded-lg px-3 py-2 text-[15px] hover:bg-surface";
+  const enlace = "block rounded-lg px-3 py-2 text-[15px] text-crema hover:bg-crema/10";
   return (
     <Sheet open={abierto} onOpenChange={setAbierto}>
       <SheetTrigger asChild>
@@ -28,30 +26,33 @@ export function MenuMovil() {
           type="button"
           aria-label={t("cabecera.menu")}
           data-testid="boton-menu"
-          className={cn(
-            "text-ink hover:bg-surface grid size-11 shrink-0 place-items-center rounded-lg",
-            fija && "lg:hidden",
-          )}
+          className="chip-icono shrink-0"
         >
-          <Menu className="size-6" />
+          <IconoMenu className="size-5" />
         </button>
       </SheetTrigger>
-      <SheetContent side="left" className="bg-papel w-[86vw] max-w-sm overflow-y-auto p-0">
-        <SheetHeader className="border-line border-b p-4">
+      <SheetContent
+        side="left"
+        className="cajon-noche noche border-crema/10 bg-noche text-crema w-[86vw] max-w-sm overflow-y-auto p-0"
+      >
+        <SheetHeader className="border-crema/15 border-b p-4">
           <SheetTitle>
-            <Logo className="h-8" />
+            <Logo negativo className="h-8" />
           </SheetTitle>
         </SheetHeader>
         <div className="grid gap-4 p-3 pb-8">
           <PestanasSeccion alNavegar={cerrar} />
           <BarraLateral alNavegar={cerrar} />
-          <div className="border-line border-t pt-3">
+          <div className="border-crema/15 border-t pt-3">
             <Link href="/faq" onClick={cerrar} className={enlace}>
               {t("nav.faq")}
             </Link>
             <Link href="/panel" onClick={cerrar} className={enlace}>
               {t("nav.panel")}
             </Link>
+            <div className="px-3 pt-3">
+              <SelectorIdioma pie />
+            </div>
           </div>
         </div>
       </SheetContent>

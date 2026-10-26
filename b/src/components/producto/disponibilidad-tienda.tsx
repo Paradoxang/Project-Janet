@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { MapPin, Navigation, Store } from "lucide-react";
+import { IconoPin, IconoRumbo } from "@/components/cuento/iconos";
+import { Cielo } from "@/components/cuento/cielo";
 import { useHidratado } from "@/hooks/use-hidratado";
 import { Link } from "@/i18n/navigation";
 import type { Idioma, Texto } from "@/lib/tipos";
+import { cn } from "@/lib/utils";
 import { coordenadasDeZip, distanciaMillas, lugarDeZip, zipValido } from "@/lib/zip";
 import { usePreferencias, ZIP_INICIAL } from "@/stores/preferencias";
 
@@ -25,8 +27,9 @@ export function enlaceComoLlegar(lat: number, lng: number) {
 }
 
 /**
- * «Check nearby stock» (rediseño del 26-10, como en la ficha de la propuesta en Figma): se escribe el ZIP aquí mismo y salen las tres
- * tiendas más cercanas con su stock; si la más cercana no lo tiene, la más cercana que sí. Cada tienda lleva al mapa.
+ * «Check nearby stock» (la ficha de la propuesta en Figma), dibujado con el canon: una tarjeta azul noche con su cielo,
+ * el ZIP en el campo del boletín y las tres tiendas más cercanas con la distancia grande, como los eventos del canon.
+ * Si la más cercana no lo tiene, sale la más cercana que sí. Cada tienda lleva al mapa.
  */
 export function DisponibilidadTienda({
   tiendas,
@@ -53,20 +56,24 @@ export function DisponibilidadTienda({
 
   return (
     <section
-      className="rounded-card shadow-tarjeta grid gap-6 bg-white p-6 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:p-8"
+      className="noche relative grid gap-10 overflow-hidden rounded-[18px] p-7 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:p-10"
       aria-labelledby="disponibilidad"
       data-testid="disponibilidad"
     >
-      <div className="grid content-start gap-3">
-        <p className="cejilla text-aqua-tinta">{t("disponibilidadCejilla")}</p>
+      <Cielo cantidad={28} semilla={53} />
+      <div className="relative grid content-start gap-4">
+        <p className="cejilla text-aqua flex items-center gap-2">
+          <span aria-hidden="true" className="chispa bg-aqua text-[10px]" />
+          {t("disponibilidadCejilla")}
+        </p>
         <h2
           id="disponibilidad"
-          className="font-magia text-[22px] leading-tight font-bold md:text-[26px]"
+          className="titulo-cuento text-crema text-[clamp(1.6rem,3vw,2.4rem)]"
         >
           {t("disponibilidad")}
         </h2>
         <form
-          className="mt-1 flex flex-wrap gap-2"
+          className="mt-2 flex flex-wrap items-end gap-3"
           onSubmit={(e) => {
             e.preventDefault();
             const valor = (borrador ?? zip).trim();
@@ -91,54 +98,60 @@ export function DisponibilidadTienda({
             onChange={(e) => setBorrador(e.target.value.replace(/\D/g, ""))}
             aria-invalid={error}
             aria-describedby={error ? "zip-ficha-error" : undefined}
-            className="rounded-chip border-input font-display h-11 w-32 border bg-white px-4 text-[16px] font-semibold tracking-[0.12em]"
+            className="campo-boletin max-w-44 flex-1 tracking-[0.18em]"
             data-testid="zip-ficha"
           />
-          <button type="submit" className="placa placa-noche min-h-11 px-5 py-0">
-            {t("zipBuscar")}
+          <button type="submit" className="placa">
+            {t("zipBuscar")} <span aria-hidden="true">✦</span>
           </button>
         </form>
         {error ? (
-          <p id="zip-ficha-error" className="text-out text-[13px] font-semibold">
+          <p id="zip-ficha-error" role="alert" className="text-calendula text-[14px] font-semibold">
             {t("zipInvalido")}
           </p>
         ) : (
-          <p className="text-muted-ink text-[13px]">
+          <p className="text-crema/75 text-[14px]">
             {t("cercaDe", { lugar: `${lugarDeZip(zip) ?? ""} ${zip}`.trim() })}
           </p>
         )}
         <Link
           href={{ pathname: "/where-to-buy", query: { producto: slug } }}
-          className="text-link mt-1 inline-flex items-center gap-1.5 text-sm font-bold hover:underline"
+          className="text-aqua inline-flex items-center gap-1.5 text-[15px] font-bold underline-offset-4 hover:underline"
         >
-          <MapPin className="size-4" aria-hidden="true" />
+          <IconoPin className="size-4" />
           {t("verMapa")}
         </Link>
       </div>
 
-      <div className="grid content-start gap-2.5">
+      <div className="relative grid content-start gap-3">
         {/* Cada tienda lleva al mapa con ella enfocada (review de usuario, 16-10: «4 disponibles… clic… ver mapa»). */}
-        <ul className="grid gap-2">
+        <ul className="grid gap-3">
           {lista.map((ti) => (
             <li key={ti.id} data-testid={`tienda-${ti.id}`}>
               <Link
                 href={{ pathname: "/where-to-buy", query: { producto: slug, tienda: ti.id } }}
-                className="border-line hover:border-aqua-tinta hover:bg-tint-cielo/40 flex items-center gap-3 rounded-[14px] border px-4 py-3"
+                className="bg-crema/[0.07] ring-crema/15 hover:bg-crema/[0.12] grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 rounded-[14px] px-5 py-4 ring-1"
               >
-                <Store aria-hidden="true" className="text-aqua-tinta size-5 shrink-0" />
-                <span className="grid min-w-0 flex-1">
-                  <span className="font-display flex flex-wrap items-center gap-1.5 text-[15px] font-semibold">
+                <span className="text-calendula grid">
+                  <span className="font-display text-[28px] leading-none font-bold">
+                    {Math.round(ti.millas).toLocaleString("en-US")}
+                  </span>
+                  <span className="cejilla text-crema/75 text-[0.6rem]">mi</span>
+                </span>
+                <span className="grid min-w-0">
+                  <span className="font-display text-crema flex flex-wrap items-center gap-1.5 text-[16px] font-semibold">
                     {ti.city}, {ti.state}
-                    <span className="bg-surface text-muted-ink rounded border px-1 font-sans text-[10px] font-extrabold">
+                    <span className="border-crema/30 text-crema/80 rounded border px-1 font-sans text-[10px] font-extrabold">
                       {t("tiendaDemo")}
                     </span>
                   </span>
-                  <span className="text-muted-ink text-[13px]">
-                    {t("millas", { n: Math.round(ti.millas).toLocaleString("en-US") })}
-                  </span>
+                  <span className="text-crema/75 truncate text-[13px]">{ti.address}</span>
                 </span>
                 <span
-                  className={`text-right text-[13.5px] font-bold ${ti.unidades > 0 ? "text-stock" : "text-out"}`}
+                  className={cn(
+                    "text-right text-[13.5px] font-bold",
+                    ti.unidades > 0 ? "text-aqua" : "text-calendula",
+                  )}
                 >
                   {ti.unidades > 0 ? t("enTienda", { n: ti.unidades }) : t("agotadoEnTienda")}
                 </span>
@@ -150,7 +163,7 @@ export function DisponibilidadTienda({
 
         {conStock && lista[0] && lista[0].unidades === 0 ? (
           <div
-            className="bg-tint-menta/60 rounded-[14px] p-4 text-sm"
+            className="bg-crema text-ink rounded-[14px] p-4 text-sm"
             data-testid="tienda-con-stock"
           >
             <p className="font-bold">{t("masCercana")}</p>
@@ -165,7 +178,7 @@ export function DisponibilidadTienda({
               rel="noopener noreferrer"
               className="text-link mt-1 inline-flex items-center gap-1 font-bold hover:underline"
             >
-              <Navigation className="size-3.5" aria-hidden="true" />
+              <IconoRumbo className="size-3.5" />
               {t("comoLlegar")}
             </a>
           </div>

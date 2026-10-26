@@ -3,9 +3,11 @@
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { X } from "lucide-react";
+import { IconoCerrar } from "@/components/cuento/iconos";
 import { useCatalogoDeLaTienda } from "@/components/proveedor-catalogo";
-import { TarjetaProducto } from "@/components/producto/tarjeta-producto";
+import { Cielo } from "@/components/cuento/cielo";
+import { EstanteInclinado } from "@/components/cuento/estante-inclinado";
+import { TarjetaCuento } from "@/components/cuento/tarjeta-cuento";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { buscar, crearIndice } from "@/lib/buscar";
 import { FONDO_EDAD, TINTA_EDAD } from "@/lib/constantes";
@@ -98,150 +100,159 @@ export function ResultadosBusqueda() {
         : ocasion
           ? t("nav.ocasiones")
           : t("nav.juguetes");
-  const fondo = edad ? FONDO_EDAD[edad] : categoria ? "bg-tint-durazno" : "bg-warm";
-  const pildora = (activa: boolean) =>
-    cn(
-      "inline-flex h-10 items-center gap-2 rounded-chip px-4 font-display text-[14px] font-semibold transition-colors",
-      activa
-        ? "bg-mandarina text-noche shadow-[0_6px_16px_rgb(255_106_43/0.28)]"
-        : "bg-white text-ink hover:bg-aqua hover:text-noche",
-    );
+  const total = productos.length;
 
+  // Rediseño del 26-10 con el canon: arriba, sobre el papel, el título y el retrato redondo de la edad o la categoría;
+  // debajo, el catálogo sobre azul noche con píldoras (en lugar de la barra lateral) y el estante 3D a tres columnas.
   return (
-    <div className="mx-auto max-w-7xl px-4 pt-4 md:px-6 md:pt-6">
-      <header
-        className={cn(
-          "relative grid overflow-hidden rounded-[24px] md:min-h-[220px] md:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)]",
-          fondo,
-        )}
-        data-testid="banda-categoria"
-      >
-        <div className="relative z-10 grid content-center gap-2 p-6 md:p-10">
-          <p className={cn("cejilla", edad ? TINTA_EDAD[edad].texto : "text-mandarina-tinta")}>
-            {cejilla}
-          </p>
-          <h1
-            className="font-magia text-[28px] leading-[1.14] font-bold md:text-[44px]"
-            data-testid="titulo-busqueda"
-          >
-            {titulo}
-          </h1>
-          <p className="text-ink/80 text-[15px]" data-testid="cuenta-resultados">
-            {t("busqueda.resultados", { n: resultados.length })}
-          </p>
+    <>
+      <header className="papel-pintado" data-testid="banda-categoria">
+        <div className="envoltura grid items-center gap-10 py-12 md:grid-cols-[minmax(0,1fr)_auto] md:py-16">
+          <div>
+            <p
+              className={cn(
+                "cejilla mb-3 flex items-center gap-2",
+                edad ? TINTA_EDAD[edad].texto : "text-mandarina-tinta",
+              )}
+            >
+              <span aria-hidden="true" className="chispa text-[10px]" />
+              {cejilla}
+            </p>
+            <h1 className="titulo-cuento" data-testid="titulo-busqueda">
+              {titulo}
+            </h1>
+            <p className="text-ink/80 mt-4 text-[17px]" data-testid="cuenta-resultados">
+              {t("busqueda.resultados", { n: resultados.length })}
+              <span className="text-muted-ink"> · {t("busqueda.deTotal", { n: total })}</span>
+            </p>
+          </div>
+          {foto ? (
+            <figure className="relative mx-auto size-44 md:size-60">
+              <span
+                aria-hidden="true"
+                className="border-ink/20 absolute -inset-5 rounded-full border-2 border-dashed md:-inset-7"
+              />
+              <span aria-hidden="true" className="chispa absolute -top-3 right-2 text-[22px]" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={foto}
+                alt=""
+                className={cn(
+                  "border-papel size-full rounded-full border-[6px] object-cover shadow-[0_14px_34px_rgb(22_24_58/0.25)]",
+                  edad ? FONDO_EDAD[edad] : "",
+                )}
+              />
+              <figcaption className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded bg-black/70 px-1.5 py-0.5 text-[10.5px] font-bold whitespace-nowrap text-white">
+                {t("inicio.imagenIACorta")}
+              </figcaption>
+            </figure>
+          ) : null}
         </div>
-        {foto ? (
-          <figure className="relative h-44 md:h-auto">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={foto}
-              alt=""
-              className="absolute inset-0 h-full w-full object-cover md:[mask-image:linear-gradient(to_right,transparent,#000_30%)]"
-            />
-            <figcaption className="absolute right-2 bottom-2 rounded bg-black/70 px-1.5 py-0.5 text-[10.5px] font-bold text-white">
-              {t("inicio.imagenIACorta")}
-            </figcaption>
-          </figure>
-        ) : null}
       </header>
 
-      <div className="mt-5 flex flex-wrap items-center gap-2">
-        {/* «Todos» (review de usuario, 16-10): para volver a ver todo sin tener que desmarcar la edad elegida. */}
-        <button
-          type="button"
-          aria-pressed={!edad}
-          onClick={() => cambiar("edad", null)}
-          data-testid="filtro-todas-edades"
-          className={pildora(!edad)}
-        >
-          {t("busqueda.todasEdades")}
-        </button>
-        {EDADES.map((e) => (
-          <button
-            key={e}
-            type="button"
-            aria-pressed={edad === e}
-            onClick={() => cambiar("edad", edad === e ? null : e)}
-            className={pildora(edad === e)}
-          >
-            <span
-              aria-hidden="true"
-              className={cn(
-                "size-2.5 rounded-full",
-                TINTA_EDAD[e].punto,
-                edad === e && "ring-2 ring-white",
-              )}
-            />
-            {t(`edadCorta.${e}`)}
-          </button>
-        ))}
-        {activos.map((a) => (
-          <button
-            key={a.clave}
-            type="button"
-            onClick={() => cambiar(a.clave, null)}
-            className="rounded-chip bg-noche font-display text-crema inline-flex h-10 items-center gap-1.5 px-4 text-[14px] font-semibold"
-          >
-            {a.texto} <X className="size-3.5" aria-hidden="true" />
-          </button>
-        ))}
-        <label className="text-muted-ink ml-auto flex items-center gap-2 text-[13.5px]">
-          <span className="sr-only md:not-sr-only">{t("catalogo.ordenar")}</span>
-          <select
-            value={orden}
-            onChange={(e) =>
-              cambiar("orden", e.target.value === "relevancia" ? null : e.target.value)
-            }
-            className="rounded-chip border-input font-display text-ink h-10 border bg-white px-3 text-[14px] font-semibold"
-          >
-            {ORDENES.map((o) => (
-              <option key={o} value={o}>
-                {t(`catalogo.orden.${o}`)}
-              </option>
+      <section
+        aria-label={t("busqueda.resultadosEtiqueta")}
+        className="noche relative overflow-hidden"
+      >
+        <Cielo cantidad={40} semilla={11} />
+        <div className="envoltura relative py-12 md:py-16">
+          <div className="flex flex-wrap items-center gap-2.5">
+            {/* «Todos» (review de usuario, 16-10): para volver a ver todo sin tener que desmarcar la edad elegida. */}
+            <button
+              type="button"
+              aria-pressed={!edad}
+              onClick={() => cambiar("edad", null)}
+              data-testid="filtro-todas-edades"
+              className="pildora"
+            >
+              {t("busqueda.todasEdades")}
+            </button>
+            {EDADES.map((e) => (
+              <button
+                key={e}
+                type="button"
+                aria-pressed={edad === e}
+                onClick={() => cambiar("edad", edad === e ? null : e)}
+                className="pildora"
+              >
+                <span
+                  aria-hidden="true"
+                  className={cn("size-2.5 rounded-full", TINTA_EDAD[e].punto)}
+                />
+                {t(`edadCorta.${e}`)}
+              </button>
             ))}
-          </select>
-        </label>
-      </div>
+            {activos.map((a) => (
+              <button
+                key={a.clave}
+                type="button"
+                onClick={() => cambiar(a.clave, null)}
+                aria-label={t("busqueda.quitarFiltro", { filtro: a.texto })}
+                className="pildora bg-calendula"
+              >
+                {a.texto} <IconoCerrar className="size-3.5" />
+              </button>
+            ))}
+            <label className="text-crema/80 ml-auto flex items-center gap-2 text-[14px]">
+              <span className="sr-only md:not-sr-only">{t("catalogo.ordenar")}</span>
+              <select
+                value={orden}
+                onChange={(e) =>
+                  cambiar("orden", e.target.value === "relevancia" ? null : e.target.value)
+                }
+                className="rounded-chip bg-crema font-display text-ink h-[2.6rem] border-0 px-4 text-[14px] font-semibold"
+              >
+                {ORDENES.map((o) => (
+                  <option key={o} value={o}>
+                    {t(`catalogo.orden.${o}`)}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
 
-      {/* La «promoción de la semana» de la categoría (propuesta P4, aprobada el 16-10): un ejemplo DEMO, sin descuentos. */}
-      {categoria ? (
-        <aside
-          aria-label={t("promo.etiqueta")}
-          className="rounded-card shadow-tarjeta mt-4 flex flex-wrap items-center gap-x-3 gap-y-1.5 bg-white px-4 py-3"
-          data-testid="promo-categoria"
-        >
-          <span className="rounded-chip bg-noche text-crema px-2.5 py-1 text-[12px] font-bold">
-            {t("promo.etiqueta")}
-          </span>
-          <p className="min-w-0 flex-1 text-sm">
-            <b>{t(`categoria.${categoria}`)}:</b> {t(`promo.textos.${categoria}`)}
-          </p>
-          <span className="bg-surface text-muted-ink rounded border px-1 text-[10px] font-extrabold">
-            DEMO
-          </span>
-        </aside>
-      ) : null}
+          {/* La «promoción de la semana» de la categoría (propuesta P4, aprobada el 16-10): un ejemplo DEMO, sin descuentos. */}
+          {categoria ? (
+            <aside
+              aria-label={t("promo.etiqueta")}
+              className="bg-crema/[0.07] ring-crema/15 mt-6 flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-[18px] px-5 py-4 ring-1"
+              data-testid="promo-categoria"
+            >
+              <span className="cejilla text-calendula">{t("promo.etiqueta")}</span>
+              <p className="text-crema/90 min-w-0 flex-1 text-sm">
+                <b>{t(`categoria.${categoria}`)}:</b> {t(`promo.textos.${categoria}`)}
+              </p>
+              <span className="border-crema/30 text-crema/80 rounded border px-1 text-[10px] font-extrabold">
+                DEMO
+              </span>
+            </aside>
+          ) : null}
 
-      {resultados.length > 0 ? (
-        <ul
-          className="mt-6 grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-3 md:gap-x-5 xl:grid-cols-4"
-          data-testid="resultados"
-        >
-          {resultados.map((p) => (
-            <li key={p.id}>
-              <TarjetaProducto p={p} />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div className="rounded-card shadow-tarjeta mt-10 bg-white p-8 text-center">
-          <p className="font-display text-xl font-semibold">{t("busqueda.sinResultados", { q })}</p>
-          <p className="text-muted-ink mt-1">{t("busqueda.sinResultadosTexto")}</p>
-          <Link href="/" className="text-link mt-4 inline-block font-bold hover:underline">
-            {t("inicio.regalosPorEdad")}
-          </Link>
+          {resultados.length > 0 ? (
+            <EstanteInclinado
+              como="ul"
+              className="mt-12 grid grid-cols-2 gap-x-4 gap-y-12 md:gap-x-[30px] lg:grid-cols-3"
+              data-testid="resultados"
+            >
+              {resultados.map((p, i) => (
+                <li key={p.id}>
+                  <TarjetaCuento p={p} prioridad={i < 3} />
+                </li>
+              ))}
+            </EstanteInclinado>
+          ) : (
+            <div className="bg-crema/[0.07] ring-crema/15 mt-12 rounded-[18px] p-10 text-center ring-1">
+              <p className="font-display text-crema text-2xl font-semibold">
+                {t("busqueda.sinResultados", { q })}
+              </p>
+              <p className="text-crema/80 mt-2">{t("busqueda.sinResultadosTexto")}</p>
+              <Link href="/search" className="placa mt-6">
+                {t("nav.todosJuguetes")}
+              </Link>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </section>
+    </>
   );
 }

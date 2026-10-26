@@ -2,8 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Ruler, ZoomIn } from "lucide-react";
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
+import { IconoLupa, IconoRegla } from "@/components/cuento/iconos";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 import type { Tinte } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
 import { fotoIA, tieneIlustracion } from "@/lib/fotos-ia";
@@ -12,7 +17,11 @@ import { FONDO_TINTE, ImagenProducto } from "./imagen-producto";
 import { VisorImagenes, type VistaVisor } from "./visor-imagenes";
 
 /** Las mismas tres vistas en el visor: la de detalle se abre ya acercada. */
-const VISTAS_VISOR: VistaVisor[] = [{ tipo: "imagen" }, { tipo: "imagen", zoom: 1.7 }, { tipo: "medidas" }];
+const VISTAS_VISOR: VistaVisor[] = [
+  { tipo: "imagen" },
+  { tipo: "imagen", zoom: 1.7 },
+  { tipo: "medidas" },
+];
 
 const ROTULO =
   "pointer-events-none absolute bottom-2 left-2 rounded-md bg-white/90 px-1.5 py-0.5 text-[11px] font-bold text-muted-ink";
@@ -56,18 +65,45 @@ export function Galeria({
   }, [api]);
 
   const vistas = [
-    <ImagenProducto key="a" illustration={illustration} imagen={imagen} tint={tint} alt={alt} prioridad className="textura-puntos rounded-card" />,
-    <ImagenProducto key="b" illustration={illustration} imagen={imagen} tint={tint} alt="" zoom={1.7} className="textura-puntos rounded-card" />,
-    <div key="c" className={cn("relative grid aspect-square place-items-center rounded-card", FONDO_TINTE[tint])}>
+    <ImagenProducto
+      key="a"
+      illustration={illustration}
+      imagen={imagen}
+      tint={tint}
+      alt={alt}
+      prioridad
+      className="textura-puntos rounded-card"
+    />,
+    <ImagenProducto
+      key="b"
+      illustration={illustration}
+      imagen={imagen}
+      tint={tint}
+      alt=""
+      zoom={1.7}
+      className="textura-puntos rounded-card"
+    />,
+    <div
+      key="c"
+      className={cn(
+        "rounded-card relative grid aspect-square place-items-center",
+        FONDO_TINTE[tint],
+      )}
+    >
       <div className="grid w-[70%] gap-4 text-center">
-        <ImagenSuelta illustration={illustration} imagen={imagen} className="mx-auto w-[62%]" claseFoto="mx-auto w-[62%] rounded-xl" />
+        <ImagenSuelta
+          illustration={illustration}
+          imagen={imagen}
+          className="mx-auto w-[62%]"
+          claseFoto="mx-auto w-[62%] rounded-xl"
+        />
         {medidas ? (
-          <div className="flex items-center justify-center gap-2 rounded-md bg-white/90 px-3 py-2 text-sm font-bold text-ink">
-            <Ruler className="size-4" aria-hidden="true" />
+          <div className="text-ink flex items-center justify-center gap-2 rounded-md bg-white/90 px-3 py-2 text-sm font-bold">
+            <IconoRegla className="size-4" />
             {medidas}
           </div>
         ) : null}
-        <p className="text-sm font-bold text-muted-ink">{edades}</p>
+        <p className="text-muted-ink text-sm font-bold">{edades}</p>
       </div>
     </div>,
   ];
@@ -88,7 +124,7 @@ export function Galeria({
                   onClick={() => setVisor(i)}
                   aria-label={t("ampliar", { n: i + 1, total: vistas.length })}
                   aria-haspopup="dialog"
-                  className="block w-full cursor-zoom-in rounded-card focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:outline-none"
+                  className="rounded-card focus-visible:ring-ink block w-full cursor-zoom-in focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
                   data-testid={`ampliar-${i + 1}`}
                 >
                   {v}
@@ -99,9 +135,9 @@ export function Galeria({
         </Carousel>
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute top-2 right-2 grid size-9 place-items-center rounded-full bg-white/90 text-ink"
+          className="text-ink pointer-events-none absolute top-2 right-2 grid size-9 place-items-center rounded-full bg-white/90"
         >
-          <ZoomIn className="size-5" />
+          <IconoLupa className="size-5" />
         </span>
         {/* El rótulo es para nuestras ilustraciones y fotos con IA; la foto que sube la dueña es la del producto. */}
         {imagen ? null : (

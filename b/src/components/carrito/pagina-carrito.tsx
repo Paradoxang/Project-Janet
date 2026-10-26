@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { Gift } from "lucide-react";
+import { IconoRegalo } from "@/components/cuento/iconos";
 import { useCatalogo } from "@/components/proveedor-catalogo";
 import { SelectorZip } from "@/components/cabecera/selector-zip";
 import { FONDO_TINTE } from "@/components/producto/imagen-producto";
@@ -28,20 +28,35 @@ function Linea({ linea }: { linea: LineaCarrito }) {
   const { quitar, setQty, guardarParaDespues, moverAlCarrito } = useCarrito();
   const p = porId.get(linea.id);
   if (!p) return null;
-  const accion = "text-[13px] font-bold text-link hover:underline";
+  const accion =
+    "font-display text-[14px] font-semibold text-link underline-offset-4 hover:underline";
   return (
-    <li className="flex gap-3 border-b py-4 last:border-b-0" data-testid="linea-carrito">
+    <li
+      className="border-ink/15 flex gap-4 border-b border-dashed py-5 last:border-b-0"
+      data-testid="linea-carrito"
+    >
       {/* La foto repite el enlace del título: fuera del orden del teclado y de los lectores de pantalla. */}
       <Link
         href={rutaProducto(p)}
         tabIndex={-1}
         aria-hidden="true"
-        className={cn("grid size-24 shrink-0 place-items-center overflow-hidden rounded-card md:size-32", FONDO_TINTE[p.tint])}
+        className={cn(
+          "grid size-24 shrink-0 place-items-center overflow-hidden rounded-[12px] shadow-[0_10px_24px_rgb(22_24_58/0.18)] md:size-32",
+          FONDO_TINTE[p.tint],
+        )}
       >
-        <ImagenSuelta illustration={p.illustration} imagen={p.imagen} className="size-[85%]" claseFoto="size-full object-cover" />
+        <ImagenSuelta
+          illustration={p.illustration}
+          imagen={p.imagen}
+          className="size-[85%]"
+          claseFoto="size-full object-cover"
+        />
       </Link>
       <div className="grid flex-1 content-start gap-1">
-        <Link href={rutaProducto(p)} className="line-clamp-2 text-[15px] leading-snug font-semibold hover:underline">
+        <Link
+          href={rutaProducto(p)}
+          className="font-display line-clamp-2 text-[17px] leading-snug font-semibold hover:underline"
+        >
           {p.title[locale]}
         </Link>
         <Precio usd={p.price} className="text-lg" />
@@ -56,7 +71,7 @@ function Linea({ linea }: { linea: LineaCarrito }) {
               <select
                 value={linea.qty}
                 onChange={(e) => setQty(linea.id, Number(e.target.value))}
-                className="h-8 rounded-md border bg-surface px-1.5 text-sm"
+                className="bg-papel font-display h-9 rounded-full border-0 px-3 text-sm font-semibold"
                 data-testid="cantidad-linea"
               >
                 {Array.from({ length: MAX_QTY }, (_, i) => i + 1).map((n) => (
@@ -67,15 +82,30 @@ function Linea({ linea }: { linea: LineaCarrito }) {
               </select>
             </label>
           ) : null}
-          <button type="button" className={accion} onClick={() => quitar(linea.id)} data-testid="eliminar">
+          <button
+            type="button"
+            className={accion}
+            onClick={() => quitar(linea.id)}
+            data-testid="eliminar"
+          >
             {t("carrito.eliminar")}
           </button>
           {linea.guardado ? (
-            <button type="button" className={accion} onClick={() => moverAlCarrito(linea.id)} data-testid="mover">
+            <button
+              type="button"
+              className={accion}
+              onClick={() => moverAlCarrito(linea.id)}
+              data-testid="mover"
+            >
               {t("carrito.mover")}
             </button>
           ) : (
-            <button type="button" className={accion} onClick={() => guardarParaDespues(linea.id)} data-testid="guardar">
+            <button
+              type="button"
+              className={accion}
+              onClick={() => guardarParaDespues(linea.id)}
+              data-testid="guardar"
+            >
               {t("carrito.guardar")}
             </button>
           )}
@@ -101,42 +131,57 @@ export function PaginaCarrito({ impuestos }: { impuestos: Impuestos }) {
   const nombreEstado = totales.estado ? impuestos.estados[totales.estado]?.name : undefined;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pt-5 md:px-6">
-      <h1 className="text-[26px] md:text-3xl">{t("titulo")}</h1>
+    <div className="envoltura seccion pt-12 md:pt-16">
+      <p className="cejilla text-mandarina-tinta mb-3 flex items-center gap-2">
+        <span aria-hidden="true" className="chispa text-[10px]" />
+        {t("cejilla")}
+      </p>
+      <h1 className="titulo-cuento">{t("titulo")}</h1>
 
       {activas.length === 0 ? (
-        <div className="textura-puntos mt-6 flex flex-col items-center gap-4 rounded-card bg-warm px-6 py-10 text-center" data-testid="carrito-vacio">
+        <div
+          className="tarjeta-evento mt-8 flex flex-col items-center gap-4 px-6 py-12 text-center"
+          data-testid="carrito-vacio"
+        >
           <Mascota className="h-40 w-32" />
           <div>
-            <p className="font-display text-2xl">{t("vacio")}</p>
-            <p className="mt-1 text-muted-ink">{t("vacioTexto")}</p>
+            <p className="font-display text-2xl font-bold">{t("vacio")}</p>
+            <p className="text-muted-ink mt-1">{t("vacioTexto")}</p>
           </div>
           <Button asChild variant="cta" size="lg">
             <Link href="/">{t("seguirComprando")}</Link>
           </Button>
         </div>
       ) : (
-        <div className="mt-4 grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <div className="mt-8 grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
           <div className="grid gap-4">
-            <div className="rounded-card bg-white p-4 shadow-tarjeta">
+            <div className="tarjeta-evento p-5">
               <BarraEnvio subtotal={totales.subtotal} />
             </div>
-            <ul className="rounded-card bg-white px-4 shadow-tarjeta">
+            <ul className="tarjeta-evento px-5">
               {activas.map((l) => (
                 <Linea key={l.id} linea={l} />
               ))}
             </ul>
           </div>
-          <aside className="grid gap-4 rounded-card bg-white p-4 shadow-tarjeta lg:sticky lg:top-12" aria-label={t("total")}>
+          <aside
+            className="tarjeta-evento grid gap-4 p-6 lg:sticky lg:top-[calc(var(--alto-arriba,100px)+16px)]"
+            aria-label={t("total")}
+          >
             <Resumen totales={totales} nombreEstado={nombreEstado} />
-            <div className="flex items-center justify-between gap-2 text-[13px] text-muted-ink">
+            <div className="text-muted-ink flex items-center justify-between gap-2 text-[13px]">
               <SelectorZip />
             </div>
-            <label className="flex items-start gap-2.5 rounded-md bg-surface p-3 text-sm">
-              <Checkbox checked={regalo} onCheckedChange={(v) => setRegalo(v === true)} className="mt-0.5" data-testid="regalo" />
+            <label className="bg-papel flex items-start gap-2.5 rounded-[12px] p-3 text-sm">
+              <Checkbox
+                checked={regalo}
+                onCheckedChange={(v) => setRegalo(v === true)}
+                className="mt-0.5"
+                data-testid="regalo"
+              />
               <span>
-                <span className="flex items-center gap-1.5 font-bold">
-                  <Gift className="size-4" aria-hidden="true" />
+                <span className="font-display flex items-center gap-1.5 font-semibold">
+                  <IconoRegalo className="size-4" />
                   {t("regalo")}
                 </span>
                 <span className="text-muted-ink">{t("regaloTexto")}</span>
@@ -152,11 +197,11 @@ export function PaginaCarrito({ impuestos }: { impuestos: Impuestos }) {
       )}
 
       {guardadas.length > 0 ? (
-        <section className="mt-8" aria-labelledby="guardados">
-          <h2 id="guardados" className="text-xl">
+        <section className="mt-10" aria-labelledby="guardados">
+          <h2 id="guardados" className="font-display text-[22px] font-bold">
             {t("guardados", { n: guardadas.length })}
           </h2>
-          <ul className="mt-2 rounded-card bg-white px-4 shadow-tarjeta">
+          <ul className="tarjeta-evento mt-3 px-5">
             {guardadas.map((l) => (
               <Linea key={l.id} linea={l} />
             ))}

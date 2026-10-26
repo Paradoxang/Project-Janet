@@ -92,7 +92,7 @@ export default async function LayoutIdioma({
                 </CabeceraFlotante>
               }
               cabeceraPago={<CabeceraPago />}
-              pie={<Pie />}
+              pie={<Pie juguetes={catalogo.length} />}
             >
               {children}
             </MarcoTienda>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Blocks, ChevronDown, Gift, Leaf, MapPin } from "lucide-react";
+import { IconoBloques, IconoHoja, IconoPin, IconoRegalo } from "@/components/cuento/iconos";
 import { Link, usePathname } from "@/i18n/navigation";
 import { CATEGORIAS, GRUPOS_EDAD, OCASIONES, TINTA_EDAD } from "@/lib/constantes";
 import {
@@ -13,9 +13,9 @@ import {
 import { cn } from "@/lib/utils";
 
 const ENLACE =
-  "flex min-h-10 items-center gap-2.5 rounded-lg px-3 py-1.5 text-[14.5px] font-semibold text-ink hover:bg-surface";
+  "flex min-h-10 items-center gap-2.5 rounded-lg px-3 py-1.5 text-[14.5px] font-semibold text-crema hover:bg-crema/10";
 const SUBENLACE =
-  "flex min-h-9 items-center gap-2.5 rounded-lg px-3 py-1 text-[14px] text-ink hover:bg-surface";
+  "flex min-h-9 items-center gap-2.5 rounded-lg px-3 py-1 text-[14px] text-crema/90 hover:bg-crema/10";
 
 /** Un grupo que se pliega (details nativo: accesible y sin JavaScript). */
 function Grupo({
@@ -29,22 +29,26 @@ function Grupo({
 }) {
   return (
     <details open={abierto} className="group/grupo">
-      <summary className="font-display text-ink hover:bg-surface flex min-h-10 cursor-pointer list-none items-center justify-between rounded-lg px-3 py-1.5 text-[15px] font-semibold [&::-webkit-details-marker]:hidden">
+      <summary className="font-display text-crema hover:bg-crema/10 flex min-h-10 cursor-pointer list-none items-center justify-between rounded-lg px-3 py-1.5 text-[15px] font-semibold [&::-webkit-details-marker]:hidden">
         {titulo}
-        <ChevronDown
+        <span
           aria-hidden="true"
           className="size-4 transition-transform group-open/grupo:rotate-180 motion-reduce:transition-none"
-        />
+        >
+          ▾
+        </span>
       </summary>
-      <ul className="border-line mt-0.5 mb-1.5 ml-3 grid gap-0.5 border-l-2 pl-2">{children}</ul>
+      <ul className="border-crema/25 mt-0.5 mb-1.5 ml-3 grid gap-0.5 border-l-2 border-dashed pl-2">
+        {children}
+      </ul>
     </details>
   );
 }
 
 /**
- * La barra de categorías (rediseño del 26-10): fija a la izquierda en escritorio y dentro del menú hamburguesa en el
- * celular, como pidió la clienta. Sus categorías cambian con la sección (juguetes o saludables).
- * `alNavegar` cierra el menú del celular al elegir.
+ * La barra de categorías, dentro del cajón azul noche del menú (rediseño del 26-10). Con el canon ya no va fija a la
+ * izquierda en el escritorio: allí el catálogo se filtra con píldoras. Sus categorías cambian con la sección
+ * (juguetes o saludables). `alNavegar` cierra el menú al elegir.
  */
 export function BarraLateral({ alNavegar }: { alNavegar?: () => void }) {
   const t = useTranslations();
@@ -54,12 +58,12 @@ export function BarraLateral({ alNavegar }: { alNavegar?: () => void }) {
   if (seccion === "saludable") {
     return (
       <nav aria-label={t("nav.saludable")} className="grid gap-1" data-testid="barra-lateral">
-        <p className="cejilla text-aqua-tinta px-3 pt-1">{t("nav.explora")}</p>
+        <p className="cejilla text-aqua px-3 pt-1">{t("nav.explora")}</p>
         <p className="font-display px-3 pb-2 text-[22px] leading-tight font-semibold">
           {t("nav.saludable")}
         </p>
         <Link href={RUTA_SALUDABLE} onClick={alNavegar} className={ENLACE}>
-          <Leaf aria-hidden="true" className="text-aqua-tinta size-4.5" />
+          <IconoHoja className="text-aqua size-4.5" />
           {t("nav.todoSaludable")}
         </Link>
         <Grupo titulo={t("nav.paraQuien")} abierto>
@@ -80,7 +84,7 @@ export function BarraLateral({ alNavegar }: { alNavegar?: () => void }) {
             </li>
           ))}
         </Grupo>
-        <p className="rounded-card bg-tint-cielo text-ink mx-1 mt-3 p-4 text-[13.5px] leading-snug">
+        <p className="rounded-card bg-crema/[0.07] text-crema/85 mx-1 mt-3 p-4 text-[13.5px] leading-snug">
           {t("saludable.notaBarra")}
         </p>
       </nav>
@@ -89,12 +93,12 @@ export function BarraLateral({ alNavegar }: { alNavegar?: () => void }) {
 
   return (
     <nav aria-label={t("nav.juguetes")} className="grid gap-1" data-testid="barra-lateral">
-      <p className="cejilla text-mandarina-tinta px-3 pt-1">{t("nav.explora")}</p>
+      <p className="cejilla text-calendula px-3 pt-1">{t("nav.explora")}</p>
       <p className="font-display px-3 pb-2 text-[22px] leading-tight font-semibold">
         {t("nav.juguetes")}
       </p>
       <Link href="/search" onClick={alNavegar} className={ENLACE}>
-        <Blocks aria-hidden="true" className="text-mandarina-tinta size-4.5" />
+        <IconoBloques className="text-mandarina size-4.5" />
         {t("nav.todosJuguetes")}
       </Link>
       <Grupo titulo={t("nav.edad")} abierto>
@@ -141,11 +145,11 @@ export function BarraLateral({ alNavegar }: { alNavegar?: () => void }) {
         ))}
       </Grupo>
       <Link href="/where-to-buy" onClick={alNavegar} className={ENLACE}>
-        <MapPin aria-hidden="true" className="text-aqua-tinta size-4.5" />
+        <IconoPin className="text-aqua size-4.5" />
         {t("nav.dondeComprar")}
       </Link>
-      <div className="noche rounded-card mx-1 mt-4 grid gap-2 p-4">
-        <Gift aria-hidden="true" className="text-calendula size-5" />
+      <div className="rounded-card bg-crema/[0.07] ring-crema/15 mx-1 mt-4 grid gap-2 p-4 ring-1">
+        <IconoRegalo className="text-calendula size-5" />
         <p className="font-display text-[17px] leading-tight font-semibold">
           {t("nav.regaloTitulo")}
         </p>

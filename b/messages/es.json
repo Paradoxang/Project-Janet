@@ -215,7 +215,13 @@
     "zipEtiqueta": "Tu código postal",
     "zipBuscar": "Buscar",
     "zipInvalido": "Escribe un código postal de 5 dígitos.",
-    "cercaDe": "Tiendas cerca de {lugar}"
+    "cercaDe": "Tiendas cerca de {lugar}",
+    "verJuguete": "Ver el juguete",
+    "detallesEtiqueta": "Detalles del juguete",
+    "acercaCejilla": "Por qué gusta",
+    "detallesCejilla": "La ficha",
+    "recomendadosCejilla": "En el mismo estante",
+    "resenasCejilla": "Lo que dicen las familias"
   },
   "busqueda": {
     "titulo": "Resultados para «{q}»",
@@ -225,7 +231,10 @@
     "sinResultadosTexto": "Prueba con otra palabra o busca por edad.",
     "filtros": "Filtros",
     "todasEdades": "Todos",
-    "cejillaBusqueda": "Tu búsqueda"
+    "cejillaBusqueda": "Tu búsqueda",
+    "deTotal": "de {n} juguetes",
+    "resultadosEtiqueta": "Resultados",
+    "quitarFiltro": "Quitar el filtro: {filtro}"
   },
   "pie": {
     "productos": "Productos",
@@ -248,7 +257,17 @@
     "pais": "País o región",
     "paisEEUU": "Estados Unidos",
     "moneda": "Moneda",
-    "muestraRegion": "Muestra: por ahora la tienda vende solo en EE. UU. y en dólares."
+    "muestraRegion": "Muestra: por ahora la tienda vende solo en EE. UU. y en dólares.",
+    "boletinCejilla": "La lista de la familia",
+    "boletinNumero": "juguetes en el estante",
+    "boletinTitulo": "Ideas de regalo, cumpleaños y temporadas, una vez al mes.",
+    "boletinCorreo": "Tu correo",
+    "boletinPista": "tu@correo.com",
+    "boletinBoton": "Suscribirme",
+    "boletinNota": "Demo: no se guarda ni se envía nada.",
+    "boletinGracias": "¡Gracias! En la demo no se guarda ni se envía nada.",
+    "menos25": "Menos de $25",
+    "ayuda": "Ayuda"
   },
   "catalogo": {
     "ordenar": "Ordenar por",
@@ -285,7 +304,8 @@
     "agregadoTitulo": "Agregado al carrito",
     "irAlCarrito": "Ir al carrito",
     "para": "para {lugar}",
-    "cantidad": "Cantidad"
+    "cantidad": "Cantidad",
+    "cejilla": "Tu carrito"
   },
   "pago": {
     "titulo": "Pago",
@@ -348,7 +368,8 @@
     "metodoEnvio": "Envío",
     "pago": "Pago",
     "verResumen": "Ver el resumen del pedido",
-    "ocultarResumen": "Ocultar el resumen"
+    "ocultarResumen": "Ocultar el resumen",
+    "pasoDe": "Paso {n} de {total}"
   },
   "cuenta": {
     "titulo": "Tu cuenta",
@@ -836,7 +857,8 @@
     "vacia": "Tu lista está vacía",
     "vaciaTexto": "Toca el corazón en la ficha de un juguete para guardarlo aquí.",
     "verJuguetes": "Ver todos los juguetes",
-    "quitar": "Quitar de la lista"
+    "quitar": "Quitar de la lista",
+    "cejilla": "Guardados para después"
   },
   "promo": {
     "etiqueta": "Promoción de la semana",
@@ -900,7 +922,12 @@
       "cohete": "Un niño ríe mientras su cohete de espuma sale volando en el jardín",
       "aros": "Un bebé apila aros de colores en una mesa de madera",
       "robot": "Un niño enseña el robot que armó con su kit de construcción"
-    }
+    },
+    "linea1": "Juego que",
+    "linea2": "<acento>crece</acento> con",
+    "linea3": "ellos",
+    "prueba": "{nota} de media en las reseñas · {juguetes} juguetes · {tiendas} tiendas (demo)",
+    "bajar": "Bajar al estante"
   },
   "mundos": {
     "cejilla": "Dos apartados",
@@ -914,5 +941,41 @@
     "saludableTexto": "Snacks y cuidado personal para niños y adultos, en su propio rincón.",
     "saludableBoton": "Echar un vistazo",
     "ia": "Fotos con IA"
+  },
+  "estante": {
+    "cejilla": "El estante",
+    "titulo": "Juguetes que <acento>quieren</acento> salir a jugar",
+    "texto": "Los favoritos de las familias. Elige una edad o mira los de menos de $25.",
+    "todos": "Todos",
+    "menos25": "Menos de $25",
+    "verTodos": "Ver todos",
+    "filtros": "Filtrar el estante"
+  },
+  "paneles": {
+    "edadCejilla": "Por edad",
+    "edadTitulo": "Regalos para <acento>cada</acento> edad",
+    "edadBoton": "Ver todas las edades",
+    "juguetesCejilla": "La juguetería",
+    "juguetesTitulo": "Para cada <acento>forma</acento> de jugar",
+    "juguetesTexto": "Construir, imaginar, aprender y salir al jardín. Elige por tipo de juego.",
+    "juguetesBoton": "Ver todos los juguetes",
+    "saludableCejilla": "Próximamente",
+    "saludableTitulo": "Un rincón <acento>saludable</acento>",
+    "tiendasTitulo": "Míralo, tócalo y <acento>llévatelo</acento>",
+    "tiendasDemo": "tiendas demo"
+  },
+  "como": {
+    "cejilla": "Cómo comprar",
+    "titulo": "Del estante a <acento>tu casa</acento>",
+    "texto": "Cuatro pasos, sin sorpresas.",
+    "paso": "paso",
+    "edadTitulo": "Elige por edad",
+    "edadTexto": "Cada juguete está ordenado por edad, para que no tengas que adivinar.",
+    "tiendaTitulo": "Mira si lo tienen cerca",
+    "tiendaTexto": "Stock en vivo en {n} tiendas de ejemplo: míralo y tócalo antes de comprar.",
+    "envioTitulo": "Envío gratis desde $35",
+    "envioTexto": "Llega en 2 a 5 días hábiles.",
+    "devolverTitulo": "30 días para devolverlo",
+    "devolverTexto": "Sin usar y en su caja (política de ejemplo)."
   }
 }

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { ChevronLeft, ChevronRight, Minus, Plus, Ruler, Scan, X } from "lucide-react";
+import { IconoCerrar, IconoLupa, IconoRegla } from "@/components/cuento/iconos";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import { fotoIA, tieneIlustracion } from "@/lib/fotos-ia";
 import type { Tinte } from "@/lib/tipos";
@@ -68,7 +68,15 @@ export function VisorImagenes({
   const escenario = useRef<HTMLDivElement | null>(null);
   const marco = useRef<HTMLDivElement | null>(null);
   const punteros = useRef(new Map<number, { x: number; y: number }>());
-  const inicioGesto = useRef<{ escala: number; pos: { x: number; y: number }; dist: number; medio: { x: number; y: number }; x0: number; y0: number; movido: boolean } | null>(null);
+  const inicioGesto = useRef<{
+    escala: number;
+    pos: { x: number; y: number };
+    dist: number;
+    medio: { x: number; y: number };
+    x0: number;
+    y0: number;
+    movido: boolean;
+  } | null>(null);
   const ultimoToque = useRef(0);
   const ultimoAlternar = useRef(0);
 
@@ -111,7 +119,12 @@ export function VisorImagenes({
       const { escala: vieja, pos: p } = actual.current;
       const s = Math.min(topeActual.current, Math.max(MIN, nueva));
       const k = s / vieja;
-      fijar(s, s === 1 ? { x: 0, y: 0 } : limitar({ x: punto.x - (punto.x - p.x) * k, y: punto.y - (punto.y - p.y) * k }, s));
+      fijar(
+        s,
+        s === 1
+          ? { x: 0, y: 0 }
+          : limitar({ x: punto.x - (punto.x - p.x) * k, y: punto.y - (punto.y - p.y) * k }, s),
+      );
     },
     [limitar, fijar],
   );
@@ -138,10 +151,16 @@ export function VisorImagenes({
     let nuevo = MAX;
     for (const img of m.querySelectorAll("img")) {
       // Solo la foto que se ve (la otra variante está con display: none) y ya cargada; un SVG no tiene tope.
-      if (img.getClientRects().length === 0 || !img.naturalWidth || /\.svg($|\?)/.test(img.currentSrc || img.src)) continue;
+      if (
+        img.getClientRects().length === 0 ||
+        !img.naturalWidth ||
+        /\.svg($|\?)/.test(img.currentSrc || img.src)
+      )
+        continue;
       // El ancho de maqueta, sin el zoom del visor; con la escala propia de la imagen si la tiene (la vista de detalle).
       const transformada = getComputedStyle(img).transform;
-      const propia = transformada && transformada !== "none" ? new DOMMatrixReadOnly(transformada).a : 1;
+      const propia =
+        transformada && transformada !== "none" ? new DOMMatrixReadOnly(transformada).a : 1;
       const ancho = img.offsetWidth * propia * dpr;
       if (ancho > 0) nuevo = Math.min(nuevo, (PIXELES_POR_PIXEL * img.naturalWidth) / ancho);
     }
@@ -192,7 +211,10 @@ export function VisorImagenes({
         e.preventDefault();
         const r = el.getBoundingClientRect();
         const s = actual.current.escala;
-        zoomEn(e.deltaY < 0 ? s * 1.15 : s / 1.15, { x: e.clientX - (r.left + r.width / 2), y: e.clientY - (r.top + r.height / 2) });
+        zoomEn(e.deltaY < 0 ? s * 1.15 : s / 1.15, {
+          x: e.clientX - (r.left + r.width / 2),
+          y: e.clientY - (r.top + r.height / 2),
+        });
       };
       el.addEventListener("wheel", alGirar, { passive: false });
       quitarRueda.current = () => el.removeEventListener("wheel", alGirar);
@@ -215,9 +237,18 @@ export function VisorImagenes({
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     punteros.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     const ps = [...punteros.current.values()];
-    const medio = ps.length === 2 ? { x: (ps[0].x + ps[1].x) / 2, y: (ps[0].y + ps[1].y) / 2 } : ps[0];
+    const medio =
+      ps.length === 2 ? { x: (ps[0].x + ps[1].x) / 2, y: (ps[0].y + ps[1].y) / 2 } : ps[0];
     const dist = ps.length === 2 ? Math.hypot(ps[0].x - ps[1].x, ps[0].y - ps[1].y) : 0;
-    inicioGesto.current = { escala, pos, dist, medio, x0: e.clientX, y0: e.clientY, movido: inicioGesto.current?.movido ?? false };
+    inicioGesto.current = {
+      escala,
+      pos,
+      dist,
+      medio,
+      x0: e.clientX,
+      y0: e.clientY,
+      movido: inicioGesto.current?.movido ?? false,
+    };
     if (ps.length === 1) inicioGesto.current.movido = false;
     setGesto(true);
   }
@@ -233,8 +264,16 @@ export function VisorImagenes({
       const medio = { x: (ps[0].x + ps[1].x) / 2, y: (ps[0].y + ps[1].y) / 2 };
       const s = Math.min(topeActual.current, Math.max(MIN, (g.escala * dist) / g.dist));
       const p = relativo(g.medio.x, g.medio.y);
-      const base = { x: p.x - (p.x - g.pos.x) * (s / g.escala), y: p.y - (p.y - g.pos.y) * (s / g.escala) };
-      fijar(s, s === 1 ? { x: 0, y: 0 } : limitar({ x: base.x + medio.x - g.medio.x, y: base.y + medio.y - g.medio.y }, s));
+      const base = {
+        x: p.x - (p.x - g.pos.x) * (s / g.escala),
+        y: p.y - (p.y - g.pos.y) * (s / g.escala),
+      };
+      fijar(
+        s,
+        s === 1
+          ? { x: 0, y: 0 }
+          : limitar({ x: base.x + medio.x - g.medio.x, y: base.y + medio.y - g.medio.y }, s),
+      );
       g.movido = true;
     } else if (ps.length === 1) {
       const dx = e.clientX - g.x0;
@@ -252,7 +291,15 @@ export function VisorImagenes({
     if (punteros.current.size > 0) {
       // Queda un dedo: el gesto sigue desde aquí, como un arrastre.
       const [resto] = punteros.current.values();
-      inicioGesto.current = { escala, pos, dist: 0, medio: resto, x0: resto.x, y0: resto.y, movido: true };
+      inicioGesto.current = {
+        escala,
+        pos,
+        dist: 0,
+        medio: resto,
+        x0: resto.x,
+        y0: resto.y,
+        movido: true,
+      };
       return;
     }
     setGesto(false);
@@ -288,7 +335,12 @@ export function VisorImagenes({
     else if (k === "-" || k === "_") zoomEn(escala / PASO);
     else if (k === "0") zoomEn(1);
     else if (escala > 1 && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(k)) {
-      const d = { ArrowLeft: [MOVER, 0], ArrowRight: [-MOVER, 0], ArrowUp: [0, MOVER], ArrowDown: [0, -MOVER] }[k]!;
+      const d = {
+        ArrowLeft: [MOVER, 0],
+        ArrowRight: [-MOVER, 0],
+        ArrowUp: [0, MOVER],
+        ArrowDown: [0, -MOVER],
+      }[k]!;
       const { pos: p } = actual.current;
       fijar(escala, limitar({ x: p.x + d[0], y: p.y + d[1] }, escala));
     } else if (k === "ArrowLeft" && total > 1) ir(indice - 1);
@@ -308,7 +360,7 @@ export function VisorImagenes({
   return (
     <DialogPrimitive.Root open={abierto} onOpenChange={(v) => (v ? null : alCerrar())}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/92 motion-safe:data-[state=open]:animate-in motion-safe:data-[state=open]:fade-in-0" />
+        <DialogPrimitive.Overlay className="motion-safe:data-[state=open]:animate-in motion-safe:data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/92" />
         <DialogPrimitive.Content
           className="fixed inset-0 z-50 flex flex-col outline-none"
           onCloseAutoFocus={(e) => {
@@ -317,29 +369,68 @@ export function VisorImagenes({
           }}
           data-testid="visor"
         >
-          <DialogPrimitive.Title className="sr-only">{t("titulo", { producto: titulo })}</DialogPrimitive.Title>
-          <DialogPrimitive.Description className="sr-only">{t("ayuda")}</DialogPrimitive.Description>
+          <DialogPrimitive.Title className="sr-only">
+            {t("titulo", { producto: titulo })}
+          </DialogPrimitive.Title>
+          <DialogPrimitive.Description className="sr-only">
+            {t("ayuda")}
+          </DialogPrimitive.Description>
 
           <div className="flex items-center justify-between gap-2 px-3 pt-[max(env(safe-area-inset-top),0.75rem)] pb-2 text-white md:px-6">
-            <p className="min-w-16 text-sm font-bold" aria-live="polite" data-testid="visor-contador">
+            <p
+              className="min-w-16 text-sm font-bold"
+              aria-live="polite"
+              data-testid="visor-contador"
+            >
               {t("contador", { n: indice + 1, total })}
             </p>
             <div className="flex items-center gap-2">
-              <button type="button" className={boton} onClick={() => zoomEn(escala / PASO)} disabled={escala <= MIN} aria-label={t("alejar")} data-testid="visor-alejar">
-                <Minus className="size-5" aria-hidden="true" />
+              <button
+                type="button"
+                className={boton}
+                onClick={() => zoomEn(escala / PASO)}
+                disabled={escala <= MIN}
+                aria-label={t("alejar")}
+                data-testid="visor-alejar"
+              >
+                <span aria-hidden="true" className="size-5">
+                  −
+                </span>
               </button>
-              <span className="w-14 text-center text-sm font-bold tabular-nums" data-testid="visor-zoom">
+              <span
+                className="w-14 text-center text-sm font-bold tabular-nums"
+                data-testid="visor-zoom"
+              >
                 {Math.round(escala * 100)} %
               </span>
-              <button type="button" className={boton} onClick={() => zoomEn(escala * PASO)} disabled={escala >= tope - 0.001} aria-label={t("acercar")} data-testid="visor-acercar">
-                <Plus className="size-5" aria-hidden="true" />
+              <button
+                type="button"
+                className={boton}
+                onClick={() => zoomEn(escala * PASO)}
+                disabled={escala >= tope - 0.001}
+                aria-label={t("acercar")}
+                data-testid="visor-acercar"
+              >
+                <span aria-hidden="true" className="size-5">
+                  +
+                </span>
               </button>
-              <button type="button" className={boton} onClick={() => zoomEn(1)} disabled={escala === 1} aria-label={t("ajustar")}>
-                <Scan className="size-5" aria-hidden="true" />
+              <button
+                type="button"
+                className={boton}
+                onClick={() => zoomEn(1)}
+                disabled={escala === 1}
+                aria-label={t("ajustar")}
+              >
+                <IconoLupa className="size-5" />
               </button>
             </div>
-            <DialogPrimitive.Close className={boton} aria-label={t("cerrar")} data-testid="visor-cerrar">
-              <X className="size-5" aria-hidden="true" />
+            <DialogPrimitive.Close
+              className={boton}
+              aria-label={t("cerrar")}
+              data-testid="visor-cerrar"
+            >
+              <IconoCerrar className="size-5" />
             </DialogPrimitive.Close>
           </div>
 
@@ -354,9 +445,15 @@ export function VisorImagenes({
             onClick={(e) => {
               // Un clic en el fondo cierra, como el fondo oscuro de un diálogo. Se mira dónde cayó y no el target: con el
               // puntero capturado, el clic de ratón llega al escenario aunque se haya pulsado la imagen.
-              if (inicioGesto.current?.movido || (e.target as HTMLElement).closest("button")) return;
+              if (inicioGesto.current?.movido || (e.target as HTMLElement).closest("button"))
+                return;
               const r = marco.current?.getBoundingClientRect();
-              const dentro = r && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+              const dentro =
+                r &&
+                e.clientX >= r.left &&
+                e.clientX <= r.right &&
+                e.clientY >= r.top &&
+                e.clientY <= r.bottom;
               if (!dentro) alCerrar();
             }}
             data-escala={escala.toFixed(2)}
@@ -368,23 +465,41 @@ export function VisorImagenes({
               className={cn(
                 "aspect-square w-[min(94vw,calc(100dvh-10.5rem))] max-w-[860px]",
                 escala > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-zoom-in",
-                !gesto && "transition-transform duration-150 ease-out motion-reduce:transition-none",
+                !gesto &&
+                  "transition-transform duration-150 ease-out motion-reduce:transition-none",
               )}
               style={{ transform: `translate(${pos.x}px, ${pos.y}px) scale(${escala})` }}
             >
               {vista.tipo === "imagen" ? (
-                <ImagenProducto illustration={illustration} imagen={imagen} tint={tint} alt={titulo} prioridad className="h-full w-full rounded-card" />
+                <ImagenProducto
+                  illustration={illustration}
+                  imagen={imagen}
+                  tint={tint}
+                  alt={titulo}
+                  prioridad
+                  className="rounded-card h-full w-full"
+                />
               ) : (
-                <div className={cn("grid h-full w-full place-items-center rounded-card", FONDO_TINTE[tint])}>
+                <div
+                  className={cn(
+                    "rounded-card grid h-full w-full place-items-center",
+                    FONDO_TINTE[tint],
+                  )}
+                >
                   <div className="grid w-[70%] gap-4 text-center">
-                    <ImagenSuelta illustration={illustration} imagen={imagen} className="mx-auto w-[62%]" claseFoto="mx-auto w-[62%] rounded-xl" />
+                    <ImagenSuelta
+                      illustration={illustration}
+                      imagen={imagen}
+                      className="mx-auto w-[62%]"
+                      claseFoto="mx-auto w-[62%] rounded-xl"
+                    />
                     {medidas ? (
-                      <div className="flex items-center justify-center gap-2 rounded-md bg-white/90 px-3 py-2 text-base font-bold text-ink">
-                        <Ruler className="size-5" aria-hidden="true" />
+                      <div className="text-ink flex items-center justify-center gap-2 rounded-md bg-white/90 px-3 py-2 text-base font-bold">
+                        <IconoRegla className="size-5" />
                         {medidas}
                       </div>
                     ) : null}
-                    <p className="text-base font-bold text-muted-ink">{edades}</p>
+                    <p className="text-muted-ink text-base font-bold">{edades}</p>
                   </div>
                 </div>
               )}
@@ -392,23 +507,48 @@ export function VisorImagenes({
 
             {total > 1 ? (
               <>
-                <button type="button" className={cn(boton, "absolute top-1/2 left-2 -translate-y-1/2 md:left-6")} onClick={() => ir(indice - 1)} aria-label={t("anterior")} data-testid="visor-anterior">
-                  <ChevronLeft className="size-6" aria-hidden="true" />
+                <button
+                  type="button"
+                  className={cn(boton, "absolute top-1/2 left-2 -translate-y-1/2 md:left-6")}
+                  onClick={() => ir(indice - 1)}
+                  aria-label={t("anterior")}
+                  data-testid="visor-anterior"
+                >
+                  <span aria-hidden="true" className="size-6">
+                    ‹
+                  </span>
                 </button>
-                <button type="button" className={cn(boton, "absolute top-1/2 right-2 -translate-y-1/2 md:right-6")} onClick={() => ir(indice + 1)} aria-label={t("siguiente")} data-testid="visor-siguiente">
-                  <ChevronRight className="size-6" aria-hidden="true" />
+                <button
+                  type="button"
+                  className={cn(boton, "absolute top-1/2 right-2 -translate-y-1/2 md:right-6")}
+                  onClick={() => ir(indice + 1)}
+                  aria-label={t("siguiente")}
+                  data-testid="visor-siguiente"
+                >
+                  <span aria-hidden="true" className="size-6">
+                    ›
+                  </span>
                 </button>
               </>
             ) : null}
           </div>
 
           {/* El rótulo queda fijo abajo: no crece con el zoom y siempre se ve. */}
-          <div className="flex justify-center px-3 pt-2 pb-[max(env(safe-area-inset-bottom),0.75rem)]" data-testid="visor-rotulo">
+          <div
+            className="flex justify-center px-3 pt-2 pb-[max(env(safe-area-inset-bottom),0.75rem)]"
+            data-testid="visor-rotulo"
+          >
             {imagen ? null : (
               <>
-                {conIlustracion !== null ? <span className={cn(rotulo, conIlustracion)}>{tp("imagenIlustrativa")}</span> : null}
+                {conIlustracion !== null ? (
+                  <span className={cn(rotulo, conIlustracion)}>{tp("imagenIlustrativa")}</span>
+                ) : null}
                 {fotoIA(illustration) ? (
-                  <span className={cn(rotulo, tieneIlustracion(illustration) && "solo-variante-color")}>{tp("imagenIlustrativaIA")}</span>
+                  <span
+                    className={cn(rotulo, tieneIlustracion(illustration) && "solo-variante-color")}
+                  >
+                    {tp("imagenIlustrativaIA")}
+                  </span>
                 ) : null}
               </>
             )}

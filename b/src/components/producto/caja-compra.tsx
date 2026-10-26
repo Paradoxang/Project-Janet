@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Lock, RotateCcw, TriangleAlert } from "lucide-react";
+import { IconoAviso, IconoCandado } from "@/components/cuento/iconos";
 import { BotonDeseos } from "@/components/cuenta/boton-deseos";
 import { Button } from "@/components/ui/button";
 import { useHidratado } from "@/hooks/use-hidratado";
@@ -43,7 +43,7 @@ export function CajaCompra({
 
   return (
     <div
-      className="rounded-card shadow-tarjeta grid gap-3.5 bg-white p-5 md:p-6"
+      className="rounded-card shadow-tarjeta text-ink grid gap-3.5 bg-white p-5 md:p-6"
       data-testid="caja-compra"
     >
       <div>
@@ -53,7 +53,7 @@ export function CajaCompra({
 
       {aviso ? (
         <p className="border-low/30 bg-low/5 text-low flex items-start gap-2 rounded-md border p-2.5 text-[12.5px] leading-snug font-semibold">
-          <TriangleAlert className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+          <IconoAviso className="mt-0.5 size-4 shrink-0" />
           {aviso}
         </p>
       ) : null}
@@ -113,11 +113,13 @@ export function CajaCompra({
           </div>
           <p className="text-muted-ink flex flex-wrap justify-center gap-x-5 gap-y-1 pt-1 text-[13px]">
             <span className="inline-flex items-center gap-1.5">
-              <Lock aria-hidden="true" className="size-3.5" />
+              <IconoCandado className="size-3.5" />
               {t("pagoSeguro")}
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <RotateCcw aria-hidden="true" className="size-3.5" />
+              <span aria-hidden="true" className="size-3.5">
+                ↺
+              </span>
               {t("devolucionFacil")}
             </span>
           </p>

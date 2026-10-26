@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Heart } from "lucide-react";
+import { IconoCorazon } from "@/components/cuento/iconos";
 import { useHidratado } from "@/hooks/use-hidratado";
 import { cn } from "@/lib/utils";
 import { useCuenta, useDeseos } from "@/stores/cuenta";
@@ -18,9 +18,9 @@ export function BotonDeseos({ id }: { id: string }) {
       aria-pressed={guardado}
       onClick={() => alternar(id)}
       data-testid="deseos"
-      className="inline-flex items-center justify-center gap-2 rounded-btn py-2 text-sm font-bold text-link hover:underline"
+      className="rounded-btn font-display text-link inline-flex items-center justify-center gap-2 py-2 text-[15px] font-semibold underline-offset-4 hover:underline"
     >
-      <Heart className={cn("size-4", guardado && "fill-current")} aria-hidden="true" />
+      <IconoCorazon className={cn("size-4", guardado ? "text-mandarina-tinta" : "opacity-70")} />
       {guardado ? t("enListaDeseos") : t("listaDeseos")}
     </button>
   );

@@ -215,7 +215,13 @@
     "zipEtiqueta": "Your ZIP code",
     "zipBuscar": "Search",
     "zipInvalido": "Enter a 5-digit ZIP code.",
-    "cercaDe": "Stores near {lugar}"
+    "cercaDe": "Stores near {lugar}",
+    "verJuguete": "View the toy",
+    "detallesEtiqueta": "Toy details",
+    "acercaCejilla": "Why families love it",
+    "detallesCejilla": "The details",
+    "recomendadosCejilla": "On the same shelf",
+    "resenasCejilla": "What families say"
   },
   "busqueda": {
     "titulo": "Results for “{q}”",
@@ -225,7 +231,10 @@
     "sinResultadosTexto": "Try another word or browse by age.",
     "filtros": "Filters",
     "todasEdades": "All",
-    "cejillaBusqueda": "Your search"
+    "cejillaBusqueda": "Your search",
+    "deTotal": "of {n} toys",
+    "resultadosEtiqueta": "Results",
+    "quitarFiltro": "Remove filter: {filtro}"
   },
   "pie": {
     "productos": "Products",
@@ -248,7 +257,17 @@
     "pais": "Country or region",
     "paisEEUU": "United States",
     "moneda": "Currency",
-    "muestraRegion": "Preview only: for now the store sells only in the US, in dollars."
+    "muestraRegion": "Preview only: for now the store sells only in the US, in dollars.",
+    "boletinCejilla": "The family list",
+    "boletinNumero": "toys on the shelf",
+    "boletinTitulo": "Gift ideas, birthdays and seasonal picks, once a month.",
+    "boletinCorreo": "Your email",
+    "boletinPista": "you@email.com",
+    "boletinBoton": "Subscribe",
+    "boletinNota": "Demo: nothing is saved or sent.",
+    "boletinGracias": "Thanks! In the demo nothing is saved or sent.",
+    "menos25": "Under $25",
+    "ayuda": "Help"
   },
   "catalogo": {
     "ordenar": "Sort by",
@@ -285,7 +304,8 @@
     "agregadoTitulo": "Added to cart",
     "irAlCarrito": "Go to cart",
     "para": "for {lugar}",
-    "cantidad": "Quantity"
+    "cantidad": "Quantity",
+    "cejilla": "Your cart"
   },
   "pago": {
     "titulo": "Checkout",
@@ -348,7 +368,8 @@
     "metodoEnvio": "Shipping method",
     "pago": "Payment",
     "verResumen": "Show order summary",
-    "ocultarResumen": "Hide order summary"
+    "ocultarResumen": "Hide order summary",
+    "pasoDe": "Step {n} of {total}"
   },
   "cuenta": {
     "titulo": "Your account",
@@ -836,7 +857,8 @@
     "vacia": "Your list is empty",
     "vaciaTexto": "Tap the heart on a toy’s page to save it here.",
     "verJuguetes": "See all toys",
-    "quitar": "Remove from list"
+    "quitar": "Remove from list",
+    "cejilla": "Saved for later"
   },
   "promo": {
     "etiqueta": "Promotion of the week",
@@ -900,7 +922,12 @@
       "cohete": "A boy laughs as his foam rocket flies off in the backyard",
       "aros": "A toddler stacks colorful rings on a wooden table",
       "robot": "A boy shows the robot he built with his building kit"
-    }
+    },
+    "linea1": "Play that",
+    "linea2": "<acento>grows</acento> with",
+    "linea3": "them",
+    "prueba": "{nota} average review · {juguetes} toys · {tiendas} stores (demo)",
+    "bajar": "Scroll to the shelf"
   },
   "mundos": {
     "cejilla": "Two sections",
@@ -914,5 +941,41 @@
     "saludableTexto": "Snacks and personal care for kids and grown-ups, in a corner of their own.",
     "saludableBoton": "Take a look",
     "ia": "AI photos"
+  },
+  "estante": {
+    "cejilla": "The shelf",
+    "titulo": "Toys that <acento>want</acento> to play",
+    "texto": "Family favorites. Pick an age, or browse everything under $25.",
+    "todos": "All toys",
+    "menos25": "Under $25",
+    "verTodos": "See all",
+    "filtros": "Filter the shelf"
+  },
+  "paneles": {
+    "edadCejilla": "By age",
+    "edadTitulo": "Gifts for <acento>every</acento> age",
+    "edadBoton": "See every age",
+    "juguetesCejilla": "The toy shop",
+    "juguetesTitulo": "For every <acento>kind</acento> of play",
+    "juguetesTexto": "Building, pretending, learning and playing outside. Pick by kind of play.",
+    "juguetesBoton": "Shop all toys",
+    "saludableCejilla": "Coming soon",
+    "saludableTitulo": "A <acento>healthy</acento> corner",
+    "tiendasTitulo": "See it, touch it, <acento>take it home</acento>",
+    "tiendasDemo": "demo stores"
+  },
+  "como": {
+    "cejilla": "How it works",
+    "titulo": "From our shelf to <acento>your home</acento>",
+    "texto": "Four steps, no surprises.",
+    "paso": "step",
+    "edadTitulo": "Pick by age",
+    "edadTexto": "Every toy is sorted by age, so you don’t have to guess.",
+    "tiendaTitulo": "Check nearby stock",
+    "tiendaTexto": "Live stock in {n} sample stores: see it and touch it before you buy.",
+    "envioTitulo": "Free delivery over $35",
+    "envioTexto": "Arrives in 2–5 business days.",
+    "devolverTitulo": "30 days to return it",
+    "devolverTexto": "Unused and in its box (sample policy)."
   }
 }

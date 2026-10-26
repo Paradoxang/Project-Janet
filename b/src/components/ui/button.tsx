@@ -4,20 +4,21 @@ import { cn } from "@/lib/utils"
 import { Slot } from "radix-ui"
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center gap-2 rounded-btn text-sm font-bold whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-btn font-display text-[0.8rem] font-semibold whitespace-nowrap transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-calendula disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        // Rediseño del 26-10: todo botón sale de una pieza del canon. Por defecto, la placa azul noche.
+        default:
+          "bg-noche tracking-[0.1em] text-crema uppercase shadow-[inset_0_0_0_1.5px_var(--m-hilo-oro)] hover:-translate-y-0.5 hover:bg-[#23265a] motion-reduce:hover:translate-y-0",
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40",
-        outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
+        // El botón de texto del canon: transparente, con el filete del color de la letra.
+        outline: "bg-transparent tracking-[0.1em] uppercase shadow-[inset_0_0_0_1px_currentColor] hover:bg-ink/5",
+        // La píldora del canon.
+        secondary: "rounded-full bg-crema text-[0.9rem] text-ink hover:bg-aqua hover:text-noche",
+        ghost: "text-[0.9rem] hover:bg-ink/5",
+        link: "text-[0.95rem] text-link underline-offset-4 hover:underline",
         // Marca: «Add to cart» y «Buy now» (los colores salen de la marca activa).
         // Rediseño del 26-10: placas del canon, cuadradas (5 px) y con el filete de oro grabado. Suben un poco al pasar.
         cta: "bg-cta font-display font-semibold tracking-[0.1em] text-cta-ink uppercase shadow-[inset_0_0_0_1.5px_var(--m-hilo-oro),0_8px_20px_rgb(255_106_43/0.28)] hover:-translate-y-0.5 hover:bg-cta-hover active:translate-y-0 disabled:shadow-none motion-reduce:hover:translate-y-0",

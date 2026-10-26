@@ -14,11 +14,6 @@ export function seccionDeRuta(ruta: string): Seccion {
   return ruta.startsWith(RUTA_SALUDABLE) ? "saludable" : "juguetes";
 }
 
-/** Páginas de catálogo: en escritorio llevan la barra lateral fija. En las demás se abre con el botón de menú. */
-export function conBarraLateral(ruta: string): boolean {
-  return ruta === "/" || ruta.startsWith("/search") || ruta.startsWith(RUTA_SALUDABLE);
-}
-
 /** El pago va sin distracciones: cabecera mínima y sin barra lateral. */
 export function esPago(ruta: string): boolean {
   return ruta.startsWith("/checkout");

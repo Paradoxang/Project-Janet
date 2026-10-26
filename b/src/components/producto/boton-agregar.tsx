@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCarrito } from "@/stores/carrito";
 import { useCarritoUI } from "@/stores/carrito-ui";
@@ -46,7 +45,9 @@ export function BotonAgregar({
     >
       {agregado ? (
         <>
-          <Check aria-hidden="true" className="saltito" />
+          <span aria-hidden="true" className="saltito">
+            ✓
+          </span>
           {t("agregadoCorto")}
         </>
       ) : (

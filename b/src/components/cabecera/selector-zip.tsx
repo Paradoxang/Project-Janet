@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { MapPin } from "lucide-react";
+import { IconoPin } from "@/components/cuento/iconos";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -45,14 +45,14 @@ export function SelectorZip({ className }: { className?: string }) {
           type="button"
           data-testid="selector-zip"
           className={cn(
-            "flex items-center gap-1.5 rounded-md text-left text-[13px] leading-tight text-muted-ink hover:text-ink",
+            "text-muted-ink hover:text-ink flex items-center gap-1.5 rounded-md text-left text-[13px] leading-tight",
             className,
           )}
         >
-          <MapPin className="size-4 shrink-0" aria-hidden="true" />
+          <IconoPin className="size-4 shrink-0" />
           <span>
             {t("entregarA")}{" "}
-            <b className="font-bold text-ink">
+            <b className="text-ink font-bold">
               {lugarDeZip(zip)} {zip}
             </b>
           </span>
@@ -90,7 +90,7 @@ export function SelectorZip({ className }: { className?: string }) {
             }}
           />
           {error ? (
-            <p id="zip-error" className="text-sm text-out">
+            <p id="zip-error" className="text-out text-sm">
               {t("zipInvalido")}
             </p>
           ) : null}
