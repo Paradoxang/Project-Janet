@@ -15,5 +15,6 @@ const leer = (): VarianteId => (document.documentElement.getAttribute("data-vari
 
 /** La variante de la maqueta que se ve ahora: «base» (la tienda blanca) o «color». */
 export function useVariante(): VarianteId {
-  return useSyncExternalStore(suscribir, leer, () => "base");
+  // En el HTML estático, «color»: la del rediseño del 26-10.
+  return useSyncExternalStore(suscribir, leer, () => "color");
 }

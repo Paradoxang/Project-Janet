@@ -1,27 +1,28 @@
 import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 
-/** Banda oscura con el mapa-rompecabezas: cambia el ritmo de la página. */
+/** Banda azul noche con el mapa-rompecabezas: cambia el ritmo de la página y lleva al buscador de tiendas por ZIP. */
 export function PromoTiendas() {
   const t = useTranslations("inicio");
   return (
     <section
       data-revelar
       aria-labelledby="tiendas"
-      className="relative grid items-center gap-4 overflow-hidden rounded-card bg-ink p-6 text-white md:grid-cols-[1.2fr_1fr] md:p-10"
+      className="noche rounded-card relative grid items-center gap-4 overflow-hidden p-6 md:grid-cols-[1.2fr_1fr] md:p-10"
     >
       <div>
-        <h2 id="tiendas" className="text-[26px] leading-tight text-white md:text-4xl">
+        <p className="cejilla text-aqua mb-2">{t("tiendasCejilla")}</p>
+        <h2
+          id="tiendas"
+          className="font-magia text-crema text-[26px] leading-[1.15] font-bold md:text-[38px]"
+        >
           {t("tiendasTitulo")}
         </h2>
-        <p className="mt-2 max-w-md text-white/80">{t("tiendasTexto")}</p>
-        <Button asChild size="lg" className="mt-5 bg-white text-ink hover:bg-white/90">
-          <Link href="/where-to-buy">
-            {t("tiendasBoton")} <ArrowRight aria-hidden="true" />
-          </Link>
-        </Button>
+        <p className="text-crema/80 mt-3 max-w-md">{t("tiendasTexto")}</p>
+        <Link href="/where-to-buy" className="placa mt-6">
+          {t("tiendasBoton")} <ArrowRight aria-hidden="true" className="size-4" />
+        </Link>
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img

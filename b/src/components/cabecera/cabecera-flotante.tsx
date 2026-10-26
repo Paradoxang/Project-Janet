@@ -16,10 +16,19 @@ export function CabeceraFlotante({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const franja = ref.current?.previousElementSibling as HTMLElement | null;
-    const medir = () => setArriba(franja?.offsetHeight ?? 0);
+    const medir = () => {
+      const alto = franja?.offsetHeight ?? 0;
+      setArriba(alto);
+      // La barra lateral fija (rediseño del 26-10) se pega justo debajo de la franja y la cabecera.
+      document.documentElement.style.setProperty(
+        "--alto-arriba",
+        `${alto + (ref.current?.offsetHeight ?? 0)}px`,
+      );
+    };
     medir();
-    const observador = franja ? new ResizeObserver(medir) : null;
-    if (franja) observador?.observe(franja);
+    const observador = new ResizeObserver(medir);
+    if (franja) observador.observe(franja);
+    if (ref.current) observador.observe(ref.current);
 
     let ultimo = window.scrollY;
     let pendiente = false;
@@ -40,12 +49,17 @@ export function CabeceraFlotante({ children }: { children: React.ReactNode }) {
     window.addEventListener("scroll", alDesplazar, { passive: true });
     return () => {
       window.removeEventListener("scroll", alDesplazar);
-      observador?.disconnect();
+      observador.disconnect();
     };
   }, []);
 
   return (
-    <div ref={ref} className="cabecera-flotante" data-oculta={oculta ? "" : undefined} style={{ top: arriba }}>
+    <div
+      ref={ref}
+      className="cabecera-flotante"
+      data-oculta={oculta ? "" : undefined}
+      style={{ top: arriba }}
+    >
       {children}
     </div>
   );

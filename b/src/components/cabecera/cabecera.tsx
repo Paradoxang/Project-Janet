@@ -1,64 +1,80 @@
 import { useTranslations } from "next-intl";
-import { MapPin } from "lucide-react";
+import { Lock, MapPin, ShoppingBag } from "lucide-react";
+import { PestanasSeccion } from "@/components/navegacion/pestanas-seccion";
 import { Link } from "@/i18n/navigation";
-import { CATEGORIAS, GRUPOS_EDAD, OCASIONES } from "@/lib/data";
 import { Logo } from "@/marca/marca";
 import { Buscador } from "./buscador";
 import { EnlaceCuenta } from "./enlace-cuenta";
 import { EnlaceDeseos } from "./enlace-deseos";
-import { FichasEdadCabecera } from "./fichas-edad";
 import { IconoCarrito } from "./icono-carrito";
 import { MenuMovil } from "./menu-movil";
 import { SelectorIdioma } from "./selector-idioma";
-import { SelectorZip } from "./selector-zip";
 
+/**
+ * Cabecera del rediseño (26-10): papel crema, el buscador grande en el centro (tendrá muchos productos: lo primero es
+ * buscar) y, desde 1024 px, las dos secciones. En el celular, hamburguesa y el buscador en su propia
+ * fila. Las categorías ya no van aquí: están en la barra lateral.
+ */
 export function Cabecera() {
   const t = useTranslations();
   return (
-    <header className="cabecera-tienda border-b bg-white" data-testid="cabecera">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-2 gap-y-2 px-3 pt-2 pb-2 md:flex-nowrap md:gap-x-4 md:px-6">
-        <MenuMovil edades={GRUPOS_EDAD} categorias={CATEGORIAS} ocasiones={OCASIONES} />
+    <header
+      className="cabecera-tienda border-line bg-papel/95 border-b backdrop-blur-sm"
+      data-testid="cabecera"
+    >
+      <div className="mx-auto flex max-w-[1440px] flex-wrap items-center gap-x-2 gap-y-2 px-3 py-2.5 md:flex-nowrap md:gap-x-4 md:px-6">
+        <MenuMovil />
         {/* El nombre del enlace empieza por lo que se ve (el logo o su marcador) y añade adónde lleva. */}
         <Link href="/" className="shrink-0 rounded-md">
           <Logo className="h-8 md:h-9" />
           <span className="sr-only">{t("cabecera.irAlInicio")}</span>
         </Link>
-        <SelectorZip className="hidden max-w-[150px] lg:flex" />
+        <PestanasSeccion className="hidden lg:block" />
         <div className="order-last w-full md:order-none md:flex-1">
           <Buscador />
         </div>
-        <div className="ml-auto flex items-center gap-1 md:ml-0">
+        <div className="ml-auto flex items-center gap-0.5 md:ml-0">
+          <Link
+            href="/where-to-buy"
+            aria-label={t("nav.dondeComprar")}
+            title={t("nav.dondeComprar")}
+            className="text-ink hover:bg-surface hidden size-11 place-items-center rounded-lg sm:grid"
+          >
+            <MapPin aria-hidden="true" className="size-6" />
+          </Link>
           <SelectorIdioma />
           <EnlaceCuenta />
           <EnlaceDeseos />
           <IconoCarrito />
         </div>
       </div>
-      <div className="mx-auto max-w-7xl px-4 pb-2 md:px-6 lg:hidden">
-        <SelectorZip />
+    </header>
+  );
+}
+
+/** La cabecera del pago: sin buscador ni menús, como en las tiendas que convierten bien. Solo el logo y volver. */
+export function CabeceraPago() {
+  const t = useTranslations();
+  return (
+    <header className="border-line bg-papel border-b" data-testid="cabecera-pago">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 md:px-6">
+        <Link href="/" className="shrink-0 rounded-md">
+          <Logo className="h-8 md:h-9" />
+          <span className="sr-only">{t("cabecera.irAlInicio")}</span>
+        </Link>
+        <p className="font-display flex items-center gap-1.5 text-[15px] font-semibold">
+          <Lock aria-hidden="true" className="text-stock size-4" />
+          {t("pago.seguro")}
+        </p>
+        <Link
+          href="/cart"
+          className="text-link inline-flex items-center gap-1.5 rounded-lg px-2 py-2 text-[14px] font-bold hover:underline"
+        >
+          <ShoppingBag aria-hidden="true" className="size-5" />
+          <span className="hidden sm:inline">{t("pago.volverCarrito")}</span>
+          <span className="sr-only sm:hidden">{t("pago.volverCarrito")}</span>
+        </Link>
       </div>
-      <nav aria-label={t("nav.edad")} className="mx-auto max-w-7xl">
-        <ul className="relative flex gap-1.5 overflow-x-auto px-3 pb-2.5 [scrollbar-width:none] md:px-6 [&::-webkit-scrollbar]:hidden">
-          <li className="shrink-0">
-            <Link
-              href="/search"
-              className="inline-flex h-9 items-center rounded-chip px-3.5 text-[13.5px] font-semibold whitespace-nowrap text-ink hover:bg-surface"
-            >
-              {t("nav.todos")}
-            </Link>
-          </li>
-          <FichasEdadCabecera edades={GRUPOS_EDAD} />
-          <li className="shrink-0">
-            <Link
-              href="/where-to-buy"
-              className="inline-flex h-9 items-center gap-1.5 rounded-chip px-3.5 text-[13.5px] font-semibold whitespace-nowrap text-ink hover:bg-surface"
-            >
-              <MapPin aria-hidden="true" className="size-4 text-muted-ink" />
-              {t("nav.dondeComprar")}
-            </Link>
-          </li>
-        </ul>
-      </nav>
     </header>
   );
 }

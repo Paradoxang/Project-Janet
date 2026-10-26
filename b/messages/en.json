@@ -45,7 +45,17 @@
     "todos": "All toys",
     "dondeComprar": "Where to buy",
     "faq": "FAQ",
-    "panel": "Owner dashboard"
+    "panel": "Owner dashboard",
+    "juguetes": "Toys",
+    "saludable": "Healthy",
+    "secciones": "Store sections",
+    "explora": "Explore",
+    "todosJuguetes": "Shop all toys",
+    "todoSaludable": "Shop all healthy",
+    "paraQuien": "Who it’s for",
+    "regaloTitulo": "Need a gift?",
+    "regaloTexto": "Ideas picked by age and occasion.",
+    "regaloBoton": "Browse gift ideas"
   },
   "edad": {
     "0-12m": "0–12 months",
@@ -135,7 +145,13 @@
     "varianteBoton": "See all toys",
     "varianteFotoAlt": "Children playing on the floor with colorful building blocks (AI-generated image)",
     "imagenIA": "Illustrative image (AI)",
-    "imagenIACorta": "AI image"
+    "imagenIACorta": "AI image",
+    "edadesCejilla": "Where to start",
+    "masVendidosCejilla": "Family favorites",
+    "ocasionCejilla": "For every moment",
+    "ofertasCejilla": "Little treats",
+    "categoriaCejilla": "By kind of play",
+    "tiendasCejilla": "Stores near you"
   },
   "producto": {
     "migas": "Toys",
@@ -169,7 +185,7 @@
     "pilas": "Batteries",
     "piezas": "Pieces",
     "seguridad": "Safety information",
-    "disponibilidad": "Check store availability",
+    "disponibilidad": "Check nearby stock",
     "tiendaDemo": "DEMO",
     "agotadoEnTienda": "Out of stock",
     "enTienda": "{n} in stock",
@@ -192,7 +208,14 @@
     "verOtros": "See toys",
     "verEnMapa": "see on map",
     "imagenIlustrativaIA": "Illustrative image (AI)",
-    "ampliar": "Enlarge image {n} of {total}"
+    "ampliar": "Enlarge image {n} of {total}",
+    "pagoSeguro": "Secure checkout",
+    "devolucionFacil": "Easy returns",
+    "disponibilidadCejilla": "Pick it up in store",
+    "zipEtiqueta": "Your ZIP code",
+    "zipBuscar": "Search",
+    "zipInvalido": "Enter a 5-digit ZIP code.",
+    "cercaDe": "Stores near {lugar}"
   },
   "busqueda": {
     "titulo": "Results for “{q}”",
@@ -201,7 +224,8 @@
     "sinResultados": "We couldn’t find toys for “{q}”.",
     "sinResultadosTexto": "Try another word or browse by age.",
     "filtros": "Filters",
-    "todasEdades": "All"
+    "todasEdades": "All",
+    "cejillaBusqueda": "Your search"
   },
   "pie": {
     "productos": "Products",
@@ -310,7 +334,21 @@
     "entraPrimero": "Sign in to your account or choose guest checkout.",
     "direccion2": "Apt, suite or unit (optional)",
     "telefono": "Phone (optional, for delivery updates only)",
-    "telefonoInvalido": "Enter a 10-digit US phone number."
+    "telefonoInvalido": "Enter a 10-digit US phone number.",
+    "seguro": "Secure checkout",
+    "volverCarrito": "Back to cart",
+    "rapido": "Express checkout",
+    "rapidoNota": "Demo: express checkout places the order with a sample address.",
+    "o": "OR",
+    "contacto": "Contact",
+    "comoCompras": "How you want to check out",
+    "invitadoCorto": "Continue as guest",
+    "cuentaCorto": "I have an account",
+    "entrega": "Delivery",
+    "metodoEnvio": "Shipping method",
+    "pago": "Payment",
+    "verResumen": "Show order summary",
+    "ocultarResumen": "Hide order summary"
   },
   "cuenta": {
     "titulo": "Your account",
@@ -450,7 +488,15 @@
     "desde": "Distances from {lugar}",
     "tuUbicacion": "your location",
     "productosEnTienda": "{n, plural, one {# toy} other {# toys}} in stock",
-    "zoomConTecla": "Hold Ctrl (or ⌘) and scroll to zoom the map"
+    "zoomConTecla": "Hold Ctrl (or ⌘) and scroll to zoom the map",
+    "cejilla": "Store locator",
+    "tituloCuento": "Find us near you",
+    "zipPista": "Enter your ZIP code, e.g. 10001",
+    "tuZip": "Your ZIP code: {lugar}",
+    "verTodo": "See all of the US",
+    "verCerca": "Back to my area",
+    "cuantas": "{n} stores",
+    "porDistancia": "nearest first"
   },
   "panel": {
     "titulo": "How’s my business?",
@@ -816,5 +862,57 @@
     "cerrar": "Close",
     "anterior": "Previous image",
     "siguiente": "Next image"
+  },
+  "saludable": {
+    "publico": {
+      "ninos": "For kids",
+      "adultos": "For grown-ups"
+    },
+    "categoria": {
+      "comida": "Food & snacks",
+      "cuidado": "Personal care",
+      "hogar": "Natural home"
+    },
+    "notaBarra": "Sample categories: the owner sets them when her products arrive.",
+    "cejilla": "Healthy section · Coming soon",
+    "titulo": "Healthy picks, in a corner of their own",
+    "texto": "Snacks, food and personal care for kids and grown-ups, kept apart from the toys so nothing gets mixed up. Same store underneath: same cart, same checkout, same map.",
+    "proximamente": "Coming soon",
+    "tarjeta": "Your product here",
+    "tarjetaTexto": "Photo, name and price",
+    "vacioTitulo": "Her first products will go here",
+    "vacioTexto": "Today there are one or two healthy products. When the owner adds them from her dashboard, they show up here with their photo, just like the toys.",
+    "volverJuguetes": "Meanwhile, browse toys"
+  },
+  "hero": {
+    "cejilla": "Toys for curious families",
+    "titulo": "Play that <acento>grows</acento> with them",
+    "texto": "Toys picked for every age and ready to gift. Order online or pick them up at a store near you.",
+    "botonJuguetes": "Shop toys",
+    "botonTiendas": "Find a store",
+    "ahora": "Now showing",
+    "ia": "Illustrative image (AI)",
+    "seguir": "Play the images",
+    "pausar": "Pause the images",
+    "diapositiva": "Image {n} of {total}: {titulo}",
+    "alt": {
+      "torre": "Three kids build a magnetic tile tower in a sunny living room",
+      "cohete": "A boy laughs as his foam rocket flies off in the backyard",
+      "aros": "A toddler stacks colorful rings on a wooden table",
+      "robot": "A boy shows the robot he built with his building kit"
+    }
+  },
+  "mundos": {
+    "cejilla": "Two sections",
+    "titulo": "One store, two worlds",
+    "juguetesCejilla": "The toy shop",
+    "juguetes": "Toys",
+    "juguetesTexto": "For building, pretending, learning and playing outside. Ages 0 to 12.",
+    "juguetesBoton": "Step inside",
+    "saludableCejilla": "Coming soon",
+    "saludable": "Healthy",
+    "saludableTexto": "Snacks and personal care for kids and grown-ups, in a corner of their own.",
+    "saludableBoton": "Take a look",
+    "ia": "AI photos"
   }
 }

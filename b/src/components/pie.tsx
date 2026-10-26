@@ -12,7 +12,7 @@ const CREDITOS = {
 
 export function Pie() {
   const t = useTranslations("pie");
-  const enlace = "text-sm text-white/85 hover:text-white hover:underline";
+  const enlace = "text-sm text-crema/85 hover:text-calendula hover:underline";
   const credito = (clave: keyof typeof CREDITOS, texto: React.ReactNode) => (
     <a
       href={CREDITOS[clave]}
@@ -22,8 +22,11 @@ export function Pie() {
     </a>
   );
   return (
-    <footer className="mt-12 bg-ink text-white">
-      <a href="#arriba" className="block bg-white/10 py-3 text-center text-sm font-bold hover:bg-white/15">
+    <footer className="noche mt-16">
+      <a
+        href="#arriba"
+        className="bg-crema/10 font-display hover:bg-crema/15 block py-3 text-center text-sm font-semibold"
+      >
         {t("arriba")}
       </a>
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:px-6">
@@ -33,7 +36,9 @@ export function Pie() {
             <Logo negativo className="h-9" />
             <span className="sr-only">{t("irAlInicio")}</span>
           </Link>
-          <p className="max-w-xs font-display text-lg leading-snug text-white">{t("cierre")}</p>
+          <p className="font-magia text-crema max-w-xs text-[19px] leading-snug font-bold">
+            {t("cierre")}
+          </p>
           <p className="max-w-xs text-sm text-white/70">{t("derechos")}</p>
           <SelectorIdioma pie />
           {/* País y moneda, solo de muestra (propuesta P5 de la review de usuario; Santiago: «dejalo como una propuesta
@@ -42,13 +47,19 @@ export function Pie() {
             <div className="flex flex-wrap gap-2">
               <label className="grid gap-1 text-xs text-white/70">
                 {t("pais")}
-                <select disabled className="h-9 rounded-md border border-white/30 bg-transparent px-2 text-sm text-white/80">
+                <select
+                  disabled
+                  className="h-9 rounded-md border border-white/30 bg-transparent px-2 text-sm text-white/80"
+                >
                   <option>{t("paisEEUU")}</option>
                 </select>
               </label>
               <label className="grid gap-1 text-xs text-white/70">
                 {t("moneda")}
-                <select disabled className="h-9 rounded-md border border-white/30 bg-transparent px-2 text-sm text-white/80">
+                <select
+                  disabled
+                  className="h-9 rounded-md border border-white/30 bg-transparent px-2 text-sm text-white/80"
+                >
                   <option>USD ($)</option>
                 </select>
               </label>
@@ -95,7 +106,10 @@ export function Pie() {
         </div>
       </div>
       <div className="border-t border-white/10">
-        <p className="mx-auto max-w-7xl px-4 py-4 text-xs leading-relaxed text-white/60 md:px-6" data-testid="creditos">
+        <p
+          className="mx-auto max-w-7xl px-4 py-4 text-xs leading-relaxed text-white/60 md:px-6"
+          data-testid="creditos"
+        >
           {t.rich("creditos", {
             holo: (texto) => credito("holo", texto),
             shadcn: (texto) => credito("shadcn", texto),

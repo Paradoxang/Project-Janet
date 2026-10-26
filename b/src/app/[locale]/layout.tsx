@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { Gabarito, Hanken_Grotesk } from "next/font/google";
+import { Cinzel_Decorative, Quicksand } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import "@fontsource-variable/fredoka";
 import "@fontsource-variable/nunito-sans";
-import { Cabecera } from "@/components/cabecera/cabecera";
+import { Cabecera, CabeceraPago } from "@/components/cabecera/cabecera";
 import { CabeceraFlotante } from "@/components/cabecera/cabecera-flotante";
 import { PanelCarrito } from "@/components/carrito/panel-carrito";
 import { ObservadorRevelar } from "@/components/efectos/observador-revelar";
 import { RegistroVisitas } from "@/components/efectos/registro-actividad";
 import { FranjaDemo } from "@/components/franja-demo";
+import { MarcoTienda } from "@/components/navegacion/marco-tienda";
 import { ModoPanel } from "@/components/panel/modo-panel";
 import { Pie } from "@/components/pie";
 import { ProveedorCatalogo } from "@/components/proveedor-catalogo";
@@ -21,15 +22,30 @@ import { scriptModoPanel } from "@/lib/modo-panel";
 import { ICONOS, MARCA_INICIAL, scriptMarca } from "@/marca/script-marca";
 import { scriptVariante } from "@/marca/script-variante";
 
-// Letra de la versión neutra (OFL, servida desde la propia web por next/font). Brinco usa la suya (ver /b/marca).
-const gabarito = Gabarito({ subsets: ["latin", "latin-ext"], variable: "--font-gabarito", display: "swap" });
-const hanken = Hanken_Grotesk({ subsets: ["latin", "latin-ext"], variable: "--font-hanken", display: "swap" });
+// Letras del canon del rediseño (OFL, servidas desde la propia web por next/font): Cinzel Decorative para los títulos
+// «mágicos» (opcional, clase font-magia), Fredoka para la interfaz y los títulos (ya viene de @fontsource) y Quicksand
+// para el texto.
+const cinzel = Cinzel_Decorative({
+  weight: ["700"],
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-cinzel",
+  display: "swap",
+});
+const quicksand = Quicksand({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-quicksand",
+  display: "swap",
+});
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta" });
   return {
@@ -56,8 +72,8 @@ export default async function LayoutIdioma({
     <html
       lang={locale}
       data-marca={MARCA_INICIAL}
-      data-variante="base"
-      className={`${gabarito.variable} ${hanken.variable}`}
+      data-variante="color"
+      className={`${cinzel.variable} ${quicksand.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -69,11 +85,17 @@ export default async function LayoutIdioma({
         <NextIntlClientProvider>
           <ProveedorCatalogo productos={catalogo}>
             <FranjaDemo />
-            <CabeceraFlotante>
-              <Cabecera />
-            </CabeceraFlotante>
-            <main className="min-h-[60vh]">{children}</main>
-            <Pie />
+            <MarcoTienda
+              cabecera={
+                <CabeceraFlotante>
+                  <Cabecera />
+                </CabeceraFlotante>
+              }
+              cabeceraPago={<CabeceraPago />}
+              pie={<Pie />}
+            >
+              {children}
+            </MarcoTienda>
             <PanelCarrito />
             <ObservadorRevelar />
             <RegistroVisitas />

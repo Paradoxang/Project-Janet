@@ -29,10 +29,13 @@ export function TarjetaProducto({
   const locale = useLocale() as Idioma;
   const ruta = rutaProducto(p);
   return (
-    <article className={cn("group relative flex h-full flex-col", className)} data-testid="tarjeta-producto">
+    <article
+      className={cn("group relative flex h-full flex-col", className)}
+      data-testid="tarjeta-producto"
+    >
       <Link
         href={ruta}
-        className="relative block overflow-hidden rounded-card transition-transform duration-200 group-hover:-translate-y-0.5"
+        className="rounded-card relative block overflow-hidden shadow-[0_10px_26px_rgb(22_24_58/0.1)] transition-transform duration-300 ease-[var(--ease-cuento)] group-hover:-translate-y-1 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0"
         tabIndex={-1}
         aria-hidden="true"
       >
@@ -48,21 +51,21 @@ export function TarjetaProducto({
         {puesto ? (
           <span
             aria-hidden="true"
-            className="absolute top-1.5 left-2.5 font-display text-[50px] leading-none font-black text-white [-webkit-text-stroke:2px_var(--m-ink)] [paint-order:stroke_fill]"
+            className="font-display absolute top-1.5 left-2.5 text-[50px] leading-none font-black text-white [-webkit-text-stroke:2px_var(--m-ink)] [paint-order:stroke_fill]"
           >
             {puesto}
           </span>
         ) : esNuevo(p.id) ? (
-          <span className="absolute top-2.5 left-2.5 rounded-chip bg-stock px-2.5 py-0.5 text-[11px] font-bold text-white">
+          <span className="rounded-chip bg-stock absolute top-2.5 left-2.5 px-2.5 py-0.5 text-[11px] font-bold text-white">
             {t("nuevo")}
           </span>
         ) : p.bestSeller ? (
-          <span className="absolute top-2.5 left-2.5 rounded-chip bg-ink px-2.5 py-0.5 text-[11px] font-bold text-white">
+          <span className="rounded-chip bg-noche text-crema absolute top-2.5 left-2.5 px-2.5 py-0.5 text-[11px] font-bold">
             {t("masVendido")}
           </span>
         ) : null}
         <span
-          className={`absolute top-2.5 right-2.5 rounded-chip bg-white/90 px-2 py-0.5 text-[11px] font-bold ${TINTA_EDAD[p.ageGroup].texto}`}
+          className={`rounded-chip absolute top-2.5 right-2.5 bg-white/90 px-2 py-0.5 text-[11px] font-bold ${TINTA_EDAD[p.ageGroup].texto}`}
         >
           {te(p.ageGroup)}
         </span>
@@ -70,18 +73,18 @@ export function TarjetaProducto({
       <div className="flex flex-1 flex-col gap-1 px-0.5 pt-2.5">
         <Link
           href={ruta}
-          className="line-clamp-2 text-[14px] leading-snug font-semibold text-ink hover:text-link hover:underline"
+          className="font-display text-ink hover:text-link line-clamp-2 text-[15px] leading-snug font-medium hover:underline"
         >
           {p.title[locale]}
         </Link>
         {p.reviewCount > 0 ? (
-          <div className="flex flex-wrap items-center gap-1 text-xs text-muted-ink">
+          <div className="text-muted-ink flex flex-wrap items-center gap-1 text-xs">
             <Estrellas valor={p.rating} className="text-[13px]" />
             <span>{p.rating.toFixed(1)}</span>
             <span>({p.reviewCount.toLocaleString("en-US")})</span>
           </div>
         ) : (
-          <p className="text-xs text-muted-ink">{t("sinResenas")}</p>
+          <p className="text-muted-ink text-xs">{t("sinResenas")}</p>
         )}
         <Precio usd={p.price} className="mt-0.5 text-[22px]" />
         <div className="mt-auto pt-2.5">

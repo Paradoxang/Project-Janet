@@ -45,7 +45,17 @@
     "todos": "Todos los juguetes",
     "dondeComprar": "Dónde comprar",
     "faq": "Preguntas frecuentes",
-    "panel": "Panel de la dueña"
+    "panel": "Panel de la dueña",
+    "juguetes": "Juguetes",
+    "saludable": "Saludables",
+    "secciones": "Secciones de la tienda",
+    "explora": "Explora",
+    "todosJuguetes": "Todos los juguetes",
+    "todoSaludable": "Todo lo saludable",
+    "paraQuien": "Para quién",
+    "regaloTitulo": "¿Buscas un regalo?",
+    "regaloTexto": "Ideas elegidas por edad y por ocasión.",
+    "regaloBoton": "Ver ideas de regalo"
   },
   "edad": {
     "0-12m": "0–12 meses",
@@ -135,7 +145,13 @@
     "varianteBoton": "Ver todos los juguetes",
     "varianteFotoAlt": "Niños jugando en el suelo con bloques de construcción de colores (imagen creada con IA)",
     "imagenIA": "Imagen ilustrativa (IA)",
-    "imagenIACorta": "Imagen IA"
+    "imagenIACorta": "Imagen IA",
+    "edadesCejilla": "Por dónde empezar",
+    "masVendidosCejilla": "Los favoritos",
+    "ocasionCejilla": "Para cada momento",
+    "ofertasCejilla": "Detalles",
+    "categoriaCejilla": "Por tipo de juego",
+    "tiendasCejilla": "Tiendas cerca de ti"
   },
   "producto": {
     "migas": "Juguetes",
@@ -169,7 +185,7 @@
     "pilas": "Pilas",
     "piezas": "Piezas",
     "seguridad": "Información de seguridad",
-    "disponibilidad": "Disponibilidad en tienda",
+    "disponibilidad": "¿Lo tienen cerca?",
     "tiendaDemo": "DEMO",
     "agotadoEnTienda": "Agotado",
     "enTienda": "{n} disponibles",
@@ -192,7 +208,14 @@
     "verOtros": "Ver juguetes",
     "verEnMapa": "ver en el mapa",
     "imagenIlustrativaIA": "Imagen ilustrativa (IA)",
-    "ampliar": "Ampliar la imagen {n} de {total}"
+    "ampliar": "Ampliar la imagen {n} de {total}",
+    "pagoSeguro": "Pago seguro",
+    "devolucionFacil": "Devolución fácil",
+    "disponibilidadCejilla": "Recógelo en tienda",
+    "zipEtiqueta": "Tu código postal",
+    "zipBuscar": "Buscar",
+    "zipInvalido": "Escribe un código postal de 5 dígitos.",
+    "cercaDe": "Tiendas cerca de {lugar}"
   },
   "busqueda": {
     "titulo": "Resultados para «{q}»",
@@ -201,7 +224,8 @@
     "sinResultados": "No encontramos juguetes para «{q}».",
     "sinResultadosTexto": "Prueba con otra palabra o busca por edad.",
     "filtros": "Filtros",
-    "todasEdades": "Todos"
+    "todasEdades": "Todos",
+    "cejillaBusqueda": "Tu búsqueda"
   },
   "pie": {
     "productos": "Productos",
@@ -310,7 +334,21 @@
     "entraPrimero": "Entra en tu cuenta o elige pagar como invitado.",
     "direccion2": "Apartamento, suite o unidad (opcional)",
     "telefono": "Teléfono (opcional, solo para avisos de la entrega)",
-    "telefonoInvalido": "Escribe un teléfono de EE. UU. de 10 cifras."
+    "telefonoInvalido": "Escribe un teléfono de EE. UU. de 10 cifras.",
+    "seguro": "Pago seguro",
+    "volverCarrito": "Volver al carrito",
+    "rapido": "Pago rápido",
+    "rapidoNota": "Demo: el pago rápido hace el pedido con una dirección de ejemplo.",
+    "o": "O",
+    "contacto": "Contacto",
+    "comoCompras": "Cómo quieres comprar",
+    "invitadoCorto": "Seguir como invitado",
+    "cuentaCorto": "Tengo una cuenta",
+    "entrega": "Entrega",
+    "metodoEnvio": "Envío",
+    "pago": "Pago",
+    "verResumen": "Ver el resumen del pedido",
+    "ocultarResumen": "Ocultar el resumen"
   },
   "cuenta": {
     "titulo": "Tu cuenta",
@@ -450,7 +488,15 @@
     "desde": "Distancias desde {lugar}",
     "tuUbicacion": "tu ubicación",
     "productosEnTienda": "{n, plural, one {# juguete} other {# juguetes}} disponibles",
-    "zoomConTecla": "Mantén Ctrl (o ⌘) y gira la rueda para acercar el mapa"
+    "zoomConTecla": "Mantén Ctrl (o ⌘) y gira la rueda para acercar el mapa",
+    "cejilla": "Buscador de tiendas",
+    "tituloCuento": "Encuéntranos cerca de ti",
+    "zipPista": "Escribe tu código postal, p. ej. 10001",
+    "tuZip": "Tu código postal: {lugar}",
+    "verTodo": "Ver todo EE. UU.",
+    "verCerca": "Volver a mi zona",
+    "cuantas": "{n} tiendas",
+    "porDistancia": "de la más cercana a la más lejana"
   },
   "panel": {
     "titulo": "¿Cómo va mi negocio?",
@@ -816,5 +862,57 @@
     "cerrar": "Cerrar",
     "anterior": "Imagen anterior",
     "siguiente": "Imagen siguiente"
+  },
+  "saludable": {
+    "publico": {
+      "ninos": "Para niños",
+      "adultos": "Para adultos"
+    },
+    "categoria": {
+      "comida": "Comida y snacks",
+      "cuidado": "Cuidado personal",
+      "hogar": "Hogar natural"
+    },
+    "notaBarra": "Categorías de ejemplo: las decide la dueña cuando lleguen sus productos.",
+    "cejilla": "Sección saludable · Próximamente",
+    "titulo": "Lo saludable, en su propio rincón",
+    "texto": "Snacks, comida y cuidado personal para niños y adultos, separados de los juguetes para que nada se mezcle. Funciona con la misma tienda: el mismo carrito, el mismo pago y el mismo mapa.",
+    "proximamente": "Próximamente",
+    "tarjeta": "Tu producto aquí",
+    "tarjetaTexto": "Foto, nombre y precio",
+    "vacioTitulo": "Aquí irán sus primeros productos",
+    "vacioTexto": "Hoy hay uno o dos productos saludables. Cuando la dueña los suba desde su panel, aparecen aquí con su foto, igual que los juguetes.",
+    "volverJuguetes": "Mientras tanto, ver juguetes"
+  },
+  "hero": {
+    "cejilla": "Juguetes para familias curiosas",
+    "titulo": "Juego que <acento>crece</acento> con ellos",
+    "texto": "Juguetes elegidos para cada edad y listos para regalar. Pídelos en línea o recógelos en una tienda cerca de ti.",
+    "botonJuguetes": "Ver juguetes",
+    "botonTiendas": "Buscar tienda",
+    "ahora": "En pantalla",
+    "ia": "Imagen ilustrativa (IA)",
+    "seguir": "Reanudar las imágenes",
+    "pausar": "Pausar las imágenes",
+    "diapositiva": "Imagen {n} de {total}: {titulo}",
+    "alt": {
+      "torre": "Tres niños construyen una torre de fichas magnéticas en una sala soleada",
+      "cohete": "Un niño ríe mientras su cohete de espuma sale volando en el jardín",
+      "aros": "Un bebé apila aros de colores en una mesa de madera",
+      "robot": "Un niño enseña el robot que armó con su kit de construcción"
+    }
+  },
+  "mundos": {
+    "cejilla": "Dos apartados",
+    "titulo": "Una tienda, dos mundos",
+    "juguetesCejilla": "La juguetería",
+    "juguetes": "Juguetes",
+    "juguetesTexto": "Para construir, imaginar, aprender y salir a jugar. De 0 a 12 años.",
+    "juguetesBoton": "Entrar",
+    "saludableCejilla": "Próximamente",
+    "saludable": "Saludables",
+    "saludableTexto": "Snacks y cuidado personal para niños y adultos, en su propio rincón.",
+    "saludableBoton": "Echar un vistazo",
+    "ia": "Fotos con IA"
   }
 }

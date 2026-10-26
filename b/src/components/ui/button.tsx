@@ -18,10 +18,10 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
-        // Marca: «Add to cart» y «Buy now» (los colores salen de la marca activa). El canto de abajo baja al
-        // pulsar, como un botón de juguete.
-        cta: "bg-cta text-cta-ink shadow-[0_3px_0_0_var(--m-cta-borde)] hover:bg-cta-hover active:translate-y-[3px] active:shadow-none disabled:shadow-none",
-        buy: "border-2 border-buy-border bg-buy text-buy-ink shadow-[0_3px_0_0_var(--m-buy-border)] hover:brightness-95 active:translate-y-[3px] active:shadow-none",
+        // Marca: «Add to cart» y «Buy now» (los colores salen de la marca activa).
+        // Rediseño del 26-10: placas del canon, cuadradas (5 px) y con el filete de oro grabado. Suben un poco al pasar.
+        cta: "bg-cta font-display font-semibold tracking-[0.1em] text-cta-ink uppercase shadow-[inset_0_0_0_1.5px_var(--m-hilo-oro),0_8px_20px_rgb(255_106_43/0.28)] hover:-translate-y-0.5 hover:bg-cta-hover active:translate-y-0 disabled:shadow-none motion-reduce:hover:translate-y-0",
+        buy: "bg-buy font-display font-semibold tracking-[0.1em] text-buy-ink uppercase shadow-[inset_0_0_0_1.5px_var(--m-hilo-oro),0_8px_20px_rgb(22_24_58/0.2)] hover:-translate-y-0.5 hover:bg-[#23265a] active:translate-y-0 motion-reduce:hover:translate-y-0",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

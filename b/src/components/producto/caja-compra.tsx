@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { TriangleAlert } from "lucide-react";
+import { Lock, RotateCcw, TriangleAlert } from "lucide-react";
 import { BotonDeseos } from "@/components/cuenta/boton-deseos";
 import { Button } from "@/components/ui/button";
 import { useHidratado } from "@/hooks/use-hidratado";
@@ -42,14 +42,17 @@ export function CajaCompra({
   const gratis = precio >= ENVIO_GRATIS_DESDE;
 
   return (
-    <div className="grid gap-3 rounded-card bg-white p-4 shadow-tarjeta" data-testid="caja-compra">
+    <div
+      className="rounded-card shadow-tarjeta grid gap-3.5 bg-white p-5 md:p-6"
+      data-testid="caja-compra"
+    >
       <div>
-        <Precio usd={precio} className="text-[34px]" />
-        <p className="mt-1 text-[13px] text-muted-ink">{t("impuesto")}</p>
+        <Precio usd={precio} className="text-[40px]" />
+        <p className="text-muted-ink mt-1 text-[13px]">{t("impuesto")}</p>
       </div>
 
       {aviso ? (
-        <p className="flex items-start gap-2 rounded-md border border-low/30 bg-low/5 p-2.5 text-[12.5px] leading-snug font-semibold text-low">
+        <p className="border-low/30 bg-low/5 text-low flex items-start gap-2 rounded-md border p-2.5 text-[12.5px] leading-snug font-semibold">
           <TriangleAlert className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
           {aviso}
         </p>
@@ -61,13 +64,15 @@ export function CajaCompra({
             {hidratado ? (
               <>
                 <b>{gratis ? t("entregaGratis", { fecha }) : t("entrega", { fecha })}</b>{" "}
-                <span className="text-muted-ink">{t("a", { zip: `${lugarDeZip(zip) ?? ""} ${zip}`.trim() })}</span>
+                <span className="text-muted-ink">
+                  {t("a", { zip: `${lugarDeZip(zip) ?? ""} ${zip}`.trim() })}
+                </span>
               </>
             ) : (
-              <span className="inline-block h-4 w-48 animate-pulse rounded bg-surface" />
+              <span className="bg-surface inline-block h-4 w-48 animate-pulse rounded" />
             )}
           </p>
-          {!gratis ? <p className="-mt-2 text-[13px] text-muted-ink">{t("gratisDesde")}</p> : null}
+          {!gratis ? <p className="text-muted-ink -mt-2 text-[13px]">{t("gratisDesde")}</p> : null}
           <p
             className={`text-lg font-bold ${stockOnline <= 5 ? "text-low" : "text-stock"}`}
             data-testid="estado-stock"
@@ -79,7 +84,7 @@ export function CajaCompra({
             <select
               value={qty}
               onChange={(e) => setQty(Number(e.target.value))}
-              className="h-9 rounded-md border bg-surface px-2 text-sm"
+              className="rounded-chip border-input font-display h-11 min-w-20 border bg-white px-3 text-[15px] font-semibold"
               data-testid="cantidad"
             >
               {Array.from({ length: Math.min(MAX_QTY, stockOnline) }, (_, i) => i + 1).map((n) => (
@@ -106,9 +111,19 @@ export function CajaCompra({
             </Button>
             <BotonDeseos id={id} />
           </div>
+          <p className="text-muted-ink flex flex-wrap justify-center gap-x-5 gap-y-1 pt-1 text-[13px]">
+            <span className="inline-flex items-center gap-1.5">
+              <Lock aria-hidden="true" className="size-3.5" />
+              {t("pagoSeguro")}
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <RotateCcw aria-hidden="true" className="size-3.5" />
+              {t("devolucionFacil")}
+            </span>
+          </p>
         </>
       ) : (
-        <p className="text-lg font-bold text-out" data-testid="estado-stock">
+        <p className="text-out text-lg font-bold" data-testid="estado-stock">
           {t("noDisponible")}
         </p>
       )}

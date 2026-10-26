@@ -5,98 +5,75 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
-  Dos marcas a la par, sobre las mismas pantallas:
-  - data-marca="neutra": sin marca ni mascota, con marcadores (placeholders).
-  - data-marca="brinco": la propuesta de marca 1 (ver /b/marca).
-  Las pantallas solo usan las variables --m-*; cambiar de marca es cambiar un atributo en <html>.
+  Rediseño del 26-10 (rama afrodita/rediseno): la tienda deja de ser blanca. El canon visual es un libro de cuentos
+  pintado a mano: papel crema con lavados de color, azul noche para el hero y el pie, y tres acentos que «orbitan»
+  (mandarina, aqua y caléndula). Las dos marcas comparten esta piel; data-marca solo cambia el logo y la mascota
+  (marcador o Brinco).
+  Contraste: los acentos vivos no dan AA como texto sobre el papel, así que cada uno tiene su tinta oscura (-tinta) para
+  textos y enlaces. Sobre el azul noche sí sirven tal cual (de 6:1 a 10:1).
 */
 :root,
-[data-marca="neutra"] {
-  /* Sin marca: blanco y limpio, como pidió la clienta. El color lo ponen las edades (un tono por edad, que guía
-     por toda la tienda) y los juguetes. */
-  --m-page: #ffffff;
-  --m-ink: #161a1f;
-  --m-muted-ink: #59616c;
-  --m-brand: #161a1f;
-  --m-brand-ink: #ffffff;
-  --m-brand-text: #161a1f;
-  --m-cta: #161a1f;
-  --m-cta-ink: #ffffff;
-  --m-cta-hover: #2c333c;
-  --m-cta-borde: #000000; /* el canto del «botón de juguete»: baja al pulsar */
-  --m-buy: #ffffff;
-  --m-buy-ink: #161a1f;
-  --m-buy-border: #161a1f;
-  --m-surface: #f3f4f6;
-  --m-warm: #f5f4f1;
-  --m-line: #e3e6ea;
-  --m-input: #c5cbd3;
-  --m-link: #1a5bc4;
-  --m-stock: #0f7553; /* AA también sobre el gris de las opciones elegidas (5,1:1) */
-  --m-low: #9a5800;
-  --m-out: #c62f2f;
-  --m-star: #b87a00;
-  --m-demo: #161a1f;
-  --m-tint-cielo: #e2eefb;
-  --m-tint-menta: #dcf2e6;
-  --m-tint-lila: #ebe5fb;
-  --m-tint-durazno: #fde7d8;
-  --m-tint-limon: #f9efc4;
-  /* La tinta de cada edad: el mismo tono, oscuro, para textos y puntos (AA sobre blanco y sobre su fondo). */
+[data-marca="neutra"],
+[data-marca="brinco"] {
+  --m-noche: #16183a;
+  --m-papel: #f4ecda;
+  --m-crema: #f6efe0;
+  --m-mandarina: #ff6a2b;
+  --m-mandarina-hover: #ec5a1d;
+  --m-mandarina-tinta: #b13a08; /* 5,0:1 sobre el papel */
+  --m-aqua: #1fb6c4;
+  --m-aqua-tinta: #0b6670; /* 5,6:1 sobre el papel */
+  --m-calendula: #f4b92e;
+  --m-calendula-tinta: #7a5500; /* 5,3:1 sobre el papel */
+  --m-hilo-oro: rgb(244 185 46 / 0.7); /* el filete grabado de los botones */
+
+  --m-page: var(--m-papel);
+  --m-ink: #1a1b33;
+  --m-muted-ink: #555467; /* 6:1 sobre el papel */
+  --m-brand: var(--m-noche);
+  --m-brand-ink: var(--m-crema);
+  --m-brand-text: var(--m-mandarina-tinta);
+  --m-cta: var(--m-mandarina);
+  --m-cta-ink: var(
+    --m-noche
+  ); /* el crema sobre mandarina da 2,5:1: la letra del botón va en azul noche (6:1) */
+  --m-cta-hover: var(--m-mandarina-hover);
+  --m-cta-borde: #c2410c;
+  --m-buy: var(--m-noche);
+  --m-buy-ink: var(--m-crema);
+  --m-buy-border: var(--m-noche);
+  --m-surface: #ece2cb;
+  --m-warm: #fbf6ea;
+  --m-line: #ddd2bb;
+  --m-input: #8c8472; /* 3,7:1 sobre blanco: el borde del campo se ve (WCAG 1.4.11) */
+  --m-link: var(--m-aqua-tinta);
+  --m-stock: #0d6b4b; /* 5,3:1 también donde se juntan los lavados del papel */
+  --m-low: #8f5200;
+  --m-out: #b02525;
+  --m-star: #e0a21c;
+  --m-demo: var(--m-noche);
+  --m-tint-cielo: #cdeef1;
+  --m-tint-menta: #d4eedb;
+  --m-tint-lila: #e4dcf6;
+  --m-tint-durazno: #ffd8c2;
+  --m-tint-limon: #fbe6a4;
+  /* La tinta de cada edad: el mismo tono, oscuro, para textos y puntos (AA sobre el papel y sobre su fondo). */
   --m-tinta-cielo: #1d5a94;
   --m-tinta-menta: #19693f;
   --m-tinta-lila: #5637a3;
   --m-tinta-durazno: #974512;
   --m-tinta-limon: #665300;
-  /* Las cajas (carrito, pago, cuenta, panel) llevan una línea fina, no una sombra: más limpio y sin el «kit de tarjetas». */
-  --m-sombra: 0 0 0 1px var(--m-line);
-  --m-trazo: #f2b233; /* subrayados y pegatinas */
+  --m-sombra: 0 10px 30px rgb(22 24 58 / 0.08), 0 0 0 1px rgb(26 27 51 / 0.06);
+  --m-trazo: var(--m-calendula);
   --m-radius-card: 18px;
-  --m-radius-btn: 999px;
+  --m-radius-btn: 5px; /* los botones, cuadrados a propósito: placas grabadas sobre un mundo redondo */
   --m-radius-chip: 999px;
-  --m-font-display: var(--font-gabarito), system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --m-font-body: var(--font-hanken), system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --m-display-weight: 800;
-  --m-display-tracking: -0.02em;
-  --radius: 0.75rem;
-}
-
-[data-marca="brinco"] {
-  --m-page: #ffffff;
-  --m-sombra: 0 0 0 1px var(--m-line);
-  --m-trazo: #f2753a;
-  --m-display-tracking: -0.01em;
-  --m-ink: #1f2a44;
-  --m-muted-ink: #5a6478;
-  --m-brand: #f2753a;
-  --m-brand-ink: #1f2a44;
-  --m-brand-text: #b9480f;
-  --m-cta: #ffc940;
-  --m-cta-ink: #1f2a44;
-  --m-cta-hover: #ffbd1a;
-  --m-cta-borde: #d79a12;
-  --m-buy: #f2753a;
-  --m-buy-ink: #1f2a44;
-  --m-buy-border: #f2753a;
-  --m-surface: #f5f6f8;
-  --m-warm: #fff4ea;
-  --m-line: #e3e6eb;
-  --m-input: #c9ced6;
-  --m-link: #1d5fbf;
-  --m-star: #f2753a;
-  --m-demo: #1f2a44;
-  --m-tint-cielo: #dceeff;
-  --m-tint-menta: #ddf5ea;
-  --m-tint-lila: #ece6ff;
-  --m-tint-durazno: #ffe6d6;
-  --m-tint-limon: #fff5cc;
-  --m-radius-card: 14px;
-  --m-radius-btn: 999px;
-  --m-radius-chip: 999px;
+  --m-font-magia: var(--font-cinzel), "Cinzel", Georgia, serif;
   --m-font-display: "Fredoka Variable", ui-rounded, system-ui, sans-serif;
-  --m-font-body: "Nunito Sans Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --m-font-body: var(--font-quicksand), system-ui, -apple-system, "Segoe UI", sans-serif;
   --m-display-weight: 600;
-  --radius: 0.875rem;
+  --m-display-tracking: 0;
+  --radius: 0.75rem;
 }
 
 /* Lo que solo existe en una marca: se oculta en la otra (sin parpadeo y sin JS). */
@@ -110,18 +87,11 @@
    vivos, el banner de la portada en un azul fuerte y fotos de niños jugando hechas con IA. Las tintas siguen siendo las
    mismas y pasan AA sobre estos tintes. La tienda blanca («base») es la de siempre y la que sale por defecto. */
 :root[data-variante="color"] {
-  --m-tint-cielo: #c6e3ff;
-  --m-tint-menta: #c4f0d9;
-  --m-tint-lila: #ddd2ff;
-  --m-tint-durazno: #ffd6bd;
-  --m-tint-limon: #ffec99;
-  --m-variante-banner: #1d5fbf;
-  --m-variante-banner-ink: #ffffff;
-  --m-variante-acento: #ffc940;
-  --m-variante-acento-ink: #161a1f;
-}
-:root[data-variante="color"][data-marca="brinco"] {
-  --m-variante-banner: #1f2a44;
+  /* En el rediseño la variante colorida es la de siempre (fotos con IA); el banner y su acento siguen al canon. */
+  --m-variante-banner: var(--m-noche);
+  --m-variante-banner-ink: var(--m-crema);
+  --m-variante-acento: var(--m-mandarina);
+  --m-variante-acento-ink: var(--m-noche);
 }
 [data-variante="color"] .solo-variante-base,
 :root:not([data-variante="color"]) .solo-variante-color {
@@ -140,8 +110,11 @@
   z-index: 40;
   transition: transform 200ms ease;
 }
-.cabecera-flotante[data-oculta]:not(:focus-within) {
-  transform: translateY(-100%);
+/* Desde 1024 px no se esconde: la barra lateral fija va pegada debajo (rediseño del 26-10). */
+@media (max-width: 1023px) {
+  .cabecera-flotante[data-oculta]:not(:focus-within) {
+    transform: translateY(-100%);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .cabecera-flotante {
@@ -150,6 +123,17 @@
 }
 
 @theme inline {
+  --color-noche: var(--m-noche);
+  --color-papel: var(--m-papel);
+  --color-crema: var(--m-crema);
+  --color-mandarina: var(--m-mandarina);
+  --color-mandarina-tinta: var(--m-mandarina-tinta);
+  --color-aqua: var(--m-aqua);
+  --color-aqua-tinta: var(--m-aqua-tinta);
+  --color-calendula: var(--m-calendula);
+  --color-calendula-tinta: var(--m-calendula-tinta);
+  --font-magia: var(--m-font-magia);
+  --ease-cuento: cubic-bezier(0.16, 0.84, 0.44, 1);
   --color-page: var(--m-page);
   --color-trazo: var(--m-trazo);
   --color-ink: var(--m-ink);
@@ -191,14 +175,14 @@
   --font-sans: var(--m-font-body);
 
   /* Variables que usan los componentes de shadcn/ui */
-  --color-background: #ffffff;
+  --color-background: #fffdf8;
   --color-foreground: var(--m-ink);
-  --color-card: #ffffff;
+  --color-card: #fffdf8;
   --color-card-foreground: var(--m-ink);
-  --color-popover: #ffffff;
+  --color-popover: #fffdf8;
   --color-popover-foreground: var(--m-ink);
   --color-primary: var(--m-ink);
-  --color-primary-foreground: #ffffff;
+  --color-primary-foreground: var(--m-crema);
   --color-secondary: var(--m-surface);
   --color-secondary-foreground: var(--m-ink);
   --color-muted: var(--m-surface);
@@ -223,7 +207,12 @@
     -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply bg-page font-sans text-ink antialiased;
+    @apply bg-page text-ink font-sans antialiased;
+    /* Papel pintado: tres lavados de color muy suaves (caléndula, aqua y mandarina), nunca un blanco plano. */
+    background-image:
+      radial-gradient(circle at 8% 4%, rgb(244 185 46 / 0.09), transparent 34rem),
+      radial-gradient(circle at 96% 28%, rgb(31 182 196 / 0.07), transparent 38rem),
+      radial-gradient(circle at 20% 78%, rgb(255 106 43 / 0.05), transparent 36rem);
   }
   h1,
   h2,
@@ -244,8 +233,8 @@
   height: 34px;
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
-  border: 3px solid #fff;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.3);
+  border: 3px solid var(--m-crema);
+  box-shadow: 0 4px 12px rgb(22 24 58 / 0.35);
   background: var(--m-brand);
 }
 .pin-tienda > span {
@@ -260,8 +249,27 @@
   background: var(--m-out);
 }
 .pin-activo {
-  outline: 3px solid var(--m-ink);
-  outline-offset: 1px;
+  outline: 3px solid var(--m-aqua);
+  outline-offset: 2px;
+}
+/* El ZIP buscado: un punto aqua con su halo (rediseño del 26-10). */
+.pin-yo {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--m-aqua);
+  border: 4px solid #fff;
+  box-shadow:
+    0 0 0 6px rgb(31 182 196 / 0.28),
+    0 2px 8px rgb(0 0 0 / 0.3);
+}
+/* Teselas entibiadas: el mapa de la calle pasa a «papel» sin cambiar de proveedor. */
+.mapa-cuento .leaflet-tile-pane {
+  filter: sepia(0.32) saturate(0.9) hue-rotate(-6deg) brightness(1.02);
+}
+.mapa-cuento .leaflet-container {
+  background: var(--m-papel);
 }
 .leaflet-container {
   font-family: var(--m-font-body);
@@ -389,5 +397,157 @@
   .trazar {
     animation: none;
     stroke-dashoffset: 0;
+  }
+}
+
+/* ——— Piezas del canon (rediseño del 26-10) ——— */
+/* En la capa de componentes: así las utilidades de Tailwind (hidden, md:block…) les ganan. */
+@layer components {
+  /* Superficie azul noche con los mismos lavados pintados, un poco más fuertes. */
+  .noche {
+    background-color: var(--m-noche);
+    background-image:
+      radial-gradient(circle at 18% 12%, rgb(31 182 196 / 0.16), transparent 26rem),
+      radial-gradient(circle at 88% 82%, rgb(255 106 43 / 0.14), transparent 28rem),
+      radial-gradient(circle at 60% 40%, rgb(244 185 46 / 0.06), transparent 30rem);
+    color: var(--m-crema);
+  }
+
+  /* Cejilla: la etiqueta pequeña en mayúsculas que va sobre los títulos. */
+  .cejilla {
+    font-family: var(--m-font-display);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  /* Placa: el botón cuadrado (5 px) con su filete de oro grabado. Mandarina con letra azul noche, o azul noche con letra
+     crema. Al pasar sube 2 px; con «reducir movimiento», no. */
+  .placa {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 2.9rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--m-radius-btn);
+    font-family: var(--m-font-display);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: var(--m-mandarina);
+    color: var(--m-noche);
+    box-shadow:
+      inset 0 0 0 1.5px var(--m-hilo-oro),
+      0 10px 26px rgb(255 106 43 / 0.3);
+    transition:
+      transform 0.25s var(--ease-cuento),
+      background-color 0.2s,
+      box-shadow 0.25s;
+  }
+  .placa:hover {
+    background: var(--m-mandarina-hover);
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 0 0 1.5px var(--m-hilo-oro),
+      0 14px 30px rgb(255 106 43 / 0.38);
+  }
+  .placa-noche {
+    background: var(--m-noche);
+    color: var(--m-crema);
+    box-shadow:
+      inset 0 0 0 1.5px var(--m-hilo-oro),
+      0 10px 24px rgb(22 24 58 / 0.22);
+  }
+  .placa-noche:hover {
+    background: #23265a;
+    box-shadow:
+      inset 0 0 0 1.5px var(--m-hilo-oro),
+      0 14px 28px rgb(22 24 58 / 0.3);
+  }
+  /* Placa de contorno: transparente, con el filete del color del texto. */
+  .placa-contorno {
+    background: transparent;
+    color: currentColor;
+    box-shadow: inset 0 0 0 1.5px currentColor;
+  }
+  .placa-contorno:hover {
+    background: rgb(246 239 224 / 0.1);
+    box-shadow: inset 0 0 0 1.5px currentColor;
+  }
+
+  /* Chispa: la estrella de cuatro puntas del canon, hecha con clip-path. */
+  .chispa {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background: var(--m-calendula);
+    clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  }
+
+  /* Hero: las diapositivas pasan solas con un fundido lento, y cada una se acerca despacio (como un vídeo). La que se ve
+     lleva data-activa. Las órbitas giran de fondo. Todo se para con «reducir movimiento» o con el botón de pausa. */
+  .diapositiva {
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-cuento);
+  }
+  .diapositiva[data-activa] {
+    opacity: 1;
+  }
+  @keyframes acercar {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.12);
+    }
+  }
+  .diapositiva[data-activa] .acercar {
+    animation: acercar 9s ease-out both;
+  }
+  [data-pausado] .diapositiva .acercar {
+    animation-play-state: paused;
+  }
+  @keyframes girar {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .orbita {
+    position: absolute;
+    border-radius: 999px;
+    border: 1.5px dashed rgb(246 239 224 / 0.22);
+    animation: girar var(--vuelta, 60s) linear infinite;
+  }
+  .orbita > i {
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--color, var(--m-calendula));
+    box-shadow: 0 0 18px var(--color, var(--m-calendula));
+  }
+  [data-pausado] .orbita {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .placa,
+    .placa:hover {
+      transition: none;
+      transform: none;
+    }
+    .diapositiva {
+      transition: none;
+    }
+    .diapositiva[data-activa] .acercar,
+    .orbita {
+      animation: none;
+    }
   }
 }
