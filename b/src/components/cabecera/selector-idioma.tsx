@@ -41,7 +41,6 @@ export function SelectorIdioma({
             : "border-ink font-grabado text-ink hover:bg-surface grid h-9 min-w-9 place-items-center rounded-full border-2 px-1.5 text-xs font-semibold",
       )}
     >
-      {pie ? <span aria-hidden="true">✦</span> : null}
       {pie ? t("otroIdioma") : t("otroIdiomaCorto")}
     </a>
   );

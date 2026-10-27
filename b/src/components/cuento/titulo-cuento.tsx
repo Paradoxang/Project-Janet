@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * El título de sección del canon: cejilla con su chispa, el título en Cinzel Decorative que se descubre como una
+ * El título de sección del canon: cejilla con su punto, el título en Nunito negra que se descubre como una
  * cortina al llegar (la sección lleva data-revelar) y una entradilla. `noche`: sobre azul noche.
  */
 export function TituloCuento({
@@ -64,7 +64,7 @@ export function TituloCuento({
   );
 }
 
-/** La palabra de acento de un título: el color lleva el énfasis (Cinzel Decorative no tiene cursiva). */
+/** La palabra de acento de un título: el color lleva el énfasis (como en el canon, sin cursiva). */
 export function acento(noche: boolean) {
   function Acento(trozo: React.ReactNode) {
     return <span className={noche ? "text-mandarina" : "text-mandarina-tinta"}>{trozo}</span>;

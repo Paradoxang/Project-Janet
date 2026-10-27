@@ -10,10 +10,10 @@ const Toaster = ({ ...props }: ToasterProps) => {
       // Rediseño del 26-10: los avisos son tarjetas azul noche del canon, con glifos en vez de iconos de trazo.
       icons={{
         success: <span className="text-calendula">✓</span>,
-        info: <span className="text-aqua">✦</span>,
+        info: <span className="text-aqua">i</span>,
         warning: <span className="text-calendula">!</span>,
         error: <span className="text-calendula">✕</span>,
-        loading: <span className="text-calendula">✦</span>,
+        loading: <span className="text-calendula">…</span>,
       }}
       toastOptions={{ classNames: { toast: "font-display", description: "font-sans" } }}
       style={

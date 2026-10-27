@@ -46,7 +46,7 @@ export function EstanteInicio() {
       className="noche relative scroll-mt-24 overflow-hidden"
       data-revelar
     >
-      <Cielo cantidad={40} semilla={23} />
+      <Cielo />
       <div className="envoltura seccion relative">
         <TituloCuento
           id="estante-titulo"
@@ -55,7 +55,6 @@ export function EstanteInicio() {
           texto={t("estante.texto")}
           accion={
             <Link href={destino} className="placa placa-texto text-crema">
-              <span aria-hidden="true" className="chispa text-[10px]" />
               {t("estante.verTodos")}
             </Link>
           }

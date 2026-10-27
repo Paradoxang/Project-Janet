@@ -197,13 +197,19 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
     router.push({ pathname: "/order", query: { id } });
   }
 
-  // Cada paso, una tarjeta de evento del canon (blanca, 18 px) con su número de paso en la cejilla.
+  // Cada paso, una tarjeta de evento del canon (blanca, 18 px) con su número en un círculo (revisión del 27-10: «solamente
+  // como un numerito»). El «Paso n de 4» queda para los lectores de pantalla.
   const seccion = "tarjeta-evento grid gap-4 p-6 md:p-8";
   const titulo = "font-display text-[23px] leading-tight font-bold";
   const paso = (n: number) => (
-    <p className="cejilla text-mandarina-tinta -mb-2 flex items-center gap-2">
-      <span aria-hidden="true" className="chispa bg-mandarina text-[9px]" />
-      {t("pago.pasoDe", { n, total: 4 })}
+    <p className="-mb-2 flex">
+      <span
+        aria-hidden="true"
+        className="bg-mandarina text-noche font-display grid size-8 place-items-center rounded-full text-[15px] font-black"
+      >
+        {n}
+      </span>
+      <span className="sr-only">{t("pago.pasoDe", { n, total: 4 })}</span>
     </p>
   );
   const opcion = (activa: boolean) =>
@@ -539,7 +545,7 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
       {/* El resumen, a la derecha sobre el cielo azul noche: una tarjeta blanca con lo que se compra y el total en
           caléndula, siempre a la vista. */}
       <aside className="noche relative hidden overflow-hidden lg:block" aria-labelledby="paso5">
-        <Cielo cantidad={40} semilla={71} />
+        <Cielo />
         <div className="sticky top-0 grid max-w-md gap-6 px-12 py-12">
           <div className="flex items-end justify-between gap-4">
             <h2 id="paso5" className="font-display text-crema text-[24px] font-bold">

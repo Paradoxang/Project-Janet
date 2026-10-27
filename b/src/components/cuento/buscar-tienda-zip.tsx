@@ -56,7 +56,7 @@ export function BuscarTiendaZip({
           className={cn("campo-boletin min-w-0 flex-1 basis-48", papel && "campo-boletin-papel")}
         />
         <button type="submit" className={cn("placa", papel && "placa-noche")}>
-          {t("buscar")} <span aria-hidden="true">✦</span>
+          {t("buscar")} <span aria-hidden="true">→</span>
         </button>
       </div>
       {error ? (

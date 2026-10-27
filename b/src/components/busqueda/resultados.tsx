@@ -154,7 +154,7 @@ export function ResultadosBusqueda() {
         aria-label={t("busqueda.resultadosEtiqueta")}
         className="noche relative overflow-hidden"
       >
-        <Cielo cantidad={40} semilla={11} />
+        <Cielo />
         <div className="envoltura relative py-12 md:py-16">
           <div className="flex flex-wrap items-center gap-2.5">
             {/* «Todos» (review de usuario, 16-10): para volver a ver todo sin tener que desmarcar la edad elegida. */}

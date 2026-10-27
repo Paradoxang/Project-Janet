@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cinzel, Cinzel_Decorative, Cormorant_Garamond, Spectral } from "next/font/google";
+import { Nunito } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -20,32 +20,12 @@ import { scriptModoPanel } from "@/lib/modo-panel";
 import { ICONOS, MARCA_INICIAL, scriptMarca } from "@/marca/script-marca";
 import { scriptVariante } from "@/marca/script-variante";
 
-// Letras del rediseño (OFL, servidas desde la propia web por next/font). Santiago, 26-10: todas de remate afilado, como
-// la del título. Cinzel Decorative para los títulos «mágicos» (clase font-magia); Cinzel, su hermana, para botones,
-// píldoras y cejillas (font-grabado); Cormorant Garamond para nombres, precios y títulos de tarjeta (font-display), y
-// Spectral para el texto.
-const cinzel = Cinzel_Decorative({
-  weight: ["700"],
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-cinzel",
-  display: "swap",
-});
-const cinzelGrabado = Cinzel({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-cinzel-ui",
-  display: "swap",
-});
-const cormorant = Cormorant_Garamond({
-  weight: ["500", "600", "700"],
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-cormorant",
-  display: "swap",
-});
-const spectral = Spectral({
-  weight: ["400", "500", "600", "700"],
+// La letra de la tienda (OFL, servida desde la propia web por next/font). Revisión del 27-10: la de la propuesta gráfica, Nunito (la
+// redondeada), en todo: títulos, botones, cejillas y texto. Es variable: un solo archivo da del 200 al 1000.
+const nunito = Nunito({
   style: ["normal", "italic"],
   subsets: ["latin", "latin-ext"],
-  variable: "--font-spectral",
+  variable: "--font-nunito",
   display: "swap",
 });
 
@@ -85,7 +65,7 @@ export default async function LayoutIdioma({
       lang={locale}
       data-marca={MARCA_INICIAL}
       data-variante="color"
-      className={`${cinzel.variable} ${cinzelGrabado.variable} ${cormorant.variable} ${spectral.variable}`}
+      className={nunito.variable}
       suppressHydrationWarning
     >
       <head>

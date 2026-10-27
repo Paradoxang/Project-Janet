@@ -59,7 +59,7 @@ export function Buscador({ className }: { className?: string }) {
       }}
     >
       {/* Rediseño del 26-10: el campo del boletín del canon (transparente, con la línea abajo y caléndula al enfocar), con
-          la lupa sólida delante y la placa «Buscar ✦» detrás. */}
+          la lupa sólida delante y la placa «Buscar →» detrás. */}
       <div className="flex items-end gap-3">
         <IconoLupa className="text-crema/80 mb-3 size-5" />
         <input
@@ -99,7 +99,7 @@ export function Buscador({ className }: { className?: string }) {
         />
         <button type="submit" aria-label={t("buscarBoton")} className="placa min-h-10 px-4 py-2">
           <span className="hidden sm:inline">{t("buscarBoton")}</span>
-          <span aria-hidden="true">✦</span>
+          <span aria-hidden="true">→</span>
         </button>
       </div>
 
@@ -149,8 +149,8 @@ export function Buscador({ className }: { className?: string }) {
             onMouseDown={(e) => e.preventDefault()}
             className="border-crema/15 font-display text-calendula hover:bg-crema/10 flex w-full items-center gap-2 border-t px-5 py-3.5 text-left text-[14px] font-semibold"
           >
-            <span aria-hidden="true">✦</span>
             {t("verTodos", { q: q.trim() })}
+            <span aria-hidden="true">→</span>
           </button>
         </div>
       ) : null}

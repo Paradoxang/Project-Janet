@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 /*
   Iconos del canon: SVG en línea, rellenos y sin trazo (DESIGN.md, «Iconography»), en el color del texto. Las flechas y
-  las marcas siguen siendo glifos Unicode (→ ↓ ✓ ★ ✦), como en el canon. Todos van con aria-hidden: el nombre lo pone
+  las marcas siguen siendo glifos Unicode (→ ↓ ✓ ★), como en el canon. Todos van con aria-hidden: el nombre lo pone
   el botón o el enlace que los lleva.
 */
 

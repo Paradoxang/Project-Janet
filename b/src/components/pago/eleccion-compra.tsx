@@ -28,7 +28,7 @@ export function EleccionCompra({
         {/* minmax(0,1fr): sin él, la placa larga (que no parte línea) ensancha la columna y la ventana se corta en el
             celular. */}
         <div className="relative grid grid-cols-[minmax(0,1fr)] gap-6 p-6 sm:p-8">
-          <Cielo cantidad={26} semilla={13} />
+          <Cielo />
           <div className="relative grid gap-3 text-center">
             <p className="cejilla text-calendula flex items-center justify-center gap-2">
               <span aria-hidden="true" className="chispa text-[10px]" />
@@ -56,7 +56,6 @@ export function EleccionCompra({
               className="placa placa-texto text-crema w-full whitespace-normal"
               data-testid="modo-cuenta"
             >
-              <span aria-hidden="true">✦</span>
               {t("cuentaEntrar")}
             </Link>
             <p className="text-crema/75 text-center text-[13px]">{t("cuentaTexto")}</p>

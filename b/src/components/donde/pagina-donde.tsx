@@ -10,7 +10,7 @@ import {
   IconoRumbo,
   IconoTelefono,
 } from "@/components/cuento/iconos";
-import { Cielo, Orbitas } from "@/components/cuento/cielo";
+import { Cielo } from "@/components/cuento/cielo";
 import { useCatalogo } from "@/components/proveedor-catalogo";
 import { enlaceComoLlegar } from "@/components/producto/disponibilidad-tienda";
 import { useHidratado } from "@/hooks/use-hidratado";
@@ -130,8 +130,7 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
   return (
     <>
       <section className="noche relative overflow-hidden" aria-labelledby="donde-titulo">
-        <Cielo cantidad={70} semilla={61} />
-        <Orbitas className="top-1/2 left-[78%] hidden w-[620px] -translate-x-1/2 -translate-y-1/2 opacity-60 md:block" />
+        <Cielo />
         <div className="envoltura relative py-16 md:py-24">
           <p className="cejilla text-aqua flex items-center gap-2">
             <span aria-hidden="true" className="chispa bg-aqua text-[10px]" />
@@ -179,7 +178,7 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
                 data-testid="zip-tiendas"
               />
               <button type="submit" className="placa" data-testid="buscar-tiendas">
-                {t("buscar")} <span aria-hidden="true">✦</span>
+                {t("buscar")} <span aria-hidden="true">→</span>
               </button>
               <button
                 type="button"
@@ -265,9 +264,6 @@ export function PaginaDonde({ tiendas }: { tiendas: Tienda[] }) {
                   className="pildora absolute top-3 right-3 z-[500] shadow-[0_6px_18px_rgb(22_24_58/0.22)]"
                   data-testid="ver-todo"
                 >
-                  <span aria-hidden="true" className="text-aqua-tinta size-4">
-                    ✦
-                  </span>
                   {vista === "todas" ? t("verCerca") : t("verTodo")}
                 </button>
               </div>

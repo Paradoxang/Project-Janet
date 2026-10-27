@@ -48,7 +48,7 @@ export function PaginaDeseos() {
       </div>
       {/* La lista, en el estante del canon: azul noche, tres columnas y las mismas tarjetas que el catálogo. */}
       <section aria-labelledby="deseos-estante" className="noche relative overflow-hidden">
-        <Cielo cantidad={36} semilla={5} />
+        <Cielo />
         <div className="envoltura seccion relative">
           <h2 id="deseos-estante" className="sr-only">
             {t("titulo")}

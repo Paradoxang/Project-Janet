@@ -169,7 +169,7 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
           className="panel-apilado noche relative overflow-hidden"
           data-testid="panel-juguetes"
         >
-          <Cielo cantidad={36} semilla={41} />
+          <Cielo />
           <div className="envoltura relative grid min-h-[inherit] items-center gap-12 py-16 md:py-20 lg:grid-cols-2">
             <div>
               <p className="cejilla text-calendula mb-3">02 · {t("paneles.juguetesCejilla")}</p>

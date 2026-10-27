@@ -53,7 +53,7 @@ export function FichaProducto({
     <>
       <RegistroVistaProducto id={p.id} />
       <section aria-labelledby="titulo-producto" className="noche relative overflow-hidden">
-        <Cielo cantidad={45} semilla={17} />
+        <Cielo />
         <div className="envoltura relative pt-6 pb-14 md:pt-8 md:pb-20">
           <nav aria-label="breadcrumb" className="text-crema/75 mb-6 text-[13.5px]">
             <Link href="/" className="hover:text-crema hover:underline">
@@ -227,7 +227,7 @@ export function FichaProducto({
           className="noche relative overflow-hidden"
           data-revelar
         >
-          <Cielo cantidad={36} semilla={29} />
+          <Cielo />
           <div className="envoltura seccion relative">
             <TituloCuento id="recomendados" noche cejilla={t("producto.recomendadosCejilla")}>
               {t("producto.recomendados")}

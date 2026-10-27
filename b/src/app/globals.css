@@ -68,12 +68,12 @@
   --m-radius-card: 18px;
   --m-radius-btn: 5px; /* los botones, cuadrados a propósito: placas grabadas sobre un mundo redondo */
   --m-radius-chip: 999px;
-  --m-font-magia: var(--font-cinzel), "Cinzel", Georgia, serif;
+  --m-font-magia: var(--font-nunito), "Nunito", ui-rounded, system-ui, sans-serif;
   /* Santiago, 26-10: todas las letras de remate afilado, como la del título. */
-  --m-font-grabado: var(--font-cinzel-ui), "Cinzel", Georgia, serif;
-  --m-font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --m-font-body: var(--font-spectral), "Spectral", Georgia, serif;
-  --m-display-weight: 600;
+  --m-font-grabado: var(--m-font-magia);
+  --m-font-display: var(--m-font-magia);
+  --m-font-body: var(--m-font-magia);
+  --m-display-weight: 800;
   --m-display-tracking: 0;
   --radius: 0.75rem;
 }
@@ -225,14 +225,7 @@
     font-family: var(--m-font-display);
     font-weight: var(--m-display-weight);
     letter-spacing: var(--m-display-tracking);
-    /* Cormorant tiene la x baja: se iguala su tamaño aparente al de una letra de texto. */
-    font-size-adjust: 0.47;
     font-variant-numeric: lining-nums;
-  }
-  /* Las mayúsculas grabadas (Cinzel) y los títulos mágicos van a su tamaño. */
-  .font-magia,
-  .font-grabado {
-    font-size-adjust: none;
   }
 }
 
@@ -455,29 +448,28 @@
     }
   }
 
-  /* Tipografía: display (Cinzel Decorative), subdisplay (Cormorant grande), cejilla y botón (Cinzel). */
+  /* Tipografía, toda en Nunito como la propuesta gráfica (revisión del 27-10): títulos en negra, cejillas en mayúsculas
+     espaciadas y botones en minúscula, en extranegrita. */
   .titulo-cuento {
-    font-size-adjust: none;
     font-family: var(--m-font-magia);
-    font-size: clamp(1.9rem, 5vw, 4.3rem);
-    font-weight: 700;
-    line-height: 1.16;
-    letter-spacing: 0.012em;
+    font-size: clamp(2rem, 5.2vw, 4.4rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
   }
   .subdisplay {
     font-family: var(--m-font-display);
     font-size: clamp(2.2rem, 4.4vw, 3.6rem);
-    font-weight: 700;
-    line-height: 0.95;
+    font-weight: 900;
+    line-height: 1.05;
     font-variant-numeric: lining-nums;
   }
   .cejilla {
     font-family: var(--m-font-grabado);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    font-size-adjust: none;
   }
 
   /* Placa: el botón cuadrado (5 px) con su filete de oro grabado. Mandarina con letra azul noche (el crema del canon
@@ -491,11 +483,9 @@
     padding: 14px 26px;
     border-radius: var(--m-radius-btn);
     font-family: var(--m-font-grabado);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    font-size-adjust: none;
-    text-transform: uppercase;
+    font-size: 0.98rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
     white-space: nowrap;
     background: var(--m-mandarina);
     color: var(--m-noche);
@@ -527,7 +517,7 @@
       inset 0 0 0 1.5px var(--m-hilo-oro),
       0 14px 28px rgb(22 24 58 / 0.3);
   }
-  /* Botón de texto del canon: transparente, con el filete del color del texto y una chispa delante. */
+  /* Botón de texto del canon: transparente, con el filete del color del texto. */
   .placa-texto,
   .placa-contorno {
     padding: 13px 22px;
@@ -552,11 +542,9 @@
     background: var(--m-crema);
     color: var(--m-ink);
     font-family: var(--m-font-grabado);
-    font-size: 0.86rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
+    font-size: 0.9rem;
+    font-weight: 700;
     white-space: nowrap;
-    font-size-adjust: none;
     transition: background-color 0.2s;
   }
   .pildora:hover {
@@ -569,59 +557,21 @@
     color: var(--m-noche);
   }
 
-  /* Chispa: la estrella de cuatro puntas del canon, hecha con clip-path. */
+  /* Chispa: un punto de color. Era la estrella de cuatro puntas del canon; la revisión del 27-10 pidió quitar las estrellas. */
   .chispa {
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 0.62em;
+    height: 0.62em;
+    border-radius: 999px;
     background: var(--m-calendula);
-    clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
   }
 
-  /* El cielo del hero: degradado de respaldo, nebulosas aqua y mandarina y las estrellas que titilan (6 s). */
+  /* El cielo: degradado de respaldo con nebulosas aqua y mandarina, sin estrellas ni órbitas. */
   .cielo {
     background:
       radial-gradient(ellipse at 22% 30%, rgb(31 182 196 / 0.18), transparent 45%),
       radial-gradient(ellipse at 80% 70%, rgb(255 106 43 / 0.16), transparent 45%),
       radial-gradient(circle at 50% 42%, #1e2356 0%, #16183a 72%);
-  }
-  .estrella {
-    position: absolute;
-    border-radius: 999px;
-    background: var(--m-crema);
-    animation: titilar 6s ease-in-out infinite;
-  }
-  @keyframes titilar {
-    0%,
-    100% {
-      opacity: 0.5;
-    }
-    50% {
-      opacity: 1;
-    }
-  }
-
-  /* Las órbitas: anillos punteados que giran (64, 44 al revés y 30 s) con su planeta. */
-  .orbita {
-    position: absolute;
-    border-radius: 999px;
-    border: 1.5px dashed rgb(246 239 224 / 0.3);
-    animation: girar var(--vuelta, 60s) linear infinite;
-  }
-  .orbita > i {
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    width: 16px;
-    height: 16px;
-    border-radius: 999px;
-    background: var(--color, var(--m-calendula));
-    box-shadow: 0 0 22px var(--color, var(--m-calendula));
-  }
-  @keyframes girar {
-    to {
-      transform: rotate(360deg);
-    }
   }
 
   /* Hero: las diapositivas (nuestro «vídeo») pasan con un fundido lento y cada una se acerca despacio. */
@@ -643,9 +593,7 @@
   .diapositiva[data-activa] .acercar {
     animation: acercar 9s ease-out both;
   }
-  [data-pausado] .acercar,
-  [data-pausado] .orbita,
-  [data-pausado] .estrella {
+  [data-pausado] .acercar {
     animation-play-state: paused;
   }
   /* Los titulares suben línea a línea (de 116 % a 0, 1 s) y lo demás aparece después, escalonado. */
@@ -771,9 +719,8 @@
     border-radius: 0;
     color: var(--m-crema);
     font-family: var(--m-font-display);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    font-size-adjust: 0.47;
     outline: none;
   }
   .campo-boletin::placeholder {
@@ -816,8 +763,6 @@
       transition: none;
     }
     .diapositiva[data-activa] .acercar,
-    .orbita,
-    .estrella,
     .botar,
     .linea > span,
     .entrar {

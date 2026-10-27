@@ -60,7 +60,7 @@ export function DisponibilidadTienda({
       aria-labelledby="disponibilidad"
       data-testid="disponibilidad"
     >
-      <Cielo cantidad={28} semilla={53} />
+      <Cielo />
       <div className="relative grid content-start gap-4">
         <p className="cejilla text-aqua flex items-center gap-2">
           <span aria-hidden="true" className="chispa bg-aqua text-[10px]" />
@@ -102,7 +102,7 @@ export function DisponibilidadTienda({
             data-testid="zip-ficha"
           />
           <button type="submit" className="placa">
-            {t("zipBuscar")} <span aria-hidden="true">✦</span>
+            {t("zipBuscar")} <span aria-hidden="true">→</span>
           </button>
         </form>
         {error ? (

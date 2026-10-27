@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 import { IconoPausa, IconoSeguir } from "@/components/cuento/iconos";
-import { Cielo, Orbitas } from "@/components/cuento/cielo";
+import { Cielo } from "@/components/cuento/cielo";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +29,7 @@ function suscribirMovimiento(avisar: () => void) {
 }
 
 /**
- * El hero del canon (rediseño del 26-10), a pantalla completa: el cielo con sus estrellas, tres órbitas girando, el
+ * El hero del canon (rediseño del 26-10), a pantalla completa: el cielo (sin estrellas ni órbitas desde el 27-10), el
  * «vídeo» (nuestras fotos de familias jugando, que pasan solas y se acercan despacio), un velo para leer y el contenido
  * en el centro, que entra línea a línea. Al bajar, la imagen se acerca y el contenido sube y se apaga.
  * Accesible: botón de pausa (WCAG 2.2.2) y puntos; con «reducir movimiento» todo queda quieto. Cada foto va marcada IA.
@@ -111,7 +111,7 @@ export function HeroCuento({
       data-pausado={pausado ? "" : undefined}
       data-testid="hero"
     >
-      <Cielo cantidad={90} />
+      <Cielo />
 
       {/* El «vídeo»: las fotos, a sangre, dejando ver el cielo por debajo. */}
       <div className="absolute inset-0 [transform:scale(calc(1_+_0.12*var(--p,0)))]">
@@ -152,8 +152,6 @@ export function HeroCuento({
           </div>
         ))}
       </div>
-
-      <Orbitas className="top-[46%] left-1/2 w-[min(118svh,130vw)] -translate-x-1/2 -translate-y-1/2 opacity-80" />
 
       {/* El velo, más denso en el centro: ahí va el texto. */}
       <div
@@ -196,7 +194,6 @@ export function HeroCuento({
             </span>
           </Link>
           <Link href="/where-to-buy" className="placa placa-texto text-crema">
-            <span aria-hidden="true" className="chispa text-[10px]" />
             {t("botonTiendas")}
           </Link>
         </div>

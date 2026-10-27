@@ -33,7 +33,7 @@ function CuentaArriba({ hasta }: { hasta: number }) {
 
 /**
  * El boletín del pie, como en el canon: a la izquierda el número que cuenta y la invitación; a la derecha el correo en
- * el campo de línea y «Suscribirme ✦». Es de demostración: no se guarda ni se envía nada.
+ * el campo de línea y «Suscribirme →». Es de demostración: no se guarda ni se envía nada.
  */
 export function Boletin({ juguetes }: { juguetes: number }) {
   const t = useTranslations("pie");
@@ -77,7 +77,7 @@ export function Boletin({ juguetes }: { juguetes: number }) {
             className="campo-boletin min-w-0 flex-1 basis-56"
           />
           <button type="submit" className="placa">
-            {t("boletinBoton")} <span aria-hidden="true">✦</span>
+            {t("boletinBoton")} <span aria-hidden="true">→</span>
           </button>
         </div>
         <p role="status" className="text-crema/75 text-[13px]">

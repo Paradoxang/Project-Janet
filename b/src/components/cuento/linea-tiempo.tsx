@@ -27,7 +27,7 @@ const CHISPA = { mandarina: "bg-mandarina", aqua: "bg-aqua", calendula: "bg-cale
 
 /**
  * La línea de tiempo del canon: una espina punteada a la izquierda que se dibuja al llegar (la sección lleva
- * data-revelar), una chispa de color por hito y tarjetas blancas de 18 px en tres columnas (número, cuerpo, retratos).
+ * data-revelar), un punto de color por hito y tarjetas blancas de 18 px en tres columnas (número, cuerpo, retratos).
  */
 export function LineaTiempo({ hitos, etiqueta }: { hitos: Hito[]; etiqueta: string }) {
   return (

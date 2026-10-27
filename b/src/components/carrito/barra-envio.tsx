@@ -28,9 +28,6 @@ export function BarraEnvio({ subtotal, noche = false }: { subtotal: number; noch
       <p
         className={`font-display flex items-center gap-2 text-[15px] font-semibold ${falta === 0 ? (noche ? "text-calendula" : "text-stock") : noche ? "text-crema" : "text-ink"}`}
       >
-        <span aria-hidden="true" className="size-4 shrink-0">
-          ✦
-        </span>
         {mensaje}
       </p>
       <div

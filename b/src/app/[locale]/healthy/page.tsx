@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { IconoHoja } from "@/components/cuento/iconos";
-import { Cielo, Orbitas } from "@/components/cuento/cielo";
+import { Cielo } from "@/components/cuento/cielo";
 import { TituloCuento } from "@/components/cuento/titulo-cuento";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIAS_SALUDABLES, PUBLICOS_SALUDABLES } from "@/lib/secciones";
@@ -28,8 +28,7 @@ export default async function PaginaSaludable({ params }: { params: Promise<{ lo
   return (
     <>
       <section aria-labelledby="saludable-titulo" className="noche relative overflow-hidden">
-        <Cielo cantidad={70} semilla={83} />
-        <Orbitas className="top-1/2 left-[80%] hidden w-[600px] -translate-x-1/2 -translate-y-1/2 opacity-60 md:block" />
+        <Cielo />
         <div className="envoltura relative py-16 md:py-24">
           <p className="cejilla text-aqua flex items-center gap-2">
             <span aria-hidden="true" className="chispa bg-aqua text-[10px]" />
@@ -97,7 +96,7 @@ export default async function PaginaSaludable({ params }: { params: Promise<{ lo
             aria-labelledby="saludable-vacio"
             className="noche relative grid gap-4 overflow-hidden rounded-[18px] p-8 md:p-12"
           >
-            <Cielo cantidad={24} semilla={97} />
+            <Cielo />
             <span id="ninos" className="scroll-mt-28" />
             <span id="adultos" className="scroll-mt-28" />
             <h2
