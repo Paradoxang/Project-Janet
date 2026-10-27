@@ -369,7 +369,12 @@
     "pago": "Payment",
     "verResumen": "Show order summary",
     "ocultarResumen": "Hide order summary",
-    "pasoDe": "Step {n} of {total}"
+    "pasoDe": "Step {n} of {total}",
+    "ventanaCejilla": "Before you pay",
+    "ventanaTitulo": "How would you like to check out?",
+    "ventanaTexto": "Continue without an account, or sign in to save the order to your history.",
+    "comoInvitado": "You're checking out as a guest: we only need your email for the receipt.",
+    "mejorEntrar": "Have an account? Sign in"
   },
   "cuenta": {
     "titulo": "Your account",
@@ -913,7 +918,7 @@
     "botonJuguetes": "Shop toys",
     "botonTiendas": "Find a store",
     "ahora": "Now showing",
-    "ia": "Illustrative image (AI)",
+    "ia": "Illustrative video (AI)",
     "seguir": "Play the images",
     "pausar": "Pause the images",
     "diapositiva": "Image {n} of {total}: {titulo}",

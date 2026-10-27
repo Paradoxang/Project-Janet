@@ -369,7 +369,12 @@
     "pago": "Pago",
     "verResumen": "Ver el resumen del pedido",
     "ocultarResumen": "Ocultar el resumen",
-    "pasoDe": "Paso {n} de {total}"
+    "pasoDe": "Paso {n} de {total}",
+    "ventanaCejilla": "Antes de pagar",
+    "ventanaTitulo": "¿Cómo quieres comprar?",
+    "ventanaTexto": "Puedes seguir sin cuenta o entrar para guardar el pedido en tu historial.",
+    "comoInvitado": "Compras como invitado: solo necesitamos tu correo para el recibo.",
+    "mejorEntrar": "¿Tienes cuenta? Entra"
   },
   "cuenta": {
     "titulo": "Tu cuenta",
@@ -913,7 +918,7 @@
     "botonJuguetes": "Ver juguetes",
     "botonTiendas": "Buscar tienda",
     "ahora": "En pantalla",
-    "ia": "Imagen ilustrativa (IA)",
+    "ia": "Vídeo ilustrativo (IA)",
     "seguir": "Reanudar las imágenes",
     "pausar": "Pausar las imágenes",
     "diapositiva": "Imagen {n} de {total}: {titulo}",

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { EleccionCompra } from "./eleccion-compra";
 import { useHidratado } from "@/hooks/use-hidratado";
 import { Link, useRouter } from "@/i18n/navigation";
 import { aCentavos, aDolares, fechaLarga, precio, sumarDiasHabiles } from "@/lib/formato";
@@ -85,7 +86,9 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
   const guardarPedido = usePedidos((s) => s.guardar);
   const usuario = useCuenta((s) => s.usuario);
 
-  const [modo, setModo] = useState<"invitado" | "cuenta">(() => (usuario ? "cuenta" : "invitado"));
+  // Con sesión se compra con la cuenta; sin ella, como invitado (lo elige la ventana del principio).
+  const modo: "invitado" | "cuenta" = usuario ? "cuenta" : "invitado";
+  const [eleccionHecha, setEleccionHecha] = useState(false);
   const [datos, setDatos] = useState<Record<Campo, string>>(() => ({
     correo: usuario?.correo ?? "",
     nombre: usuario?.nombre ?? "",
@@ -97,7 +100,6 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
     telefono: "",
   }));
   const [errores, setErrores] = useState<Partial<Record<Campo, string>>>({});
-  const [sinCuenta, setSinCuenta] = useState(false);
   const [envio, setEnvio] = useState<MetodoEnvio>("estandar");
   const [pago, setPago] = useState<Pago>("tarjeta");
 
@@ -132,13 +134,6 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
   };
 
   function validar(): boolean {
-    // «Tengo una cuenta» sin haber entrado: primero hay que entrar (o seguir como invitado).
-    const falta = modo === "cuenta" && !usuario;
-    setSinCuenta(falta);
-    if (falta) {
-      document.getElementById("entrar-para-pagar")?.focus();
-      return false;
-    }
     const e: Partial<Record<Campo, string>> = {};
     for (const c of Object.keys(datos) as Campo[])
       if (!OPCIONALES.includes(c) && !datos[c].trim()) e[c] = t("pago.obligatorio");
@@ -276,6 +271,10 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
 
   return (
     <div className="lg:grid lg:min-h-[calc(100svh-120px)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <EleccionCompra
+        abierta={!usuario && !eleccionHecha}
+        alSeguirComoInvitado={() => setEleccionHecha(true)}
+      />
       {/* El resumen plegado arriba, en el celular (como Shopify): se ve el total sin bajar. */}
       <details className="group noche lg:hidden" data-testid="resumen-movil">
         <summary className="mx-auto flex max-w-xl cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 [&::-webkit-details-marker]:hidden">
@@ -348,56 +347,9 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
             <h2 id="paso1" className={titulo}>
               {t("pago.contacto")}
             </h2>
-            {/* Invitado o cuenta, en la misma página y no en una ventana emergente: un paso menos. Por defecto,
-                invitado. */}
-            <RadioGroup
-              value={modo}
-              onValueChange={(v) => {
-                setModo(v as "invitado" | "cuenta");
-                setSinCuenta(false);
-                if (v === "cuenta" && usuario) {
-                  setDatos((d) => ({
-                    ...d,
-                    correo: usuario.correo,
-                    nombre: d.nombre || usuario.nombre,
-                  }));
-                  setErrores((e) => ({ ...e, correo: undefined }));
-                }
-              }}
-              aria-label={t("pago.comoCompras")}
-              className="rounded-chip bg-papel grid grid-cols-2 gap-1 p-1"
-            >
-              {(["invitado", "cuenta"] as const).map((m) => (
-                <Label
-                  key={m}
-                  htmlFor={`modo-${m}`}
-                  className={cn(
-                    "rounded-chip font-display has-[:focus-visible]:ring-aqua flex min-h-11 cursor-pointer items-center justify-center gap-2 px-3 text-center text-[14px] font-semibold has-[:focus-visible]:ring-3",
-                    modo === m
-                      ? "bg-mandarina text-noche"
-                      : "text-ink hover:bg-aqua hover:text-noche",
-                  )}
-                >
-                  <RadioGroupItem
-                    id={`modo-${m}`}
-                    value={m}
-                    className="sr-only"
-                    data-testid={`modo-${m}`}
-                  />
-                  {t(`pago.${m}Corto`)}
-                </Label>
-              ))}
-            </RadioGroup>
-            {modo === "invitado" ? (
-              <>
-                {campo("correo", t("pago.correo"), {
-                  type: "email",
-                  autoComplete: "off",
-                  inputMode: "email",
-                })}
-                <p className="text-muted-ink text-[13px]">{t("pago.invitadoTexto")}</p>
-              </>
-            ) : usuario ? (
+            {/* Invitado o cuenta se elige en la ventana del principio (Santiago, 26-10). Aquí queda el correo, con el
+                atajo para entrar si cambia de idea. */}
+            {usuario ? (
               <p
                 className="shadow-tarjeta rounded-[12px] bg-white px-4 py-3 text-sm font-semibold"
                 data-testid="comprando-como"
@@ -408,22 +360,24 @@ export function Checkout({ impuestos }: { impuestos: Impuestos }) {
                 })}
               </p>
             ) : (
-              <div className="grid gap-2">
-                <p className="text-muted-ink text-[13px]">{t("pago.cuentaTexto")}</p>
-                <Link
-                  id="entrar-para-pagar"
-                  href={{ pathname: "/account", query: { volver: "/checkout" } }}
-                  className="placa placa-noche"
-                  data-testid="entrar-para-pagar"
-                >
-                  {t("pago.cuentaEntrar")}
-                </Link>
-                {sinCuenta ? (
-                  <p role="alert" className="text-out text-[13px] font-semibold">
-                    {t("pago.entraPrimero")}
-                  </p>
-                ) : null}
-              </div>
+              <>
+                {campo("correo", t("pago.correo"), {
+                  type: "email",
+                  autoComplete: "off",
+                  inputMode: "email",
+                })}
+                <p className="text-muted-ink text-[14px]">
+                  {t("pago.comoInvitado")}{" "}
+                  <Link
+                    id="entrar-para-pagar"
+                    href={{ pathname: "/account", query: { volver: "/checkout" } }}
+                    className="text-link font-semibold underline-offset-4 hover:underline"
+                    data-testid="entrar-para-pagar"
+                  >
+                    {t("pago.mejorEntrar")}
+                  </Link>
+                </p>
+              </>
             )}
           </section>
 

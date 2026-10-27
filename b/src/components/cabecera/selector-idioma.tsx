@@ -35,10 +35,10 @@ export function SelectorIdioma({
       className={cn(
         // Rediseño del 26-10: en el pie, una píldora de contorno; en la cabecera azul noche, el chip redondo del canon.
         pie
-          ? "font-display text-crema hover:bg-crema/10 inline-flex h-10 items-center gap-2 justify-self-start rounded-full px-4 text-[14px] font-semibold shadow-[inset_0_0_0_1px_currentColor]"
+          ? "font-grabado text-crema hover:bg-crema/10 inline-flex h-10 items-center gap-2 justify-self-start rounded-full px-4 text-[14px] font-semibold shadow-[inset_0_0_0_1px_currentColor]"
           : oscuro
-            ? "chip-icono font-display text-[13px] font-semibold tracking-[0.06em]"
-            : "border-ink font-display text-ink hover:bg-surface grid h-9 min-w-9 place-items-center rounded-full border-2 px-1.5 text-xs font-semibold",
+            ? "chip-icono font-grabado text-[13px] font-semibold tracking-[0.06em]"
+            : "border-ink font-grabado text-ink hover:bg-surface grid h-9 min-w-9 place-items-center rounded-full border-2 px-1.5 text-xs font-semibold",
       )}
     >
       {pie ? <span aria-hidden="true">✦</span> : null}

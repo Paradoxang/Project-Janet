@@ -13,17 +13,41 @@ import { CATEGORIAS, GRUPOS_EDAD, getCatalogoLigero, getStores } from "@/lib/dat
 import { RUTA_SALUDABLE } from "@/lib/secciones";
 import type { Idioma } from "@/lib/tipos";
 
-/** Las diapositivas del hero: familias jugando con juguetes del catálogo (fotos con IA de la variante colorida). */
+/**
+ * Las diapositivas del hero: vídeos con IA de familias jugando con juguetes del catálogo (Kling 3.0 std en Higgsfield,
+ * a partir de las fotos con IA de la variante colorida, ensanchadas a 16:9; Santiago, 26-10: «Usa higgsfield modelos
+ * baratos»). Mudos, de 5 s y en 720p. El póster es su primer fotograma: es lo que se ve al cargar y con «reducir
+ * movimiento».
+ */
 const HERO = [
-  { id: "torre", src: "/variante/portada.webp", posicion: "62% 50%", slug: "magnetic-tiles" },
+  {
+    id: "torre",
+    src: "/hero/torre.mp4",
+    poster: "/hero/torre.webp",
+    posicion: "62% 50%",
+    slug: "magnetic-tiles",
+  },
   {
     id: "cohete",
-    src: "/variante/edad-5-7.webp",
-    posicion: "60% 40%",
+    src: "/hero/cohete.mp4",
+    poster: "/hero/cohete.webp",
+    posicion: "64% 45%",
     slug: "foam-rocket-launcher",
   },
-  { id: "aros", src: "/variante/edad-1-2.webp", posicion: "58% 45%", slug: "rainbow-ring-stacker" },
-  { id: "robot", src: "/variante/edad-8.webp", posicion: "56% 45%", slug: "robot-building-kit" },
+  {
+    id: "aros",
+    src: "/hero/aros.mp4",
+    poster: "/hero/aros.webp",
+    posicion: "58% 50%",
+    slug: "rainbow-ring-stacker",
+  },
+  {
+    id: "robot",
+    src: "/hero/robot.mp4",
+    poster: "/hero/robot.webp",
+    posicion: "60% 50%",
+    slug: "robot-building-kit",
+  },
 ] as const;
 
 /** Tres juguetes en abanico para el panel de la juguetería: portadas que flotan, como los libros del canon. */
@@ -49,8 +73,9 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
     const p = catalogo.find((x) => x.slug === h.slug);
     return {
       id: h.id,
-      tipo: "imagen",
+      tipo: "video",
       src: h.src,
+      poster: h.poster,
       posicion: h.posicion,
       alt: t(`hero.alt.${h.id}`),
       producto: { slug: h.slug, titulo: p?.title[locale as Idioma] ?? "" },

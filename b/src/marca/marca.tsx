@@ -35,7 +35,7 @@ export function Logo({ className, negativo = false }: { className?: string; nega
         alt="Brinco"
         className="solo-brinco h-full w-auto"
       />
-      {/* Sin marca (rediseño del 26-10): el punto del logo del canon y el nombre en Fredoka, subrayado a trazos para que se
+      {/* Sin marca (rediseño del 26-10): el punto del logo del canon y el nombre en Cormorant Garamond, subrayado a trazos para que se
           lea como lo que es, un marcador. */}
       <span
         className={cn(

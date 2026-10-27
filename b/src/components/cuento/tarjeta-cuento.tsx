@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * La tarjeta del canon, con un juguete en vez de un libro: portada de 12 px sobre el color de su edad, que se adelanta en
- * el estante y deja «asomar» un velo azul noche al pasar; debajo, título en Fredoka, la edad en cursiva, la categoría en
+ * el estante y deja «asomar» un velo azul noche al pasar; debajo, título en Cormorant Garamond, la edad en cursiva, la categoría en
  * su chapita y el precio en caléndula. Va sobre azul noche.
  */
 export function TarjetaCuento({

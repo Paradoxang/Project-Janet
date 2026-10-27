@@ -32,7 +32,7 @@ export function PestanasSeccion({
               onClick={alNavegar}
               data-testid={`pestana-${s}`}
               className={cn(
-                "rounded-chip font-display flex h-9 items-center gap-2 px-4 text-[14px] font-semibold whitespace-nowrap",
+                "rounded-chip font-grabado flex h-9 items-center gap-2 px-4 text-[14px] font-semibold whitespace-nowrap",
                 activa === s ? "bg-mandarina text-noche" : "text-crema hover:bg-crema/10",
               )}
             >

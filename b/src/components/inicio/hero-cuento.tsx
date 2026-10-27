@@ -53,6 +53,21 @@ export function HeroCuento({
   const pausado = pausaElegida ?? reducir;
   const n = diapositivas.length;
   const seccion = useRef<HTMLElement>(null);
+  const videos = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Solo suena (mudo) el vídeo de la diapositiva activa: empieza desde el principio al llegar y se para con la pausa.
+  // Los demás se quedan quietos en su fotograma, sin descargarse hasta que les toca (preload="none").
+  useEffect(() => {
+    videos.current.forEach((v, i) => {
+      if (!v) return;
+      if (i === indice && !pausado) {
+        v.currentTime = 0;
+        v.play().catch(() => {});
+      } else {
+        v.pause();
+      }
+    });
+  }, [indice, pausado]);
 
   useEffect(() => {
     if (pausado || n < 2) return;
@@ -109,14 +124,18 @@ export function HeroCuento({
           >
             {d.tipo === "video" && !reducir ? (
               <video
+                ref={(v) => {
+                  videos.current[i] = v;
+                }}
                 className="acercar h-full w-full object-cover opacity-60"
                 style={{ objectPosition: d.posicion }}
                 src={d.src}
                 poster={d.poster}
                 muted
-                loop
                 playsInline
-                autoPlay={!pausado}
+                preload={i === 0 ? "auto" : "none"}
+                aria-label={i === indice ? d.alt : undefined}
+                data-testid="video-ia"
               />
             ) : (
               // eslint-disable-next-line @next/next/no-img-element

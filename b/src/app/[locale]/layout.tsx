@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import { Cinzel_Decorative, Quicksand } from "next/font/google";
+import { Cinzel, Cinzel_Decorative, Cormorant_Garamond, Spectral } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import "@fontsource-variable/fredoka";
-import "@fontsource-variable/nunito-sans";
 import { Cabecera, CabeceraPago } from "@/components/cabecera/cabecera";
 import { CabeceraFlotante } from "@/components/cabecera/cabecera-flotante";
 import { PanelCarrito } from "@/components/carrito/panel-carrito";
@@ -22,18 +20,32 @@ import { scriptModoPanel } from "@/lib/modo-panel";
 import { ICONOS, MARCA_INICIAL, scriptMarca } from "@/marca/script-marca";
 import { scriptVariante } from "@/marca/script-variante";
 
-// Letras del canon del rediseño (OFL, servidas desde la propia web por next/font): Cinzel Decorative para los títulos
-// «mágicos» (opcional, clase font-magia), Fredoka para la interfaz y los títulos (ya viene de @fontsource) y Quicksand
-// para el texto.
+// Letras del rediseño (OFL, servidas desde la propia web por next/font). Santiago, 26-10: todas de remate afilado, como
+// la del título. Cinzel Decorative para los títulos «mágicos» (clase font-magia); Cinzel, su hermana, para botones,
+// píldoras y cejillas (font-grabado); Cormorant Garamond para nombres, precios y títulos de tarjeta (font-display), y
+// Spectral para el texto.
 const cinzel = Cinzel_Decorative({
   weight: ["700"],
   subsets: ["latin", "latin-ext"],
   variable: "--font-cinzel",
   display: "swap",
 });
-const quicksand = Quicksand({
+const cinzelGrabado = Cinzel({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-quicksand",
+  variable: "--font-cinzel-ui",
+  display: "swap",
+});
+const cormorant = Cormorant_Garamond({
+  weight: ["500", "600", "700"],
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-cormorant",
+  display: "swap",
+});
+const spectral = Spectral({
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-spectral",
   display: "swap",
 });
 
@@ -73,7 +85,7 @@ export default async function LayoutIdioma({
       lang={locale}
       data-marca={MARCA_INICIAL}
       data-variante="color"
-      className={`${cinzel.variable} ${quicksand.variable}`}
+      className={`${cinzel.variable} ${cinzelGrabado.variable} ${cormorant.variable} ${spectral.variable}`}
       suppressHydrationWarning
     >
       <head>

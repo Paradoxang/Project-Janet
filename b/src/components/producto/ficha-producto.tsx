@@ -106,7 +106,7 @@ export function FichaProducto({
                 ) : null}
                 <h1
                   id="titulo-producto"
-                  className="font-display text-crema mt-3 text-[clamp(1.9rem,3.4vw,2.8rem)] leading-[1.05] font-bold"
+                  className="font-display text-crema mt-3 text-[clamp(1.9rem,3.4vw,2.8rem)] leading-[1.2] font-bold"
                   data-testid="titulo-producto"
                 >
                   {p.title[locale]}
