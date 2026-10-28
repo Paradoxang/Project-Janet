@@ -12,8 +12,9 @@ import { SelectorIdioma } from "./selector-idioma";
 
 /**
  * Cabecera del rediseño (26-10): azul noche, como el cielo del canon, que se funde con el hero. El menú (con todas las
- * categorías), el logo, las dos secciones desde 1024 px, el buscador grande en el centro (tendrá muchos productos: lo
- * primero es buscar) y los iconos en crema. En el celular, el buscador va en su propia fila.
+ * categorías), el logo, el buscador grande en el centro (tendrá muchos productos: lo primero es buscar) y los iconos en
+ * crema. En el celular, el buscador va en su propia fila. Desde 1024 px, las secciones van en una segunda fila
+ * centrada (revisión del 28-10: en la primera no cabían más); en el celular, en el cajón del menú.
  */
 export function Cabecera() {
   const t = useTranslations();
@@ -26,7 +27,6 @@ export function Cabecera() {
           <Logo negativo className="h-8 md:h-9" />
           <span className="sr-only">{t("cabecera.irAlInicio")}</span>
         </Link>
-        <PestanasSeccion className="hidden lg:block" />
         <div className="order-last w-full md:order-none md:flex-1">
           <Buscador />
         </div>
@@ -46,6 +46,11 @@ export function Cabecera() {
           <EnlaceCuenta />
           <EnlaceDeseos />
           <IconoCarrito />
+        </div>
+      </div>
+      <div className="border-crema/10 hidden border-t lg:block">
+        <div className="envoltura flex justify-center py-2">
+          <PestanasSeccion className="max-w-full" />
         </div>
       </div>
     </header>

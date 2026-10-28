@@ -893,7 +893,8 @@
   "saludable": {
     "publico": {
       "ninos": "Para niños",
-      "adultos": "Para adultos"
+      "adultos": "Para adultos",
+      "familia": "Para toda la familia"
     },
     "categoria": {
       "comida": "Comida y snacks",
@@ -907,9 +908,10 @@
     "proximamente": "Próximamente",
     "tarjeta": "Tu producto aquí",
     "tarjetaTexto": "Foto, nombre y precio",
-    "vacioTitulo": "Aquí irán sus primeros productos",
-    "vacioTexto": "Hoy hay uno o dos productos saludables. Cuando la dueña los suba desde su panel, aparecen aquí con su foto, igual que los juguetes.",
-    "volverJuguetes": "Mientras tanto, ver juguetes"
+    "vacioTitulo": "Son productos de muestra",
+    "vacioTexto": "Enseñan cómo se verá la sección, pero todavía no se pueden comprar: hoy el carrito y el pago funcionan con los juguetes. Cuando la dueña suba sus propios productos, aparecerán aquí con su foto y su precio.",
+    "volverJuguetes": "Mientras tanto, ver juguetes",
+    "ejemplos": "{n} productos de muestra"
   },
   "hero": {
     "cejilla": "Juguetes para familias curiosas",
@@ -982,5 +984,14 @@
     "envioTexto": "Llega en 2 a 5 días hábiles.",
     "devolverTitulo": "30 días para devolverlo",
     "devolverTexto": "Sin usar y en su caja (política de ejemplo)."
+  },
+  "categorias": {
+    "cejilla": "Compra por categoría",
+    "titulo": "Encuéntralo por <acento>lo que le encanta</acento>",
+    "texto": "Ocho formas de jugar y un rincón saludable. Elige una y empieza a mirar.",
+    "juguetes": "{n, plural, one {# juguete} other {# juguetes}}",
+    "saludable": "Lo saludable",
+    "saludableTexto": "Snacks y cuidado, en su propia sección",
+    "fotos": "Imágenes ilustrativas (IA)"
   }
 }

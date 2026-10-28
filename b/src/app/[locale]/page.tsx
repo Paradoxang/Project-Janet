@@ -1,15 +1,15 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { IconoHoja } from "@/components/cuento/iconos";
 import { Cielo } from "@/components/cuento/cielo";
 import { BuscarTiendaZip } from "@/components/cuento/buscar-tienda-zip";
 import { EstanteInicio } from "@/components/cuento/estante-inicio";
-import { LineaTiempo, type Hito } from "@/components/cuento/linea-tiempo";
 import { PanelesApilados } from "@/components/cuento/paneles-apilados";
 import { acento, TituloCuento } from "@/components/cuento/titulo-cuento";
 import { BloquesEdad } from "@/components/inicio/bloques-edad";
 import { HeroCuento, type Diapositiva } from "@/components/inicio/hero-cuento";
+import { MosaicoCategorias } from "@/components/inicio/mosaico-categorias";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIAS, GRUPOS_EDAD, getCatalogoLigero, getStores } from "@/lib/data";
+import { fotoSaludable, SALUDABLES } from "@/lib/saludables";
 import { RUTA_SALUDABLE } from "@/lib/secciones";
 import type { Idioma } from "@/lib/tipos";
 
@@ -57,9 +57,13 @@ const ABANICO = [
   { foto: "rocket-launcher", giro: "12deg", x: "60%", y: "12%" },
 ];
 
+/** Cuatro productos de la sección saludable para su panel (fotos con IA de la propuesta gráfica, 28-10). */
+const VITRINA_SALUDABLE = ["cleansing-gel", "granola", "fruit-bar-banana", "conditioner"];
+
 /**
  * El inicio, con la estructura del canon (rediseño del 26-10): el hero a pantalla completa, el estante sobre azul
- * noche, cuatro paneles apilados (edades, juguetes, lo saludable y las tiendas), la línea de «cómo comprar» y el pie.
+ * noche, cuatro paneles apilados (edades, juguetes, lo saludable y las tiendas), el mosaico de categorías (28-10, en
+ * lugar de la línea de «cómo comprar») y el pie.
  */
 export default async function Inicio({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -81,45 +85,9 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
       producto: { slug: h.slug, titulo: p?.title[locale as Idioma] ?? "" },
     };
   });
-  const foto = (illustration: string) => `/productos-ia/${illustration}.webp`;
-  const hitos: Hito[] = [
-    {
-      id: "edad",
-      numero: "01",
-      unidad: t("como.paso"),
-      color: "mandarina",
-      titulo: t("como.edadTitulo"),
-      texto: t("como.edadTexto"),
-      fotos: [foto("ring-stacker"), foto("teddy-bear")],
-    },
-    {
-      id: "tienda",
-      numero: "02",
-      unidad: t("como.paso"),
-      color: "aqua",
-      titulo: t("como.tiendaTitulo"),
-      texto: t("como.tiendaTexto", { n: tiendas.length }),
-      fotos: [foto("train-set"), foto("tea-set")],
-    },
-    {
-      id: "envio",
-      numero: "03",
-      unidad: t("como.paso"),
-      color: "calendula",
-      titulo: t("como.envioTitulo"),
-      texto: t("como.envioTexto"),
-      fotos: [foto("rc-car"), foto("science-kit")],
-    },
-    {
-      id: "devolver",
-      numero: "04",
-      unidad: t("como.paso"),
-      color: "mandarina",
-      titulo: t("como.devolverTitulo"),
-      texto: t("como.devolverTexto"),
-      fotos: [foto("plush-puppy")],
-    },
-  ];
+  const vitrina = VITRINA_SALUDABLE.map((f) => SALUDABLES.find((p) => p.foto === f)).filter(
+    (p) => p !== undefined,
+  );
 
   return (
     <>
@@ -241,15 +209,23 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
                 </span>
               </Link>
             </div>
-            <div aria-hidden="true" className="mx-auto grid w-full max-w-[420px] grid-cols-2 gap-4">
-              {["bg-white", "bg-tint-menta", "bg-tint-limon", "bg-white"].map((fondo, i) => (
-                <span
-                  key={i}
-                  className={`border-aqua-tinta/40 grid aspect-square place-items-center rounded-[18px] border-2 border-dashed ${fondo}`}
-                >
-                  <IconoHoja className="text-aqua-tinta/70 size-9" />
-                </span>
+            <div
+              aria-hidden="true"
+              className="relative mx-auto grid w-full max-w-[420px] grid-cols-2 gap-4"
+            >
+              {vitrina.map((p) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={p.id}
+                  src={fotoSaludable(p)}
+                  alt=""
+                  loading="lazy"
+                  className="aspect-square w-full rounded-[18px] object-cover shadow-[0_12px_28px_rgb(22_24_58/0.16)]"
+                />
               ))}
+              <span className="text-ink/70 absolute right-0 -bottom-7 text-[11px] font-bold">
+                {t("mundos.ia")}
+              </span>
             </div>
           </div>
         </section>
@@ -290,12 +266,16 @@ export default async function Inicio({ params }: { params: Promise<{ locale: str
         </section>
       </PanelesApilados>
 
-      <section aria-labelledby="como-titulo" className="papel-pintado relative" data-revelar>
+      <section aria-labelledby="categorias-titulo" className="papel-pintado relative" data-revelar>
         <div className="envoltura seccion">
-          <TituloCuento id="como-titulo" cejilla={t("como.cejilla")} texto={t("como.texto")}>
-            {t.rich("como.titulo", { acento: acento(false) })}
+          <TituloCuento
+            id="categorias-titulo"
+            cejilla={t("categorias.cejilla")}
+            texto={t("categorias.texto")}
+          >
+            {t.rich("categorias.titulo", { acento: acento(false) })}
           </TituloCuento>
-          <LineaTiempo hitos={hitos} etiqueta={t("como.cejilla")} />
+          <MosaicoCategorias catalogo={catalogo} />
         </div>
       </section>
     </>

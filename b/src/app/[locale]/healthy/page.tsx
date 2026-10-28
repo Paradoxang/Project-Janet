@@ -4,7 +4,10 @@ import { IconoHoja } from "@/components/cuento/iconos";
 import { Cielo } from "@/components/cuento/cielo";
 import { TituloCuento } from "@/components/cuento/titulo-cuento";
 import { Link } from "@/i18n/navigation";
+import { precio } from "@/lib/formato";
+import { fotoSaludable, saludablesDe, tituloSaludable } from "@/lib/saludables";
 import { CATEGORIAS_SALUDABLES, PUBLICOS_SALUDABLES } from "@/lib/secciones";
+import type { Idioma } from "@/lib/tipos";
 
 export async function generateMetadata({
   params,
@@ -18,13 +21,15 @@ export async function generateMetadata({
 
 /**
  * La sección saludable, con el canon (rediseño del 26-10): el mismo cielo y las mismas piezas que la juguetería, con el
- * aqua como acento. Hoy no hay productos saludables en el catálogo de ejemplo, así que cada categoría enseña portadas
- * marcador («Tu producto aquí»), igual que el logo neutro. Es una propuesta: la separación sigue abierta con la clienta.
+ * aqua como acento. Desde el 28-10 enseña siete productos de muestra (lib/saludables.ts, fotos con IA de la propuesta
+ * gráfica), con su precio y «Próximamente»: todavía no se compran. La categoría sin productos sigue con portadas
+ * marcador («Tu producto aquí»).
  */
 export default async function PaginaSaludable({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("saludable");
+  const tp = await getTranslations("producto");
   return (
     <>
       <section aria-labelledby="saludable-titulo" className="noche relative overflow-hidden">
@@ -67,30 +72,77 @@ export default async function PaginaSaludable({ params }: { params: Promise<{ lo
             data-revelar
           >
             <div className="envoltura pt-16 md:pt-24">
-              <TituloCuento id={`saludable-${c}`} cejilla={`0${i + 1} · ${t("proximamente")}`}>
+              <TituloCuento
+                id={`saludable-${c}`}
+                cejilla={`0${i + 1} · ${saludablesDe(c).length > 0 ? t("ejemplos", { n: saludablesDe(c).length }) : t("proximamente")}`}
+              >
                 {t(`categoria.${c}`)}
               </TituloCuento>
-              <ul className="grid grid-cols-2 gap-x-4 gap-y-8 md:gap-x-[30px] lg:grid-cols-4">
-                {Array.from({ length: 4 }, (_, n) => (
-                  <li key={n} className="grid gap-3">
-                    <span
-                      aria-hidden="true"
-                      className={`border-aqua-tinta/35 grid aspect-[4/5] place-items-center rounded-[12px] border-2 border-dashed ${n % 2 === i % 2 ? "bg-white/80" : "bg-tint-cielo"}`}
+              {saludablesDe(c).length > 0 ? (
+                <ul className="grid grid-cols-2 gap-x-4 gap-y-8 md:gap-x-[30px] lg:grid-cols-4">
+                  {saludablesDe(c).map((p) => (
+                    <li
+                      key={p.id}
+                      className="grid content-start gap-2"
+                      data-testid="producto-saludable"
                     >
-                      <IconoHoja className="text-aqua-tinta/60 size-10" />
-                    </span>
-                    <span className="font-display text-[17px] font-semibold">{t("tarjeta")}</span>
-                    <span className="text-muted-ink -mt-2 text-[14px] italic">
-                      {t("tarjetaTexto")}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+                      <span className="shadow-tarjeta relative block aspect-[4/5] overflow-hidden rounded-[12px] bg-white">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={fotoSaludable(p)}
+                          alt={tituloSaludable(p, locale)}
+                          width={800}
+                          height={1000}
+                          loading="lazy"
+                          className="size-full object-cover"
+                        />
+                        <span className="text-muted-ink absolute bottom-1.5 left-1.5 rounded-md bg-white/90 px-1.5 py-0.5 text-[10px] leading-tight font-bold">
+                          {tp("imagenIlustrativaIA")}
+                        </span>
+                      </span>
+                      <span className="text-aqua-tinta text-[12px] font-extrabold tracking-[0.08em] uppercase">
+                        {t(`publico.${p.publico}`)}
+                      </span>
+                      <span className="font-display -mt-1 text-[17px] leading-snug font-extrabold text-balance">
+                        {tituloSaludable(p, locale)}
+                      </span>
+                      <span className="text-muted-ink text-[14px]">
+                        {p.resumen[locale as Idioma]}
+                      </span>
+                      <span className="mt-1 flex flex-wrap items-center justify-between gap-2">
+                        <span className="font-display text-[19px] font-black">
+                          {precio(p.precio, locale)}
+                        </span>
+                        <span className="bg-tint-cielo text-aqua-tinta rounded-full px-2.5 py-1 text-[12px] font-bold">
+                          {t("proximamente")}
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="grid grid-cols-2 gap-x-4 gap-y-8 md:gap-x-[30px] lg:grid-cols-4">
+                  {Array.from({ length: 4 }, (_, n) => (
+                    <li key={n} className="grid gap-3">
+                      <span
+                        aria-hidden="true"
+                        className={`border-aqua-tinta/35 grid aspect-[4/5] place-items-center rounded-[12px] border-2 border-dashed ${n % 2 === i % 2 ? "bg-white/80" : "bg-tint-cielo"}`}
+                      >
+                        <IconoHoja className="text-aqua-tinta/60 size-10" />
+                      </span>
+                      <span className="font-display text-[17px] font-semibold">{t("tarjeta")}</span>
+                      <span className="text-muted-ink -mt-2 text-[14px] italic">
+                        {t("tarjetaTexto")}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </section>
         ))}
 
-        {/* Anclas para «Para niños» y «Para adultos»: hoy llevan a la misma nota, porque aún no hay productos. */}
+        {/* Anclas para «Para niños» y «Para adultos»: llevan a la nota de que los productos son de muestra. */}
         <div className="envoltura seccion">
           <section
             aria-labelledby="saludable-vacio"

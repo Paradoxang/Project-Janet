@@ -893,7 +893,8 @@
   "saludable": {
     "publico": {
       "ninos": "For kids",
-      "adultos": "For grown-ups"
+      "adultos": "For grown-ups",
+      "familia": "For the family"
     },
     "categoria": {
       "comida": "Food & snacks",
@@ -907,9 +908,10 @@
     "proximamente": "Coming soon",
     "tarjeta": "Your product here",
     "tarjetaTexto": "Photo, name and price",
-    "vacioTitulo": "Her first products will go here",
-    "vacioTexto": "Today there are one or two healthy products. When the owner adds them from her dashboard, they show up here with their photo, just like the toys.",
-    "volverJuguetes": "Meanwhile, browse toys"
+    "vacioTitulo": "These are sample products",
+    "vacioTexto": "They show how the section will look, but they can’t be bought yet: today the cart and checkout work with the toys. When the owner adds her own products, they’ll show up here with their photo and price.",
+    "volverJuguetes": "Meanwhile, browse toys",
+    "ejemplos": "{n} sample products"
   },
   "hero": {
     "cejilla": "Toys for curious families",
@@ -982,5 +984,14 @@
     "envioTexto": "Arrives in 2–5 business days.",
     "devolverTitulo": "30 days to return it",
     "devolverTexto": "Unused and in its box (sample policy)."
+  },
+  "categorias": {
+    "cejilla": "Shop by category",
+    "titulo": "Find it by <acento>what they love</acento>",
+    "texto": "Eight kinds of play and a healthy corner. Pick one and start browsing.",
+    "juguetes": "{n, plural, one {# toy} other {# toys}}",
+    "saludable": "Healthy picks",
+    "saludableTexto": "Snacks and care, in their own section",
+    "fotos": "Illustrative images (AI)"
   }
 }
