@@ -1,9 +1,11 @@
 // Productos de ejemplo de la sección saludable (28-10): fotos hechas con IA que llegaron con la propuesta gráfica, en
-// public/saludables/<foto>.webp (recortadas a 4:5). Son de muestra: todavía no se compran (el carrito y el pago trabajan
-// con los juguetes). Los nombres y los textos solo dicen lo que pone la etiqueta de la foto, sin marcas.
+// public/saludables/<foto>.webp (recortadas a 4:5). Los nombres y los textos solo dicen lo que pone la etiqueta de la
+// foto, sin marcas. Se compran como los juguetes (Santiago, 28-10: «Yes, make them buyable»): entran en el mapa porId
+// del catálogo (carrito, pago, confirmación, cuenta), pero no en la lista de juguetes, así que no salen en el buscador,
+// los estantes ni las categorías.
 
 import type { CATEGORIAS_SALUDABLES } from "./secciones";
-import type { Idioma, Texto } from "./tipos";
+import type { Idioma, ProductoLigero, Texto } from "./tipos";
 
 export type CategoriaSaludable = (typeof CATEGORIAS_SALUDABLES)[number];
 export type PublicoSaludable = "ninos" | "adultos" | "familia";
@@ -115,6 +117,39 @@ export const SALUDABLES: ProductoSaludable[] = [
 ];
 
 export const fotoSaludable = (p: ProductoSaludable) => `/saludables/${p.foto}.webp`;
+
+/** Días hábiles de envío y unidades en la bodega online de los productos de muestra. */
+const DIAS_ENVIO = 3;
+const STOCK_ONLINE = 50;
+
+/**
+ * El producto saludable con la forma que piden el carrito y el pago. La foto va en `imagen` (como la de la dueña) y la
+ * ilustración no existe, así que no sale ninguna foto de juguete. La edad y la categoría de juguete no aplican: llevan
+ * un valor fijo que ninguna vista lee, porque estos productos no entran en la lista de juguetes.
+ */
+export function aLigeroSaludable(p: ProductoSaludable): ProductoLigero {
+  return {
+    id: p.id,
+    slug: p.foto,
+    seccion: "saludable",
+    title: p.titulo,
+    price: p.precio,
+    illustration: `saludable-${p.foto}`,
+    imagen: fotoSaludable(p),
+    tint: "cielo",
+    ageGroup: "8+",
+    category: "baby",
+    occasions: [],
+    rating: 0,
+    reviewCount: 0,
+    bestSeller: false,
+    stockOnline: STOCK_ONLINE,
+    deliveryDays: DIAS_ENVIO,
+    keywords: { en: [], es: [] },
+  };
+}
+
+export const SALUDABLES_LIGEROS = SALUDABLES.map(aLigeroSaludable);
 
 export const saludablesDe = (categoria: CategoriaSaludable) =>
   SALUDABLES.filter((p) => p.categoria === categoria);

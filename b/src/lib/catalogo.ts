@@ -79,9 +79,16 @@ export function catalogoCompleto(base: Producto[], c: CambiosCatalogo): Producto
 export const srcProducto = (p: { illustration: string; imagen?: string }) =>
   p.imagen || (!tieneIlustracion(p.illustration) && fotoIA(p.illustration)) || `/productos/${p.illustration}.svg`;
 
-/** Enlace a la ficha. Los productos nuevos no tienen página propia: usan /p/nuevo/?id=…. */
-export const rutaProducto = (p: { id: string; slug: string }) =>
-  esNuevo(p.id) ? { pathname: "/p/nuevo", query: { id: p.id } } : `/p/${p.slug}`;
+/**
+ * Enlace a la ficha. Los productos nuevos no tienen página propia: usan /p/nuevo/?id=…. Los saludables tampoco: llevan
+ * a su tarjeta en la sección saludable.
+ */
+export const rutaProducto = (p: { id: string; slug: string; seccion?: "saludable" }) =>
+  p.seccion === "saludable"
+    ? `/healthy#${p.id}`
+    : esNuevo(p.id)
+      ? { pathname: "/p/nuevo", query: { id: p.id } }
+      : `/p/${p.slug}`;
 
 export function aSlug(texto: string): string {
   const slug = texto

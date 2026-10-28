@@ -109,6 +109,8 @@ export interface Panel {
 export interface ProductoLigero {
   id: string;
   slug: string;
+  /** Solo en los productos de la sección saludable (lib/saludables.ts); los juguetes no lo llevan. */
+  seccion?: "saludable";
   title: Texto;
   price: number;
   illustration: string;

@@ -902,14 +902,14 @@
       "hogar": "Natural home"
     },
     "notaBarra": "Sample categories: the owner sets them when her products arrive.",
-    "cejilla": "Healthy section · Coming soon",
+    "cejilla": "Healthy section",
     "titulo": "Healthy picks, in a corner of their own",
     "texto": "Snacks, food and personal care for kids and grown-ups, kept apart from the toys so nothing gets mixed up. Same store underneath: same cart, same checkout, same map.",
     "proximamente": "Coming soon",
     "tarjeta": "Your product here",
     "tarjetaTexto": "Photo, name and price",
-    "vacioTitulo": "These are sample products",
-    "vacioTexto": "They show how the section will look, but they can’t be bought yet: today the cart and checkout work with the toys. When the owner adds her own products, they’ll show up here with their photo and price.",
+    "vacioTitulo": "Sample products, same checkout",
+    "vacioTexto": "Like the toys, these are sample products: add them to the cart and check out with sample data. Nothing is charged. When the owner adds her own products, they’ll show up here with their photo and price.",
     "volverJuguetes": "Meanwhile, browse toys",
     "ejemplos": "{n} sample products"
   },

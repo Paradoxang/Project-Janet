@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { IconoHoja } from "@/components/cuento/iconos";
 import { Cielo } from "@/components/cuento/cielo";
+import { BotonAgregar } from "@/components/producto/boton-agregar";
 import { TituloCuento } from "@/components/cuento/titulo-cuento";
 import { Link } from "@/i18n/navigation";
 import { precio } from "@/lib/formato";
@@ -22,8 +23,8 @@ export async function generateMetadata({
 /**
  * La sección saludable, con el canon (rediseño del 26-10): el mismo cielo y las mismas piezas que la juguetería, con el
  * aqua como acento. Desde el 28-10 enseña siete productos de muestra (lib/saludables.ts, fotos con IA de la propuesta
- * gráfica), con su precio y «Próximamente»: todavía no se compran. La categoría sin productos sigue con portadas
- * marcador («Tu producto aquí»).
+ * gráfica) que se compran como los juguetes: mismo botón, mismo carrito y mismo pago. La categoría sin productos sigue
+ * con portadas marcador («Tu producto aquí»).
  */
 export default async function PaginaSaludable({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -83,7 +84,8 @@ export default async function PaginaSaludable({ params }: { params: Promise<{ lo
                   {saludablesDe(c).map((p) => (
                     <li
                       key={p.id}
-                      className="grid content-start gap-2"
+                      id={p.id}
+                      className="flex scroll-mt-28 flex-col gap-2"
                       data-testid="producto-saludable"
                     >
                       <span className="shadow-tarjeta relative block aspect-[4/5] overflow-hidden rounded-[12px] bg-white">
@@ -109,14 +111,10 @@ export default async function PaginaSaludable({ params }: { params: Promise<{ lo
                       <span className="text-muted-ink text-[14px]">
                         {p.resumen[locale as Idioma]}
                       </span>
-                      <span className="mt-1 flex flex-wrap items-center justify-between gap-2">
-                        <span className="font-display text-[19px] font-black">
-                          {precio(p.precio, locale)}
-                        </span>
-                        <span className="bg-tint-cielo text-aqua-tinta rounded-full px-2.5 py-1 text-[12px] font-bold">
-                          {t("proximamente")}
-                        </span>
+                      <span className="font-display mt-auto pt-1 text-[19px] font-black">
+                        {precio(p.precio, locale)}
                       </span>
+                      <BotonAgregar id={p.id} compacto />
                     </li>
                   ))}
                 </ul>

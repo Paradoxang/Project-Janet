@@ -902,14 +902,14 @@
       "hogar": "Hogar natural"
     },
     "notaBarra": "Categorías de ejemplo: las decide la dueña cuando lleguen sus productos.",
-    "cejilla": "Sección saludable · Próximamente",
+    "cejilla": "Sección saludable",
     "titulo": "Lo saludable, en su propio rincón",
     "texto": "Snacks, comida y cuidado personal para niños y adultos, separados de los juguetes para que nada se mezcle. Funciona con la misma tienda: el mismo carrito, el mismo pago y el mismo mapa.",
     "proximamente": "Próximamente",
     "tarjeta": "Tu producto aquí",
     "tarjetaTexto": "Foto, nombre y precio",
-    "vacioTitulo": "Son productos de muestra",
-    "vacioTexto": "Enseñan cómo se verá la sección, pero todavía no se pueden comprar: hoy el carrito y el pago funcionan con los juguetes. Cuando la dueña suba sus propios productos, aparecerán aquí con su foto y su precio.",
+    "vacioTitulo": "Productos de muestra, el mismo pago",
+    "vacioTexto": "Como los juguetes, son productos de muestra: agrégalos al carrito y paga con datos de ejemplo. No se cobra nada. Cuando la dueña suba sus propios productos, aparecerán aquí con su foto y su precio.",
     "volverJuguetes": "Mientras tanto, ver juguetes",
     "ejemplos": "{n} productos de muestra"
   },

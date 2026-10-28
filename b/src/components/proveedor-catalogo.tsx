@@ -4,6 +4,7 @@ import { createContext, useContext, useMemo } from "react";
 import { useHidratado } from "@/hooks/use-hidratado";
 import { catalogoVisible } from "@/lib/catalogo";
 import { enLaTiendaBlanca } from "@/lib/fotos-ia";
+import { SALUDABLES_LIGEROS } from "@/lib/saludables";
 import { useVariante } from "@/marca/use-variante";
 import type { ProductoLigero } from "@/lib/tipos";
 import { useCatalogoLocal } from "@/stores/catalogo";
@@ -17,7 +18,8 @@ const ContextoCatalogo = createContext<Catalogo | null>(null);
 
 /**
  * El catálogo que ve la tienda: el de ejemplo y, ya en el navegador, con los cambios de la dueña
- * (productos nuevos, ediciones, ocultos y borrados).
+ * (productos nuevos, ediciones, ocultos y borrados). `porId` suma los productos saludables, para que el carrito y el
+ * pago los encuentren; `productos` (buscador, estantes y categorías) sigue solo con los juguetes.
  */
 export function ProveedorCatalogo({
   productos,
@@ -33,7 +35,7 @@ export function ProveedorCatalogo({
   const borrados = useCatalogoLocal((s) => s.borrados);
   const valor = useMemo(() => {
     const lista = hidratado ? catalogoVisible(productos, { nuevos, ediciones, ocultos, borrados }) : productos;
-    return { productos: lista, porId: new Map(lista.map((p) => [p.id, p])) };
+    return { productos: lista, porId: new Map([...lista, ...SALUDABLES_LIGEROS].map((p) => [p.id, p])) };
   }, [hidratado, productos, nuevos, ediciones, ocultos, borrados]);
   return <ContextoCatalogo.Provider value={valor}>{children}</ContextoCatalogo.Provider>;
 }
